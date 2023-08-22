@@ -11,7 +11,7 @@ Use the bLinkupSDK to do these three main things
 To acheive these functions the following steps need to be taken:
 
 - Signup, using name, username, phone number
-- Signin, via a texted code
+- Login, via a texted code
 - Find friends, by searching name or matching contacts
 - Send and accept friend requests
 - Get a list of friends and notifiy users about which friends are at an event
@@ -23,7 +23,7 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 
 ## Initialization
 
-When your app starts initialize bLinkup with your other package. This should only be done once at app launch.
+When your app starts initialize bLinkup with your other packages. This should only be done once at app launch.
 
 Swift:
 
