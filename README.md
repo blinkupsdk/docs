@@ -52,51 +52,34 @@ To validate if a user name is avaiable use the following API:
 Swift:
 
 ```swift
-bLinkup.usernameTaken(username: username)
+bLinkup.usernameTaken(username: username): Boolean
 ```
 
 Kotlin
 
 ```kotlin
 var userNameTaken = userNameTaken(editText: EditText, applicationContext: Context)
-userNameTaken.callUsernameAvailabilityAPI(username: String)
+userNameTaken.callUsernameAvailabilityAPI(username: String): Boolean
 
 ```
 
-### SMS Authentication
+### Account Registration
 
 Instead of passwords, users will authenticate via a text sent to their phone numbers.
 
-When signing up, the first step will be calling `register` to claim a phone number or login if the user exists.
+When signing up, the first step will be calling `register` to claim a phone number.
 
 Swift:
 
 ```swift
-bLinkup.register(phoneNumber: phoneNumber)
+bLinkup.register(phoneNumber: String)
 ```
 
 Kotlin
 
 ```kotlin
-var smsVerification: SmsVerification
-sharedPreferenceManager = SharedPreferenceManager(this)
-smsVerification = SmsVerification(sharedPreferenceManager)
-smsVerification.submitPhoneNumber(phoneNumber)
-```
-
-### Create user
-
-Swift:
-
-```swift
-bLinkup.userData(firstName: string, lastName: string, username: string)
-```
-
-Kotlin
-
-```kotlin
-var userProfile: UserProfile
-userProfile.updateProfile(firstName, lastName, username)
+var register = Register(sharedPreferenceManager: SharedPreferenceManager)
+register.register(phoneNumber: String)
 ```
 
 ### User Login
@@ -122,6 +105,21 @@ oneTimePasscode.sendSmsVerification()
 
 smsVerification = SmsVerification(sharedPreferenceManager)
 smsVerification.submitPhoneNumber(phoneNumber)
+```
+
+### Update User Profile
+
+Swift:
+
+```swift
+bLinkup.userData(firstName: String, lastName: String, username: String): User
+```
+
+Kotlin
+
+```kotlin
+var userProfile: UserProfile
+userProfile.updateProfile(firstName: String, lastName: String, username: String): User
 ```
 
 ## Core presence loop
@@ -155,8 +153,7 @@ Kotlin
 
 ```kotlin
 val checkFriends = CheckFriends()
-val friendList = checkFriends.retrieveFriendsList(this@CheckFriendsT)
-(friendsRecyclerView.adapter as FriendsAdapter).updateFriends(friendList)
+val friendList = checkFriends.retrieveFriendsList(this@CheckFriendsT): List<String>
 ```
 
 ### Friends at event
@@ -189,7 +186,7 @@ Kotlin
 
 ```kotlin
 friendSearch = FriendSearch(sharedPreferenceManager, client)
-friendSearch.performSearch(query)
+friendSearch.performSearch(query: String): List<User>
 ```
 
 ### Contact Search
@@ -199,7 +196,7 @@ Finding users who are also in your contacts uses the platform contacts API to ge
 Swift:
 
 ```swift
-try await blinkup.extractPhoneContacts()
+try await blinkup.extractPhoneContacts(): Array<Contact>
 ```
 
 Kotlin
@@ -207,8 +204,8 @@ Kotlin
 ```kotlin
 contactSearch = ContactSearch(this)
 sharedPreferenceManager = SharedPreferenceManager(this)
-val phoneNumbers = contactSearch.fetchContacts()
-contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String)
+val phoneNumbers = contactSearch.fetchContacts() : ArrayList<Pair<String, String>>
+contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String) Array<Contact>
 
 ```
 
@@ -224,7 +221,7 @@ Kotlin
 
 ```kotlin
 val sendFriendReqest = sendFriendRequest
-sendFriendRequest.sendFriendRequest(context: Context, userId: String) : Boolean
+sendFriendRequest.sendFriendRequest(context: Context, userId: String)
 ```
 
 ### Accept and deny request
@@ -240,10 +237,10 @@ Kotlin
 
 ```kotlin
 val friendResponse = FriendResponse
-friendResponse.acceptFriendRequest(context: Context, binding: ActivityFriendSearchBinding)
+friendResponse.acceptFriendRequest(context: Context, binding: ActivityFriendSearchBinding): Unit
 
 val deleteFriend = DeleteFriend
-deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding)
+deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding): Unit
 
 ```
 
