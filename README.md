@@ -58,6 +58,8 @@ bLinkup.usernameTaken(username: username)
 Kotlin
 
 ```kotlin
+var userNameTaken = userNameTaken(editText: EditText, applicationContext: Context)
+userNameTaken.callUsernameAvailabilityAPI(username: String)
 
 ```
 
@@ -93,7 +95,7 @@ bLinkup.userData(firstName: string, lastName: string, username: string)
 Kotlin
 
 ```kotlin
-var userProfile: UserProfile // Define the userProfile variable
+var userProfile: UserProfile
 userProfile.updateProfile(firstName, lastName, username)
 ```
 
@@ -114,7 +116,7 @@ bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
 Kotlin
 
 ```kotlin
-val client = OkHttpClient() // create an instance of OkHttpClient
+val client = OkHttpClient()
 val oneTimePasscode = OneTimePasscode(client, sharedPreferenceManager)
 oneTimePasscode.sendSmsVerification()
 
@@ -135,7 +137,8 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 Kotlin
 
 ```kotlin
-await bLinkup.isAtEvent(bool)
+val locationData = locationData()
+locationData.sendLocationData(location: Location)
 ```
 
 ## Connection Management
@@ -202,6 +205,10 @@ try await blinkup.extractPhoneContacts()
 Kotlin
 
 ```kotlin
+contactSearch = ContactSearch(this)
+sharedPreferenceManager = SharedPreferenceManager(this)
+val phoneNumbers = contactSearch.fetchContacts()
+contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String)
 
 ```
 
@@ -216,24 +223,8 @@ bLinkup.friendRequest(friendRequestId: friendRequestId)
 Kotlin
 
 ```kotlin
-contactSearch = ContactSearch(this)
-sharedPreferenceManager = SharedPreferenceManager(this)
-
-if (contactSearch.hasContactPermissions()) {
-    phoneNumbers = contactSearch.fetchContacts()
-    Log.i("ContactSearchT", "Retrieved phone numbers from contacts: $phoneNumbers")
-
-    val recyclerView: RecyclerView = findViewById(R.id.contactsRecyclerView)
-    recyclerView.layoutManager = LinearLayoutManager(this)
-    recyclerView.adapter = ContactAdapter(phoneNumbers)
-
-    val storedToken = sharedPreferenceManager.retrievePermanentToken()
-    if (storedToken != null) {
-        contactSearch.sendPostRequest(phoneNumbers, storedToken)
-    }
-} else {
-    Log.i("ContactSearchT", "Contact Permission is not granted")
-}
+val sendFriendReqest = sendFriendRequest
+sendFriendRequest.sendFriendRequest(context: Context, userId: String) : Boolean
 ```
 
 ### Accept and deny request
@@ -248,6 +239,11 @@ bLinkup.denyFriend(denyFriendRequestId: denyFriendRequestId)
 Kotlin
 
 ```kotlin
+val friendResponse = FriendResponse
+friendResponse.acceptFriendRequest(context: Context, binding: ActivityFriendSearchBinding)
+
+val deleteFriend = DeleteFriend
+deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding)
 
 ```
 
