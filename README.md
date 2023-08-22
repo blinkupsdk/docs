@@ -247,20 +247,6 @@ Kotlin
 
 ```
 
-### Block user
-
-Swift:
-
-```swift
-
-```
-
-Kotlin
-
-```kotlin
-
-```
-
 ## bLinkpoints
 
 bLinkpoints are points of interest at an event. These are set by you and are consumed in to the app by a JSON file which describes the point, positions it on a map image, and includes a URL to an image which can be shared when a user taps to send the bLinkpoint to a friend.
