@@ -76,7 +76,10 @@ bLinkup.register(phoneNumber: phoneNumber)
 Kotlin
 
 ```kotlin
-
+var smsVerification: SmsVerification
+sharedPreferenceManager = SharedPreferenceManager(this)
+smsVerification = SmsVerification(sharedPreferenceManager)
+smsVerification.submitPhoneNumber(phoneNumber)
 ```
 
 ### Create user
@@ -90,7 +93,8 @@ bLinkup.userData(firstName: string, lastName: string, username: string)
 Kotlin
 
 ```kotlin
-
+var userProfile: UserProfile // Define the userProfile variable
+userProfile.updateProfile(firstName, lastName, username)
 ```
 
 ### User Login
