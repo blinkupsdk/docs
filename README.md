@@ -2,6 +2,21 @@
 
 Getting started and best practices of using the bLinkup SDK.
 
+Use the bLinkupSDK to do these three main things
+
+1. Connect with friends on the app
+2. Notify friends when they're at the event (using smart tracking & proximity)
+3. Easily send invites to locations on a venue map
+
+To acheive these functions the following steps need to be taken:
+
+- Signup, using name, username, phone number
+- Signin, via a texted code
+- Find friends, by searching name or matching contacts
+- Send and accept friend requests
+- Get a list of friends and notifiy users about which friends are at an event
+- Send invites to venue specific points of interest
+
 ## Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
@@ -13,7 +28,7 @@ When your app starts initialize bLinkup with your other package. This should onl
 Swift:
 
 ```swift
-bLinkup.Init("YOUR_API_KEY_HERE")
+let bLinkup = bLinkupSDK(clientId: "YOUR_API_KEY_HERE")
 ```
 
 Kotlin
@@ -46,14 +61,16 @@ Kotlin
 
 ```
 
-### SMS Verification
+### SMS Authentication
 
-Instead of passwords users will authenticate via a text sent to their phone numbers.
+Instead of passwords, users will authenticate via a text sent to their phone numbers.
+
+When signing up, the first step will be calling `register` to claim a phone number or login if the user exists.
 
 Swift:
 
 ```swift
-
+bLinkup.register(phoneNumber: phoneNumber)
 ```
 
 Kotlin
@@ -76,6 +93,31 @@ Kotlin
 
 ```
 
+### User Login
+
+To login there are two functions which need to be called.
+
+1. Send the code to the user's phone number
+2. Verfiy the code matches
+
+Swift:
+
+```swift
+bLinkup.sessionCreate(phoneNumber: phoneNumber)
+bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
+```
+
+Kotlin
+
+```kotlin
+val client = OkHttpClient() // create an instance of OkHttpClient
+val oneTimePasscode = OneTimePasscode(client, sharedPreferenceManager)
+oneTimePasscode.sendSmsVerification()
+
+smsVerification = SmsVerification(sharedPreferenceManager)
+smsVerification.submitPhoneNumber(phoneNumber)
+```
+
 ## Core presence loop
 
 ### Is at event
@@ -89,7 +131,7 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 Kotlin
 
 ```kotlin
-
+await bLinkup.isAtEvent(bool)
 ```
 
 ## Connection Management
@@ -105,7 +147,9 @@ try await bLinkup.friendList()
 Kotlin
 
 ```kotlin
-
+val checkFriends = CheckFriends()
+val friendList = checkFriends.retrieveFriendsList(this@CheckFriendsT)
+(friendsRecyclerView.adapter as FriendsAdapter).updateFriends(friendList)
 ```
 
 ### Friends at event
@@ -137,7 +181,8 @@ try await bLinkup.usernameSearch(searchTerm: searchTerm)
 Kotlin
 
 ```kotlin
-
+friendSearch = FriendSearch(sharedPreferenceManager, client)
+friendSearch.performSearch(query)
 ```
 
 ### Contact Search
@@ -167,7 +212,24 @@ bLinkup.friendRequest(friendRequestId: friendRequestId)
 Kotlin
 
 ```kotlin
+contactSearch = ContactSearch(this)
+sharedPreferenceManager = SharedPreferenceManager(this)
 
+if (contactSearch.hasContactPermissions()) {
+    phoneNumbers = contactSearch.fetchContacts()
+    Log.i("ContactSearchT", "Retrieved phone numbers from contacts: $phoneNumbers")
+
+    val recyclerView: RecyclerView = findViewById(R.id.contactsRecyclerView)
+    recyclerView.layoutManager = LinearLayoutManager(this)
+    recyclerView.adapter = ContactAdapter(phoneNumbers)
+
+    val storedToken = sharedPreferenceManager.retrievePermanentToken()
+    if (storedToken != null) {
+        contactSearch.sendPostRequest(phoneNumbers, storedToken)
+    }
+} else {
+    Log.i("ContactSearchT", "Contact Permission is not granted")
+}
 ```
 
 ### Accept and deny request
@@ -207,28 +269,5 @@ bLinkpoints are points of interest at an event. These are set by you and are con
 
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal  which the user can interact with to dismiss or send invites to their friends.
 
-Swift:
-
-```swift
-
-```
-
-Kotlin
-
-```kotlin
-
-```
-
 ### Sending meet ups
 
-Swift:
-
-```swift
-
-```
-
-Kotlin
-
-```kotlin
-
-```
