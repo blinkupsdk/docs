@@ -8,13 +8,13 @@ Use the bLinkupSDK to do these three main things
 2. Notify friends when they're at the event (using smart tracking & proximity)
 3. Easily send invites to locations on a venue map
 
-To acheive these functions the following steps need to be taken:
+To achieve these functions the following steps need to be taken:
 
-- Signup, using name, username, phone number
+- Sign-up, using name, username, phone number
 - Login, via a texted code
 - Find friends, by searching name or matching contacts
 - Send and accept friend requests
-- Get a list of friends and notifiy users about which friends are at an event
+- Get a list of friends and notify users about which friends are at an event
 - Send invites to venue specific points of interest
 
 ## Getting an API Key
@@ -45,7 +45,7 @@ To sign up a new user on bLinkup only three fields are required.
 2. Name
 3. Phone Number
 
-To validate if a user name is avaiable use the following API:
+To validate if a user name is available use the following API:
 
 ### Check Username Availability
 
@@ -87,7 +87,7 @@ register.register(phoneNumber: String)
 To login there are two functions which need to be called.
 
 1. Send the code to the user's phone number
-2. Verfiy the code matches
+2. Verify the code matches
 
 Swift:
 
@@ -220,7 +220,7 @@ bLinkup.friendRequest(friendRequestId: friendRequestId)
 Kotlin
 
 ```kotlin
-val sendFriendReqest = sendFriendRequest
+val sendFriendRequest = sendFriendRequest
 sendFriendRequest.sendFriendRequest(context: Context, userId: String)
 ```
 
@@ -253,4 +253,3 @@ bLinkpoints are points of interest at an event. These are set by you and are con
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal  which the user can interact with to dismiss or send invites to their friends.
 
 ### Sending meet ups
-
