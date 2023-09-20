@@ -172,7 +172,7 @@ try {
 }
 ```
 
-###List users registered at event
+### List users registered at event
 
 ```javascript
 try {
