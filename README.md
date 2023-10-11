@@ -34,7 +34,7 @@ let bLinkup = bLinkupSDK(clientId: "YOUR_API_KEY_HERE")
 Kotlin
 
 ```kotlin
-bLinkup.Init("YOUR_API_KEY_HERE")
+bLinkup.Init("YOUR_API_KEY_HERE", this)
 ```
 
 ## User Account Creation
@@ -78,8 +78,9 @@ bLinkup.register(phoneNumber: String)
 Kotlin
 
 ```kotlin
-var register = Register(sharedPreferenceManager: SharedPreferenceManager)
-register.register(phoneNumber: String)
+Blinkup.requestCode(phoneNumber: String)
+Blinkup.confirmCode(verificationCode: String)
+
 ```
 
 ### User Login
@@ -99,12 +100,8 @@ bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
 Kotlin
 
 ```kotlin
-val client = OkHttpClient()
-val oneTimePasscode = OneTimePasscode(client, sharedPreferenceManager)
-oneTimePasscode.sendSmsVerification()
-
-smsVerification = SmsVerification(sharedPreferenceManager)
-smsVerification.submitPhoneNumber(phoneNumber)
+Blinkup.requestCode(phoneNumber: String)
+Blinkup.confirmCode(verificationCode: String)
 ```
 
 ### Update User Profile
@@ -118,8 +115,7 @@ bLinkup.userData(firstName: String, lastName: String, username: String): User
 Kotlin
 
 ```kotlin
-var userProfile: UserProfile
-userProfile.updateProfile(firstName: String, lastName: String, username: String): User
+Blinkup.updateUser(name: String, email: String)
 ```
 
 ## Core presence loop
@@ -135,8 +131,7 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 Kotlin
 
 ```kotlin
-val locationData = locationData()
-locationData.sendLocationData(location: Location)
+Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
 ```
 
 ## Connection Management
@@ -152,8 +147,7 @@ try await bLinkup.friendList()
 Kotlin
 
 ```kotlin
-val checkFriends = CheckFriends()
-val friendList = checkFriends.retrieveFriendsList(this@CheckFriendsT): List<String>
+Blinkup.getFriendList()
 ```
 
 ### Friends at event
@@ -169,7 +163,7 @@ Swift:
 Kotlin
 
 ```kotlin
-
+Blinkup.getUsersAtEvent(place: Place)
 ```
 
 ### Friend Search
@@ -185,8 +179,7 @@ try await bLinkup.usernameSearch(searchTerm: searchTerm)
 Kotlin
 
 ```kotlin
-friendSearch = FriendSearch(sharedPreferenceManager, client)
-friendSearch.performSearch(query: String): List<User>
+Blinkup.findUsers(query: String)
 ```
 
 ### Contact Search
@@ -202,10 +195,7 @@ try await blinkup.extractPhoneContacts(): Array<Contact>
 Kotlin
 
 ```kotlin
-contactSearch = ContactSearch(this)
-sharedPreferenceManager = SharedPreferenceManager(this)
-val phoneNumbers = contactSearch.fetchContacts() : ArrayList<Pair<String, String>>
-contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String) Array<Contact>
+Blinkup.findContacts()
 
 ```
 
@@ -220,8 +210,21 @@ bLinkup.friendRequest(friendRequestId: friendRequestId)
 Kotlin
 
 ```kotlin
-val sendFriendRequest = sendFriendRequest
-sendFriendRequest.sendFriendRequest(context: Context, userId: String)
+Blinkup.sendFriendRequest(request: ConnectionRequest)
+```
+
+### Get list of Connection Request
+
+Swift:
+
+```swift
+
+```
+
+Kotlin
+
+```kotlin
+Blinkup.getFriendRequests()
 ```
 
 ### Accept and deny request
@@ -236,17 +239,31 @@ bLinkup.denyFriend(denyFriendRequestId: denyFriendRequestId)
 Kotlin
 
 ```kotlin
-val friendResponse = FriendResponse
-friendResponse.acceptFriendRequest(context: Context, binding: ActivityFriendSearchBinding): Unit
-
-val deleteFriend = DeleteFriend
-deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding): Unit
+Blinkup.acceptFriendRequest(request: ConnectionRequest)
+Blinkup.denyFriendRequest(request: ConnectionRequest)
 
 ```
 
 ## bLinkpoints
 
 bLinkpoints are points of interest at an event. These are set by you and are consumed in to the app by a JSON file which describes the point, positions it on a map image, and includes a URL to an image which can be shared when a user taps to send the bLinkpoint to a friend.
+
+### Get list of Events
+
+Swift:
+
+```swift
+
+```
+
+Kotlin
+
+```kotlin
+Blinkup.getEvents()
+
+```
+
+
 
 ### Displaying the map
 
