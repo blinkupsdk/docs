@@ -75,11 +75,24 @@ Swift:
 bLinkup.register(phoneNumber: String)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)
-Blinkup.confirmCode(verificationCode: String)
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.requestCode(phoneNumber: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.confirmCode(verificationCode: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
 ```
 
@@ -97,11 +110,25 @@ bLinkup.sessionCreate(phoneNumber: phoneNumber)
 bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)
-Blinkup.confirmCode(verificationCode: String)
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.requestCode(phoneNumber: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.confirmCode(verificationCode: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Update User Profile
@@ -112,10 +139,38 @@ Swift:
 bLinkup.userData(firstName: String, lastName: String, username: String): User
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.updateUser(name: String, email: String)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.updateUser(name: String, email: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+### Check Current Session
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.checkSessionAndLogin(name: String, email: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ## Core presence loop
@@ -128,10 +183,17 @@ Swift:
 await bLinkup.isAtEvent(isAtEvent: bool)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ## Connection Management
@@ -144,10 +206,17 @@ Swift:
 try await bLinkup.friendList()
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.getFriendList()
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.getFriendList()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Friends at event
@@ -160,10 +229,10 @@ Swift:
 
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.getUsersAtEvent(place: Place)
+
 ```
 
 ### Friend Search
@@ -176,10 +245,17 @@ Swift:
 try await bLinkup.usernameSearch(searchTerm: searchTerm)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.findUsers(query: String)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.findUsers(query: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Contact Search
@@ -192,10 +268,16 @@ Swift:
 try await blinkup.extractPhoneContacts(): Array<Contact>
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.findContacts()
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.findContacts()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
 ```
 
@@ -207,10 +289,17 @@ Swift:
 bLinkup.friendRequest(friendRequestId: friendRequestId)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.sendFriendRequest(request: ConnectionRequest)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.sendFriendRequest(request: ConnectionRequest)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Get list of Connection Request
@@ -221,10 +310,17 @@ Swift:
 
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.getFriendRequests()
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.getFriendRequests()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Accept and deny request
@@ -236,11 +332,17 @@ bLinkup.acceptFriend(acceptFriendRequestId: acceptFriendRequestId)
 bLinkup.denyFriend(denyFriendRequestId: denyFriendRequestId)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.acceptFriendRequest(request: ConnectionRequest)
-Blinkup.denyFriendRequest(request: ConnectionRequest)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.acceptFriendRequest(request: ConnectionRequest)
+        //or Blinkup.denyFriendRequest(request: ConnectionRequest)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
 ```
 
@@ -256,10 +358,17 @@ Swift:
 
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.getEvents()
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.getEvents()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 
 ```
 
@@ -269,4 +378,34 @@ Blinkup.getEvents()
 
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal  which the user can interact with to dismiss or send invites to their friends.
 
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+val map = findViewById<VenueMapView>(R.id."your_map_id")
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.getEvents()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
 ### Sending meet ups
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+This is handled by the map display function.
