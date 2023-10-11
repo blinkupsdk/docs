@@ -186,13 +186,6 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
 
 ```
 
