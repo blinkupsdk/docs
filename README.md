@@ -58,8 +58,7 @@ bLinkup.usernameTaken(username: username): Boolean
 Kotlin
 
 ```kotlin
-var userNameTaken = userNameTaken(editText: EditText, applicationContext: Context)
-userNameTaken.callUsernameAvailabilityAPI(username: String): Boolean
+Feature still in development
 
 ```
 
@@ -184,9 +183,13 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 ```
 
 Kotlin:
-
+!!! CONFIRM THIS IS THE RIGHT FUNCTION
 ```kotlin
-
+try {
+    Blinkup.setUserAtEvent(false, place)
+} catch(e: BlinkupException) {
+    return@launch
+}
 ```
 
 ## Connection Management
