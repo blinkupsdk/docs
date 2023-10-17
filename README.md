@@ -1,3 +1,4 @@
+
 # docs
 
 Getting started and best practices of using the bLinkup SDK.
@@ -34,7 +35,7 @@ let bLinkup = bLinkupSDK(clientId: "YOUR_API_KEY_HERE")
 Kotlin
 
 ```kotlin
-bLinkup.Init("YOUR_API_KEY_HERE", this)
+Blinkup.Init("YOUR_API_KEY_HERE", context: Context)
 ```
 
 ## User Account Creation
@@ -77,6 +78,7 @@ bLinkup.register(phoneNumber: String)
 Kotlin:
 
 ```kotlin
+//request SMS code for the phone number
 GlobalScope.launch(Dispatchers.IO) {
     try {
         Blinkup.requestCode(phoneNumber: String)
@@ -85,6 +87,7 @@ GlobalScope.launch(Dispatchers.IO) {
     }
 }
 
+//confirm phone number with the SMS code
 GlobalScope.launch(Dispatchers.IO) {
     try {
         Blinkup.confirmCode(verificationCode: String)
@@ -92,7 +95,18 @@ GlobalScope.launch(Dispatchers.IO) {
         return@launch
     }
 }
-
+```
+After this you need to check if you need to fill in the user profile and fill the details if need:
+```kotlin
+if(Blinkup.isUserDetailsRequired()) {
+	GlobalScope.launch(Dispatchers.IO){
+	    try {
+	        Blinkup.updateUser(name: String, email: String)
+	    } catch (e: BlinkupException){
+	        return@launch
+	    }
+	}
+}
 ```
 
 ### User Login
@@ -112,6 +126,7 @@ bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
 Kotlin:
 
 ```kotlin
+//request SMS code for the phone number
 GlobalScope.launch(Dispatchers.IO) {
     try {
         Blinkup.requestCode(phoneNumber: String)
@@ -120,6 +135,7 @@ GlobalScope.launch(Dispatchers.IO) {
     }
 }
 
+//confirm phone number with the SMS code
 GlobalScope.launch(Dispatchers.IO) {
     try {
         Blinkup.confirmCode(verificationCode: String)
@@ -164,7 +180,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.checkSessionAndLogin(name: String, email: String)
+        Blinkup.checkSessionAndLogin()
     } catch (e: BlinkupException){
         return@launch
     }
@@ -183,10 +199,27 @@ await bLinkup.isAtEvent(isAtEvent: bool)
 ```
 
 Kotlin:
-!!! CONFIRM THIS IS THE RIGHT FUNCTION
+
 ```kotlin
 try {
-    Blinkup.setUserAtEvent(false, place)
+    val isAtEvent = Blinkup.isUserAtEvent(place: Place)
+} catch(e: BlinkupException) {
+    return@launch
+}
+```
+
+### Set presence at event:
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+```kotlin
+try {
+    Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
 } catch(e: BlinkupException) {
     return@launch
 }
@@ -207,7 +240,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.getFriendList()
+        val friendsList = Blinkup.getFriendList()
     } catch (e: BlinkupException){
         return@launch
     }
@@ -231,7 +264,7 @@ Kotlin:
 
 ```
 
-### Friend Search
+### User Search
 
 Find other bLinkup users (scoped by API key) by searching. The passed string will look for any matches in username or name.
 
@@ -290,7 +323,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.sendFriendRequest(request: ConnectionRequest)
+        Blinkup.sendFriendRequest(friend: User)
     } catch (e: BlinkupException){
         return@launch
     }
@@ -311,7 +344,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.getFriendRequests()
+        val requests = Blinkup.getFriendRequests()
     } catch (e: BlinkupException){
         return@launch
     }
@@ -334,7 +367,7 @@ Kotlin:
 GlobalScope.launch(Dispatchers.IO){
     try {
         Blinkup.acceptFriendRequest(request: ConnectionRequest)
-        //or Blinkup.denyFriendRequest(request: ConnectionRequest)
+        Blinkup.denyFriendRequest(request: ConnectionRequest)
     } catch (e: BlinkupException){
         return@launch
     }
@@ -359,7 +392,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.getEvents()
+        val events = Blinkup.getEvents()
     } catch (e: BlinkupException){
         return@launch
     }
@@ -381,17 +414,15 @@ Swift:
 ```
 
 Kotlin:
-
+Place `VenueMapView` in your layout (or create it with code).
+Get it's instance, for example 
 ```kotlin
 val map = findViewById<VenueMapView>(R.id."your_map_id")
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.getEvents()
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
+```
+and set the event you want to show the mapo for into `VenueMapView`
+```kotlin
+val event:Place = ...
+map.place = event
 ```
 
 ### Sending meet ups
@@ -404,4 +435,4 @@ Swift:
 
 Kotlin:
 
-This is handled by the map display function.
+This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
