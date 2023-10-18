@@ -28,7 +28,7 @@ When your app starts initialize bLinkup with your other packages. This should on
 Swift:
 
 ```swift
-let bLinkup = bLinkupSDK(clientId: "YOUR_API_KEY_HERE")
+init() {bLinkupSDK.configure(clientId: "YOUR_API_KEY_HERE")}
 ```
 
 Kotlin
@@ -72,7 +72,7 @@ When signing up, the first step will be calling `register` to claim a phone numb
 Swift:
 
 ```swift
-bLinkup.register(phoneNumber: String)
+kSDK?.register(phone: phone, code: code, name: nil, email: nil, completion: { ...
 ```
 
 Kotlin
@@ -92,8 +92,13 @@ To login there are two functions which need to be called.
 Swift:
 
 ```swift
-bLinkup.sessionCreate(phoneNumber: phoneNumber)
-bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
+func requestCode(phone: String, completion: @escaping Completion<NextLoginStep>)
+let params = ["phone_number": phone]
+
+func confirmCode(phone: String, code: String, completion: @escaping Completion<User>)
+
+func login(phone: String, code: String, completion: @escaping Completion<APILoginResponse>) {
+let params = ["phone_number": phone, "verification_code": code]
 ```
 
 Kotlin
@@ -112,7 +117,7 @@ smsVerification.submitPhoneNumber(phoneNumber)
 Swift:
 
 ```swift
-bLinkup.userData(firstName: String, lastName: String, username: String): User
+NeedsUpdate - bLinkup.userData(firstName: String, lastName: String, username: String): User
 ```
 
 Kotlin
@@ -146,7 +151,7 @@ locationData.sendLocationData(location: Location)
 Swift:
 
 ```swift
-try await bLinkup.friendList()
+func getConnections(completion: @escaping Completion<[Connection]>) {kSDK?.connections(completion: completion)}
 ```
 
 Kotlin
@@ -163,7 +168,7 @@ The core value of bLinkup is getting a list of a user's friends who are at a par
 Swift:
 
 ```swift
-
+func getFriendsAtPlace(_ place: Place, completion: @escaping Completion<[Presence]>) {kSDK?.presenceAtPlace(pid: place.id, completion: completion)
 ```
 
 Kotlin
@@ -179,7 +184,9 @@ Find other bLinkup users (scoped by API key) by searching. The passed string wil
 Swift:
 
 ```swift
-try await bLinkup.usernameSearch(searchTerm: searchTerm)
+func findFriends(query: String?, completion: @escaping Completion<[User]>) {kSDK?.searchFriends(query: query, completion: completion)}
+
+func findContacts(completion: @escaping Completion<[Contact]>) {completion(.failure(SDKError.willBeSoon))}
 ```
 
 Kotlin
@@ -196,7 +203,9 @@ Finding users who are also in your contacts uses the platform contacts API to ge
 Swift:
 
 ```swift
-try await blinkup.extractPhoneContacts(): Array<Contact>
+func findFriends(query: String?, completion: @escaping Completion<[User]>) { kSDK?.searchFriends(query: query, completion: completion)}
+
+func findContacts(completion: @escaping Completion<[Contact]>) {(.failure(SDKError.willBeSoon))}
 ```
 
 Kotlin
@@ -214,7 +223,8 @@ contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String) Arra
 Swift:
 
 ```swift
-bLinkup.friendRequest(friendRequestId: friendRequestId)
+func sendConnectionRequest(user: User, completion: @escaping Completion<ConnectionRequest>) {kSDK?.createConnectionRequest(uid: user.id,completion: completion)}
+
 ```
 
 Kotlin
@@ -229,8 +239,9 @@ sendFriendRequest.sendFriendRequest(context: Context, userId: String)
 Swift:
 
 ```swift
-bLinkup.acceptFriend(acceptFriendRequestId: acceptFriendRequestId)
-bLinkup.denyFriend(denyFriendRequestId: denyFriendRequestId)
+func acceptConnectionRequest(_ req: ConnectionRequest, completion: @escaping Completion<Connection>
+
+func denyConnectionRequest(_ req: ConnectionRequest,completion: @escaping Completion<Void>)
 ```
 
 Kotlin
