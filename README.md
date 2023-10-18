@@ -1,3 +1,4 @@
+
 # docs
 
 Getting started and best practices of using the bLinkup SDK.
@@ -34,7 +35,7 @@ init() {bLinkupSDK.configure(clientId: "YOUR_API_KEY_HERE")}
 Kotlin
 
 ```kotlin
-bLinkup.Init("YOUR_API_KEY_HERE")
+Blinkup.Init("YOUR_API_KEY_HERE", context: Context)
 ```
 
 ## User Account Creation
@@ -58,8 +59,7 @@ bLinkup.usernameTaken(username: username): Boolean
 Kotlin
 
 ```kotlin
-var userNameTaken = userNameTaken(editText: EditText, applicationContext: Context)
-userNameTaken.callUsernameAvailabilityAPI(username: String): Boolean
+Feature still in development
 
 ```
 
@@ -75,11 +75,38 @@ Swift:
 kSDK?.register(phone: phone, code: code, name: nil, email: nil, completion: { ...
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-var register = Register(sharedPreferenceManager: SharedPreferenceManager)
-register.register(phoneNumber: String)
+//request SMS code for the phone number
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.requestCode(phoneNumber: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+//confirm phone number with the SMS code
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.confirmCode(verificationCode: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+```
+After this you need to check if you need to fill in the user profile and fill the details if need:
+```kotlin
+if(Blinkup.isUserDetailsRequired()) {
+	GlobalScope.launch(Dispatchers.IO){
+	    try {
+	        Blinkup.updateUser(name: String, email: String)
+	    } catch (e: BlinkupException){
+	        return@launch
+	    }
+	}
+}
 ```
 
 ### User Login
@@ -101,15 +128,27 @@ func login(phone: String, code: String, completion: @escaping Completion<APILogi
 let params = ["phone_number": phone, "verification_code": code]
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-val client = OkHttpClient()
-val oneTimePasscode = OneTimePasscode(client, sharedPreferenceManager)
-oneTimePasscode.sendSmsVerification()
+//request SMS code for the phone number
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.requestCode(phoneNumber: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
-smsVerification = SmsVerification(sharedPreferenceManager)
-smsVerification.submitPhoneNumber(phoneNumber)
+//confirm phone number with the SMS code
+GlobalScope.launch(Dispatchers.IO) {
+    try {
+        Blinkup.confirmCode(verificationCode: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Update User Profile
@@ -120,11 +159,38 @@ Swift:
 NeedsUpdate - bLinkup.userData(firstName: String, lastName: String, username: String): User
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-var userProfile: UserProfile
-userProfile.updateProfile(firstName: String, lastName: String, username: String): User
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.updateUser(name: String, email: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+### Check Current Session
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.checkSessionAndLogin()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ## Core presence loop
@@ -137,11 +203,31 @@ Swift:
 await bLinkup.isAtEvent(isAtEvent: bool)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-val locationData = locationData()
-locationData.sendLocationData(location: Location)
+try {
+    val isAtEvent = Blinkup.isUserAtEvent(place: Place)
+} catch(e: BlinkupException) {
+    return@launch
+}
+```
+
+### Set presence at event:
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+```kotlin
+try {
+    Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
+} catch(e: BlinkupException) {
+    return@launch
+}
 ```
 
 ## Connection Management
@@ -154,11 +240,17 @@ Swift:
 func getConnections(completion: @escaping Completion<[Connection]>) {kSDK?.connections(completion: completion)}
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-val checkFriends = CheckFriends()
-val friendList = checkFriends.retrieveFriendsList(this@CheckFriendsT): List<String>
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        val friendsList = Blinkup.getFriendList()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Friends at event
@@ -171,13 +263,13 @@ Swift:
 func getFriendsAtPlace(_ place: Place, completion: @escaping Completion<[Presence]>) {kSDK?.presenceAtPlace(pid: place.id, completion: completion)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
 
 ```
 
-### Friend Search
+### User Search
 
 Find other bLinkup users (scoped by API key) by searching. The passed string will look for any matches in username or name.
 
@@ -189,11 +281,17 @@ func findFriends(query: String?, completion: @escaping Completion<[User]>) {kSDK
 func findContacts(completion: @escaping Completion<[Contact]>) {completion(.failure(SDKError.willBeSoon))}
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-friendSearch = FriendSearch(sharedPreferenceManager, client)
-friendSearch.performSearch(query: String): List<User>
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.findUsers(query: String)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Contact Search
@@ -208,13 +306,16 @@ func findFriends(query: String?, completion: @escaping Completion<[User]>) { kSD
 func findContacts(completion: @escaping Completion<[Contact]>) {(.failure(SDKError.willBeSoon))}
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-contactSearch = ContactSearch(this)
-sharedPreferenceManager = SharedPreferenceManager(this)
-val phoneNumbers = contactSearch.fetchContacts() : ArrayList<Pair<String, String>>
-contactSearch.sendPostRequest(contactList: phoneNumbers, authToken: String) Array<Contact>
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.findContacts()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
 ```
 
@@ -227,11 +328,38 @@ func sendConnectionRequest(user: User, completion: @escaping Completion<Connecti
 
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-val sendFriendRequest = sendFriendRequest
-sendFriendRequest.sendFriendRequest(context: Context, userId: String)
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.sendFriendRequest(friend: User)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+### Get list of Connection Request
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        val requests = Blinkup.getFriendRequests()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
 ```
 
 ### Accept and deny request
@@ -244,14 +372,17 @@ func acceptConnectionRequest(_ req: ConnectionRequest, completion: @escaping Com
 func denyConnectionRequest(_ req: ConnectionRequest,completion: @escaping Completion<Void>)
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-val friendResponse = FriendResponse
-friendResponse.acceptFriendRequest(context: Context, binding: ActivityFriendSearchBinding): Unit
-
-val deleteFriend = DeleteFriend
-deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding): Unit
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.acceptFriendRequest(request: ConnectionRequest)
+        Blinkup.denyFriendRequest(request: ConnectionRequest)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
 
 ```
 
@@ -259,8 +390,60 @@ deleteFriend.deleteFriend(context: Context, binding: ActivityFriendSearchBinding
 
 bLinkpoints are points of interest at an event. These are set by you and are consumed in to the app by a JSON file which describes the point, positions it on a map image, and includes a URL to an image which can be shared when a user taps to send the bLinkpoint to a friend.
 
+### Get list of Events
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        val events = Blinkup.getEvents()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+
+```
+
+
+
 ### Displaying the map
 
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal  which the user can interact with to dismiss or send invites to their friends.
 
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+Place `VenueMapView` in your layout (or create it with code).
+Get it's instance, for example 
+```kotlin
+val map = findViewById<VenueMapView>(R.id."your_map_id")
+```
+and set the event you want to show the mapo for into `VenueMapView`
+```kotlin
+val event:Place = ...
+map.place = event
+```
+
 ### Sending meet ups
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
