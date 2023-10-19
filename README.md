@@ -29,7 +29,7 @@ When your app starts initialize bLinkup with your other packages. This should on
 Swift:
 
 ```swift
-let bLinkup = bLinkupSDK(clientId: "YOUR_API_KEY_HERE")
+bLinkup.configure(clientId: "YOUR_API_KEY_HERE")
 ```
 
 Kotlin
@@ -53,7 +53,7 @@ To validate if a user name is available use the following API:
 Swift:
 
 ```swift
-bLinkup.usernameTaken(username: username): Boolean
+Feature still in development
 ```
 
 Kotlin
@@ -72,7 +72,24 @@ When signing up, the first step will be calling `register` to claim a phone numb
 Swift:
 
 ```swift
-bLinkup.register(phoneNumber: String)
+bLinkup.requestCode(phone: String, completion: { [weak self] result in 
+    switch result {
+    case .failure(let error):
+        print(error)
+    case .success(let message):
+        print(message)
+        //self?.showConfirmation(phone)
+    }
+})
+bLinkup.confirmCode(phone: String, code: String, completion: {  [weak self] in
+    switch $0 {
+    case .failure(let error):
+        print(error)
+    case .success(let user):
+        print(user)
+        //self?.showMainFunctionality(user)
+    }
+})
 ```
 
 Kotlin:
@@ -96,7 +113,22 @@ GlobalScope.launch(Dispatchers.IO) {
     }
 }
 ```
+
 After this you need to check if you need to fill in the user profile and fill the details if need:
+
+```swift
+if bLinkup.isUserDetailsRequired {
+    bLinkup.updateUser(name: String, email: String, completion: { in 
+        switch $0 {
+        case .failure(let error):
+            print(error)
+        case .success(let user):
+            print(user.id)
+        }
+    })
+}
+```
+
 ```kotlin
 if(Blinkup.isUserDetailsRequired()) {
 	GlobalScope.launch(Dispatchers.IO){
@@ -119,8 +151,8 @@ To login there are two functions which need to be called.
 Swift:
 
 ```swift
-bLinkup.sessionCreate(phoneNumber: phoneNumber)
-bLinkup.sessionValidate(phoneNumber: phoneNumber, code: code)
+bLinkup.requestCode(phone: String, completion: { print($0) })
+bLinkup.confirmCode(phone: String, code: String, completion:{ print($0) })
 ```
 
 Kotlin:
@@ -151,7 +183,7 @@ GlobalScope.launch(Dispatchers.IO) {
 Swift:
 
 ```swift
-bLinkup.userData(firstName: String, lastName: String, username: String): User
+bLinkup.updateUser(name: String, email: String, completion: { print($0) })
 ```
 
 Kotlin:
@@ -172,7 +204,7 @@ GlobalScope.launch(Dispatchers.IO){
 Swift:
 
 ```swift
-
+bLinkup.isLoginRequired 
 ```
 
 Kotlin:
@@ -195,7 +227,7 @@ GlobalScope.launch(Dispatchers.IO){
 Swift:
 
 ```swift
-await bLinkup.isAtEvent(isAtEvent: bool)
+bLinkup.isUserAtEvent(Place, completion: { print($0) })
 ```
 
 Kotlin:
@@ -213,7 +245,7 @@ try {
 Swift:
 
 ```swift
-
+bLinkup.setUserAtEvent(Bool, at: Place, completion: { print($0) })
 ```
 
 Kotlin:
@@ -232,7 +264,7 @@ try {
 Swift:
 
 ```swift
-try await bLinkup.friendList()
+bLinkup.getFriendList(completion: { print($0) })
 ```
 
 Kotlin:
@@ -255,7 +287,7 @@ The core value of bLinkup is getting a list of a user's friends who are at a par
 Swift:
 
 ```swift
-
+bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 ```
 
 Kotlin:
@@ -271,7 +303,7 @@ Find other bLinkup users (scoped by API key) by searching. The passed string wil
 Swift:
 
 ```swift
-try await bLinkup.usernameSearch(searchTerm: searchTerm)
+bLinkup.findUsers(query: String?, completion: { print($0) })
 ```
 
 Kotlin:
@@ -294,7 +326,7 @@ Finding users who are also in your contacts uses the platform contacts API to ge
 Swift:
 
 ```swift
-try await blinkup.extractPhoneContacts(): Array<Contact>
+bLinkup.findContacts(completion: { result in })
 ```
 
 Kotlin:
@@ -315,7 +347,7 @@ GlobalScope.launch(Dispatchers.IO){
 Swift:
 
 ```swift
-bLinkup.friendRequest(friendRequestId: friendRequestId)
+bLinkup.sendConnectionRequest(user: User, completion: { print($0) })
 ```
 
 Kotlin:
@@ -336,7 +368,7 @@ GlobalScope.launch(Dispatchers.IO){
 Swift:
 
 ```swift
-
+bLinkup.getFriendRequests(completion: { print($0) })
 ```
 
 Kotlin:
@@ -357,8 +389,8 @@ GlobalScope.launch(Dispatchers.IO){
 Swift:
 
 ```swift
-bLinkup.acceptFriend(acceptFriendRequestId: acceptFriendRequestId)
-bLinkup.denyFriend(denyFriendRequestId: denyFriendRequestId)
+bLinkup.acceptFriendRequest(ConnectionRequest, completion: { print($0) })
+bLinkup.denyFriendRequest(ConnectionRequest,completion: { print($0) })
 ```
 
 Kotlin:
@@ -384,7 +416,11 @@ bLinkpoints are points of interest at an event. These are set by you and are con
 Swift:
 
 ```swift
-
+bLinkup.getEvents(completion: {
+    if let firstEvent = (try? $0.get())?.first {
+        print(firstEvent.blinkpoints)
+    }
+})
 ```
 
 Kotlin:
@@ -402,7 +438,6 @@ GlobalScope.launch(Dispatchers.IO){
 ```
 
 
-
 ### Displaying the map
 
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal  which the user can interact with to dismiss or send invites to their friends.
@@ -410,7 +445,9 @@ Displaying the map and putting the interactive points on the app is a UI element
 Swift:
 
 ```swift
-
+Feature still in development
+let controller = bLinkup.VenueMapViewController(Place)
+navigationController.push(controller, animated: true)
 ```
 
 Kotlin:
@@ -427,12 +464,6 @@ map.place = event
 
 ### Sending meet ups
 
-Swift:
-
-```swift
-
-```
-
-Kotlin:
+Swift, Kotlin:
 
 This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
