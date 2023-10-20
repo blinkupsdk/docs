@@ -1,4 +1,5 @@
 
+
 # docs
 
 Getting started and best practices of using the bLinkup SDK.
@@ -38,6 +39,12 @@ Kotlin
 Blinkup.Init("YOUR_API_KEY_HERE", context: Context)
 ```
 
+Java
+
+```java
+BlinkupWrapper.Init("YOUR_API_KEY_HERE", context: Context)
+```
+
 ## User Account Creation
 
 To sign up a new user on bLinkup only three fields are required.
@@ -59,6 +66,13 @@ Feature still in development
 Kotlin
 
 ```kotlin
+Feature still in development
+
+```
+
+Java
+
+```java
 Feature still in development
 
 ```
@@ -114,7 +128,39 @@ GlobalScope.launch(Dispatchers.IO) {
 }
 ```
 
+Java:
+
+```java
+//request SMS code for the phone number
+BlinkupWrapper.requestCode(phone, new ResultListener<String>() {  
+    @Override  
+  public void onResult(String result) {  
+          
+    }  
+  
+    @Override  
+  public void onError(@NonNull Exception exception) {  
+        exception.printStackTrace();  
+    }  
+});
+
+//confirm phone number with the SMS code
+BlinkupWrapper.confirmCode("code", new ResultListener<User>() {  
+    @Override  
+  public void onResult(User result) {  
+         
+    }  
+  
+    @Override  
+  public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+```
+
 After this you need to check if you need to fill in the user profile and fill the details if need:
+
+Swift:
 
 ```swift
 if bLinkup.isUserDetailsRequired {
@@ -128,6 +174,7 @@ if bLinkup.isUserDetailsRequired {
     })
 }
 ```
+Kotlin:
 
 ```kotlin
 if(Blinkup.isUserDetailsRequired()) {
@@ -138,6 +185,24 @@ if(Blinkup.isUserDetailsRequired()) {
 	        return@launch
 	    }
 	}
+}
+```
+
+Java:
+
+```java
+if(BlinkupWrapper.isUserDetailsRequired()) {
+	BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>() {  
+	    @Override  
+		public void onResult(User result) {  
+	         
+		}  
+	  
+	    @Override  
+	    public void onError(@NonNull Exception exception) {  
+	         
+	    }  
+	});
 }
 ```
 
@@ -178,6 +243,36 @@ GlobalScope.launch(Dispatchers.IO) {
 
 ```
 
+Java:
+
+```java
+//request SMS code for the phone number
+BlinkupWrapper.requestCode(phone, new ResultListener<String>() {  
+    @Override  
+  public void onResult(String result) {  
+          
+    }  
+  
+    @Override  
+  public void onError(@NonNull Exception exception) {  
+        exception.printStackTrace();  
+    }  
+});
+
+//confirm phone number with the SMS code
+BlinkupWrapper.confirmCode("code", new ResultListener<User>() {  
+    @Override  
+  public void onResult(User result) {  
+         
+    }  
+  
+    @Override  
+  public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+```
+
 ### Update User Profile
 
 Swift:
@@ -196,7 +291,22 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
+
+```java
+BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>() {  
+    @Override  
+	public void onResult(User result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### Check Current Session
@@ -220,6 +330,25 @@ GlobalScope.launch(Dispatchers.IO){
 
 ```
 
+Java:
+
+```java
+
+BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {  
+    @Override  
+	public void onResult(User result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+
+
+```
+
 ## Core presence loop
 
 ### Is at event
@@ -240,6 +369,22 @@ try {
 }
 ```
 
+Java:
+
+```java
+BlinkupWrapper.isUserAtEvent(place: Place, new ResultListener<Boolean>() {  
+    @Override  
+	public void onResult(Boolean result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+```
+
 ### Set presence at event:
 
 Swift:
@@ -255,6 +400,22 @@ try {
 } catch(e: BlinkupException) {
     return@launch
 }
+```
+
+Java:
+
+```java
+BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListener<Unit>() {  
+    @Override  
+	public void onResult(Unit result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ## Connection Management
@@ -278,6 +439,22 @@ GlobalScope.launch(Dispatchers.IO){
     }
 }
 
+```
+
+Java:
+
+```java
+BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {  
+    @Override  
+	public void onResult(List<Connection> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### Friends at event
@@ -319,6 +496,23 @@ GlobalScope.launch(Dispatchers.IO){
 
 ```
 
+
+Java:
+
+```java
+BlinkupWrapper.findUsers(query: String, new ResultListener<List<User>>() {  
+    @Override  
+	public void onResult(List<User> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+```
+
 ### Contact Search
 
 Finding users who are also in your contacts uses the platform contacts API to get the users contacts and send a list of phone numbers to the backend looking for matches. This is the easiest way to find all possible users without needing to search for each user.
@@ -339,7 +533,22 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
+
+```java
+BlinkupWrapper.findContacts(new ResultListener<List<Contact>>() {  
+    @Override  
+	public void onResult(List<Contact> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### Send Connect request to User
@@ -360,7 +569,22 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
+
+```java
+BlinkupWrapper.sendFriendRequest(friend: User, new ResultListener<Connection>() {  
+    @Override  
+	public void onResult(Connection result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### Get list of Connection Request
@@ -381,7 +605,22 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
+
+```java
+BlinkupWrapper.getFriendRequests(new ResultListener<List<ConnectionRequest>>() {  
+    @Override  
+	public void onResult(List<ConnectionRequest> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### Accept and deny request
@@ -404,7 +643,33 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
+
+```java
+BlinkupWrapper.acceptFriendRequest(request: ConnectionRequest, new ResultListener<Unit>() {  
+    @Override  
+	public void onResult(Unit result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
+BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<Unit>() {  
+    @Override  
+	public void onResult(Unit result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ## bLinkpoints
@@ -433,8 +698,22 @@ GlobalScope.launch(Dispatchers.IO){
         return@launch
     }
 }
+```
 
+Java:
 
+```java
+BlinkupWrapper.getEvents(new ResultListener<List<Place>>() {  
+    @Override  
+	public void onResult(List<Place> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 
@@ -462,8 +741,34 @@ val event:Place = ...
 map.place = event
 ```
 
+Java:
+Place `VenueMapView` in your layout (or create it with code).
+Get it's instance, for example 
+```kotlin
+VenueMapView map = findViewById<VenueMapView>(R.id."your_map_id")
+```
+and set the event you want to show the mapo for into `VenueMapView`
+```java
+Place event = ...
+map.setPlace(event)
+```
+
+### Accessing the BlinkPoints:
+Swift:
+
+Kotlin:
+```kotlin
+place.blinkpoints
+```
+Java:
+```java
+place.getBlinkpoints()
+```
+
+
+
 ### Sending meet ups
 
-Swift, Kotlin:
+Swift, Kotlin, Java:
 
 This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
