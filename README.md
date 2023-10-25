@@ -349,6 +349,33 @@ BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {
 
 ```
 
+### Logout
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.logout()
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+Java
+
+```java
+BlinkupWrapper.logout();
+```
+
 ## Core presence loop
 
 ### Is at event
@@ -455,6 +482,7 @@ BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {
          
     }  
 });
+
 ```
 
 ### Friends at event
@@ -470,6 +498,30 @@ bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.getUsersAtEvent(place: Place)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+Java:
+
+```java
+BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {  
+    @Override  
+	public void onResult(List<User> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 
 ```
 
@@ -670,6 +722,43 @@ BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<
          
     }  
 });
+```
+
+### Update Connection
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+GlobalScope.launch(Dispatchers.IO){
+    try {
+        Blinkup.updateConnection(connection: Connection, status: ConnectionStatus)
+    } catch (e: BlinkupException){
+        return@launch
+    }
+}
+
+```
+
+Java:
+
+```java
+BlinkupWrapper.updateConnection(connection: Connection,status: ConnectionStatus, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
 ```
 
 ## bLinkpoints
