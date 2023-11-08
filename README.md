@@ -112,7 +112,7 @@ Kotlin:
 //request SMS code for the phone number
 GlobalScope.launch(Dispatchers.IO) {
     try {
-        Blinkup.requestCode(phoneNumber: String)
+        Blinkup.requestCode(phoneNumber: String): String
     } catch (e: BlinkupException){
         return@launch
     }
@@ -121,7 +121,7 @@ GlobalScope.launch(Dispatchers.IO) {
 //confirm phone number with the SMS code
 GlobalScope.launch(Dispatchers.IO) {
     try {
-        Blinkup.confirmCode(verificationCode: String)
+        Blinkup.confirmCode(verificationCode: String): User
     } catch (e: BlinkupException){
         return@launch
     }
@@ -180,7 +180,7 @@ Kotlin:
 if(Blinkup.isUserDetailsRequired()) {
 	GlobalScope.launch(Dispatchers.IO){
 	    try {
-	        Blinkup.updateUser(name: String, email: String)
+	        Blinkup.updateUser(name: String, email: String): User
 	    } catch (e: BlinkupException){
 	        return@launch
 	    }
@@ -226,7 +226,7 @@ Kotlin:
 //request SMS code for the phone number
 GlobalScope.launch(Dispatchers.IO) {
     try {
-        Blinkup.requestCode(phoneNumber: String)
+        Blinkup.requestCode(phoneNumber: String): String
     } catch (e: BlinkupException){
         return@launch
     }
@@ -235,7 +235,7 @@ GlobalScope.launch(Dispatchers.IO) {
 //confirm phone number with the SMS code
 GlobalScope.launch(Dispatchers.IO) {
     try {
-        Blinkup.confirmCode(verificationCode: String)
+        Blinkup.confirmCode(verificationCode: String): User
     } catch (e: BlinkupException){
         return@launch
     }
@@ -286,7 +286,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.updateUser(name: String, email: String)
+        Blinkup.updateUser(name: String, email: String): User
     } catch (e: BlinkupException){
         return@launch
     }
@@ -322,7 +322,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.checkSessionAndLogin()
+        Blinkup.checkSessionAndLogin(): User
     } catch (e: BlinkupException){
         return@launch
     }
@@ -363,7 +363,7 @@ Kotlin:
 
 ```kotlin
 try {
-    val isAtEvent = Blinkup.isUserAtEvent(place: Place)
+    val isAtEvent = Blinkup.isUserAtEvent(place: Place): Boolean
 } catch(e: BlinkupException) {
     return@launch
 }
@@ -433,7 +433,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        val friendsList = Blinkup.getFriendList()
+        val friendsList = Blinkup.getFriendList(): List<Connection>
     } catch (e: BlinkupException){
         return@launch
     }
@@ -470,7 +470,15 @@ bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                    val friendsAtEvent = Blinkup.getUsersAtEvent(placeId): List<Connection> 
+                }
 
+            } catch (e: BlinkupException) {
+                Log.e("EventList", "failed to run getFriendsAtEventList", e)
+                return@launch
+            }
 ```
 
 ### User Search
@@ -488,7 +496,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.findUsers(query: String)
+        Blinkup.findUsers(query: String): List<User>
     } catch (e: BlinkupException){
         return@launch
     }
@@ -528,7 +536,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.findContacts()
+        Blinkup.findContacts(): List<Contact>
     } catch (e: BlinkupException){
         return@launch
     }
@@ -564,7 +572,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        Blinkup.sendFriendRequest(friend: User)
+        Blinkup.sendFriendRequest(friend: User): Connection
     } catch (e: BlinkupException){
         return@launch
     }
@@ -600,7 +608,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        val requests = Blinkup.getFriendRequests()
+        val requests = Blinkup.getFriendRequests(): List<ConnectionRequest>
     } catch (e: BlinkupException){
         return@launch
     }
@@ -693,7 +701,7 @@ Kotlin:
 ```kotlin
 GlobalScope.launch(Dispatchers.IO){
     try {
-        val events = Blinkup.getEvents()
+        val events = Blinkup.getEvents(): List<Place>
     } catch (e: BlinkupException){
         return@launch
     }
