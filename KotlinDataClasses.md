@@ -1,6 +1,6 @@
 # Kotlin Data Classes
 
-The following document contains a list of all objects to be return from the bLinkup database with their respective fields. To see where these objects might be used, please reference either the README or one of our sample apps.
+The following document contains a list of all Kotlin Data Classes and their associated fields contained within the SDK. To see where these objects might be used, please reference either the README or one of our sample apps.
 
 
 ## User
