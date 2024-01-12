@@ -19,6 +19,13 @@ To achieve these functions the following steps need to be taken:
 - Get a list of friends and notify users about which friends are at an event
 - Send invites to venue specific points of interest
 
+Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
+
+- Swift
+    - https://github.com/blinkupsdk/bLinkupSwiftSample
+- Kotlin
+    - https://github.com/blinkupsdk/bLinkupKotlinSample
+
 ## Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
