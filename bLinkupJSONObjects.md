@@ -1,4 +1,4 @@
-# bLinkup Objects
+# bLinkup JSON Objects
 
 The following document contains a list of all objects to be return from the bLinkup database with their respective fields. To see where these objects might be used, please reference either the README or one of our sample apps.
 
