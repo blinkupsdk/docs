@@ -30,6 +30,11 @@ Please reference the sample applications for examples of how to implement the bL
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
+## Classes and JSON object definitions
+
+[bLinkup JSON Objects](bLinkupJSONObjects.md)\
+[Kotlin Data Classes](KotlinDataClasses.md)
+
 ## Initialization
 
 When your app starts initialize bLinkup with your other packages. This should only be done once at app launch.
