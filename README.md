@@ -30,20 +30,6 @@ Please reference the sample applications for examples of how to implement the bL
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
-## Implement bLinkup SDK
-
-Swift:
-```swift
-
-```
-
-Kotlin:
-Place the following line in the dependencies block of your applications build.gradle file
-
-```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.7'
-```
-
 ## Initialization
 
 When your app starts initialize bLinkup with your other packages. This should only be done once at app launch.
