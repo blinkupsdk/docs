@@ -113,8 +113,10 @@ bLinkup.confirmCode(phone: String, code: String, completion: {  [weak self] in
 Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)  \\returns a String
-Blinkup.confirmCode(verificationCode: String) \\returns a User
+Blinkup.requestCode(phoneNumber: String)  
+//returns a String
+Blinkup.confirmCode(verificationCode: String) 
+//returns a User
 ```
 
 Java:
@@ -166,8 +168,10 @@ if bLinkup.isUserDetailsRequired {
 Kotlin:
 
 ```kotlin
-Blinkup.isUserDetailsRequired() \\returns a Boolean
-Blinkup.updateUser(name: String, email: String) \\ returns a User
+Blinkup.isUserDetailsRequired() 
+//returns a Boolean
+Blinkup.updateUser(name: String, email: String) 
+//returns a User
 ```
 
 Java:
@@ -204,8 +208,10 @@ bLinkup.confirmCode(phone: String, code: String, completion:{ print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String) \\returns a String
-Blinkup.confirmCode(verificationCode: String) \\returns a User
+Blinkup.requestCode(phoneNumber: String) 
+//returns a String
+Blinkup.confirmCode(verificationCode: String) 
+//returns a User
 
 ```
 
@@ -248,6 +254,7 @@ Swift:
 Kotlin:
 ```Kotlin
 Blinkup.isLoginRequired()
+//returns a Boolean
 ```
 
 Java:
@@ -265,7 +272,8 @@ bLinkup.updateUser(name: String, email: String, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.updateUser(name: String, email: String) \\returns a User
+Blinkup.updateUser(name: String, email: String) 
+//returns a User
 ```
 
 Java:
@@ -295,7 +303,8 @@ bLinkup.isLoginRequired
 Kotlin:
 
 ```kotlin
-Blinkup.checkSessionAndLogin() \\returns a User
+Blinkup.checkSessionAndLogin() 
+//returns a User
 ```
 
 Java:
@@ -350,7 +359,8 @@ bLinkup.isUserAtEvent(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.isUserAtEvent(place: Place) \\returns a Boolean
+Blinkup.isUserAtEvent(place: Place) 
+//returns a Boolean
 ```
 
 Java:
@@ -411,7 +421,8 @@ bLinkup.getFriendList(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getFriendList() \\returns a List<Connection>
+Blinkup.getFriendList() 
+//returns a List<Connection>
 ```
 
 Java:
@@ -444,7 +455,8 @@ bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getUsersAtEvent(place: Place) \\returns a List<Presence>
+Blinkup.getUsersAtEvent(place: Place) 
+//returns a List<Presence>
 ```
 
 Java:
@@ -477,7 +489,8 @@ bLinkup.findUsers(query: String?, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.findUsers(query: String) \\returns a List<User>
+Blinkup.findUsers(query: String) 
+//returns a List<User>
 ```
 
 
@@ -510,7 +523,8 @@ bLinkup.findContacts(completion: { result in })
 Kotlin:
 
 ```kotlin
-Blinkup.findContacts() \\returns a List<ContactResult>
+Blinkup.findContacts() 
+//returns a List<ContactResult>
 ```
 
 Java:
@@ -540,7 +554,8 @@ bLinkup.sendConnectionRequest(user: User, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.sendFriendRequest(friend: User) \\returns a Connection
+Blinkup.sendFriendRequest(friend: User) 
+//returns a Connection
 ```
 
 Java:
@@ -570,7 +585,8 @@ bLinkup.getFriendRequests(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getFriendRequests() \\returns a List<ConnectionRequest>
+Blinkup.getFriendRequests() 
+//returns a List<ConnectionRequest>
 ```
 
 Java:
@@ -690,7 +706,8 @@ Swift:
 
 Kotlin:
 ```Kotlin
-Blinkup.getBlocks() \\returns a List<Block>
+Blinkup.getBlocks() 
+//returns a List<Block>
 ```
 
 Java:
@@ -717,7 +734,8 @@ bLinkup.getEvents(completion: {
 Kotlin:
 
 ```kotlin
-Blinkup.getEvents() \\returns a List<Place>
+Blinkup.getEvents() 
+//returns a List<Place>
 ```
 
 Java:
