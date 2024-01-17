@@ -30,6 +30,20 @@ Please reference the sample applications for examples of how to implement the bL
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
+## Implement bLinkup SDK
+
+Swift:
+```swift
+
+```
+
+Kotlin:
+Place the following line in the dependencies block of your applications build.gradle file
+
+```kotlin
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.7'
+```
+
 ## Initialization
 
 When your app starts initialize bLinkup with your other packages. This should only be done once at app launch.
@@ -62,27 +76,6 @@ To sign up a new user on bLinkup only three fields are required.
 
 To validate if a user name is available use the following API:
 
-### Check Username Availability
-
-Swift:
-
-```swift
-Feature still in development
-```
-
-Kotlin
-
-```kotlin
-Feature still in development
-
-```
-
-Java
-
-```java
-Feature still in development
-
-```
 
 ### Account Registration
 
@@ -116,8 +109,8 @@ bLinkup.confirmCode(phone: String, code: String, completion: {  [weak self] in
 Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)
-Blinkup.confirmCode(verificationCode: String)
+Blinkup.requestCode(phoneNumber: String)  \\returns a String
+Blinkup.confirmCode(verificationCode: String) \\returns a User
 ```
 
 Java:
@@ -169,8 +162,8 @@ if bLinkup.isUserDetailsRequired {
 Kotlin:
 
 ```kotlin
-Blinkup.isUserDetailsRequired()
-Blinkup.updateUser(name: String, email: String)
+Blinkup.isUserDetailsRequired() \\returns a Boolean
+Blinkup.updateUser(name: String, email: String) \\ returns a User
 ```
 
 Java:
@@ -207,8 +200,8 @@ bLinkup.confirmCode(phone: String, code: String, completion:{ print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)
-Blinkup.confirmCode(verificationCode: String)
+Blinkup.requestCode(phoneNumber: String) \\returns a String
+Blinkup.confirmCode(verificationCode: String) \\returns a User
 
 ```
 
@@ -268,7 +261,7 @@ bLinkup.updateUser(name: String, email: String, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.updateUser(name: String, email: String)
+Blinkup.updateUser(name: String, email: String) \\returns a User
 ```
 
 Java:
@@ -298,7 +291,7 @@ bLinkup.isLoginRequired
 Kotlin:
 
 ```kotlin
-Blinkup.checkSessionAndLogin()
+Blinkup.checkSessionAndLogin() \\returns a User
 ```
 
 Java:
@@ -353,7 +346,7 @@ bLinkup.isUserAtEvent(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.isUserAtEvent(place: Place)
+Blinkup.isUserAtEvent(place: Place) \\returns a Boolean
 ```
 
 Java:
@@ -382,7 +375,7 @@ bLinkup.setUserAtEvent(Bool, at: Place, completion: { print($0) })
 
 Kotlin:
 ```kotlin
-    Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
+Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
 ```
 
 Java:
@@ -414,7 +407,7 @@ bLinkup.getFriendList(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getFriendList()
+Blinkup.getFriendList() \\returns a List<Connection>
 ```
 
 Java:
@@ -447,7 +440,7 @@ bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getUsersAtEvent(place: Place)
+Blinkup.getUsersAtEvent(place: Place) \\returns a List<Presence>
 ```
 
 Java:
@@ -480,7 +473,7 @@ bLinkup.findUsers(query: String?, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.findUsers(query: String)
+Blinkup.findUsers(query: String) \\returns a List<User>
 ```
 
 
@@ -513,7 +506,7 @@ bLinkup.findContacts(completion: { result in })
 Kotlin:
 
 ```kotlin
-Blinkup.findContacts()
+Blinkup.findContacts() \\returns a List<ContactResult>
 ```
 
 Java:
@@ -543,7 +536,7 @@ bLinkup.sendConnectionRequest(user: User, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.sendFriendRequest(friend: User)
+Blinkup.sendFriendRequest(friend: User) \\returns a Connection
 ```
 
 Java:
@@ -573,7 +566,7 @@ bLinkup.getFriendRequests(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.getFriendRequests()
+Blinkup.getFriendRequests() \\returns a List<ConnectionRequest>
 ```
 
 Java:
@@ -604,8 +597,8 @@ bLinkup.denyFriendRequest(ConnectionRequest,completion: { print($0) })
 Kotlin:
 
 ```kotlin
-Blinkup.acceptFriendRequest(request: ConnectionRequest)
-Blinkup.denyFriendRequest(request: ConnectionRequest)
+Blinkup.acceptFriendRequest(request: ConnectionRequest) 
+Blinkup.denyFriendRequest(request: ConnectionRequest) 
 ```
 
 Java:
@@ -646,8 +639,8 @@ Swift:
 Kotlin:
 
 ```kotlin
-Blinkup.updateConnection(connection: Connection, status: ConnectionStatus)
-Blinkup.deleteConnection(connection: Connection)
+Blinkup.updateConnection(connection: Connection, status: ConnectionStatus) 
+Blinkup.deleteConnection(connection: Connection) 
 ```
 
 Java:
@@ -675,8 +668,8 @@ Swift:
 
 Kotlin:
 ```Kotlin
-Blinkup.blockUser(user: User)
-Blinkup.unblockUser(block: Block)
+Blinkup.blockUser(user: User) 
+Blinkup.unblockUser(block: Block) 
 ```
 
 Java:
@@ -693,7 +686,7 @@ Swift:
 
 Kotlin:
 ```Kotlin
-Blinkup.getBlocks()
+Blinkup.getBlocks() \\returns a List<Block>
 ```
 
 Java:
@@ -720,7 +713,7 @@ bLinkup.getEvents(completion: {
 Kotlin:
 
 ```kotlin
-Blinkup.getEvents()
+Blinkup.getEvents() \\returns a List<Place>
 ```
 
 Java:
