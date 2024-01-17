@@ -26,9 +26,27 @@ Please reference the sample applications for examples of how to implement the bL
 - Kotlin
     - https://github.com/blinkupsdk/bLinkupKotlinSample
 
+## List of Data Classes
+
+[Kotlin Data Classes](KotlinDataClasses.md)
+
 ## Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
+
+## Implement SDK Dependency
+
+Swift:
+```swift
+```
+
+Kotlin:
+
+Place the following line in the dependency block of your applications build.gradle file
+
+```kotlin
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.7'
+```
 
 ## Initialization
 
