@@ -522,7 +522,7 @@ Finding users who are also in your contacts uses the platform contacts API to ge
 Swift:
 
 ```swift
-bLinkup.findContacts(completion: @escaping (Result<[Contact], Error>) -> Void)
+bLinkup.findContacts(completion: @escaping (Result<[ContactResult], Error>) -> Void)
 ```
 
 Kotlin:
