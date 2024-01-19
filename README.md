@@ -40,7 +40,7 @@ Swift:
 ```swift
 ```
 
-Kotlin:
+Gradle:
 
 Place the following line in the dependency block of your applications build.gradle file
 
@@ -259,7 +259,8 @@ Blinkup.isLoginRequired()
 
 Java:
 ```Java
-
+BlinkupWrapper.isLoginRequired()
+//returns a Boolean
 ```
 ### Update User Profile
 
@@ -473,7 +474,6 @@ BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {
          
     }  
 });
-
 ```
 
 ### User Search
@@ -677,6 +677,18 @@ BlinkupWrapper.updateConnection(connection: Connection,status: ConnectionStatus,
         
         }
 })
+
+BlinkupWrapper.deleteConnection(connection: Connection, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
 ```
 
 ### Blocking and unblocking users
@@ -694,7 +706,29 @@ Blinkup.unblockUser(block: Block)
 
 Java:
 ```Java
+BlinkupWrapper.blockUser(user: User, resultListener: new ResultListener<Block>() {
+        @override 
+        public void onResult(block: Block) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
 
+BlinkupWrapper.unblockUser(block: Block, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
 ```
 
 ### Getting list of blocked users
@@ -712,7 +746,17 @@ Blinkup.getBlocks()
 
 Java:
 ```Java
-
+BlinkupWrapper.getBlocks(resultListener: new ResultListener<List<Block>>() {
+        @override 
+        public void onResult(List<Block> blocks) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
 ```
 
 ### bLinkpoints
