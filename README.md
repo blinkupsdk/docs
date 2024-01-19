@@ -38,7 +38,11 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 ## Implement SDK Dependency
 
 Swift:
+
+add the dependency using Swift Package Manager 'https://github.com/blinkupsdk/bLinkupSwiftSDK'
+
 ```swift
+import bLinkup
 ```
 
 Gradle:
@@ -56,7 +60,7 @@ When your app starts initialize bLinkup with your other packages. This should on
 Swift:
 
 ```swift
-bLinkup.configure(clientId: "YOUR_API_KEY_HERE")
+bLinkup.configure("YOUR_API_KEY_HERE")
 ```
 
 Kotlin:
@@ -91,7 +95,7 @@ When signing up, the first step will be calling `register` to claim a phone numb
 Swift:
 
 ```swift
-bLinkup.requestCode(phone: String, completion: { [weak self] result in 
+bLinkup.requestCode(phoneNumber: String, completion: { [weak self] result in 
     switch result {
     case .failure(let error):
         print(error)
@@ -100,7 +104,7 @@ bLinkup.requestCode(phone: String, completion: { [weak self] result in
         //self?.showConfirmation(phone)
     }
 })
-bLinkup.confirmCode(phone: String, code: String, completion: {  [weak self] in
+bLinkup.confirmCode(phoneNumber: String, verificationCode: String, completion: { [weak self] in
     switch $0 {
     case .failure(let error):
         print(error)
@@ -202,8 +206,8 @@ To login there are two functions which need to be called.
 Swift:
 
 ```swift
-bLinkup.requestCode(phone: String, completion: { print($0) })
-bLinkup.confirmCode(phone: String, code: String, completion:{ print($0) })
+bLinkup.requestCode(phoneNumber: String, completion: @escaping (Result<String, Error>) -> Void)
+bLinkup.confirmCode(phoneNumber: String, verificationCode: String, completion: @escaping (Result<User, Error>) -> Void)
 ```
 
 Kotlin:
@@ -249,7 +253,7 @@ BlinkupWrapper.confirmCode("code", new ResultListener<User>() {
 
 Swift:
 ```Swift
-
+bLinkup.isLoginRequired
 ```
 
 Kotlin:
@@ -268,7 +272,7 @@ BlinkupWrapper.isLoginRequired()
 Swift:
 
 ```swift
-bLinkup.updateUser(name: String, email: String, completion: { print($0) })
+bLinkup.updateUser(name: String, email: String, completion: @escaping (Result<User, Error>) -> Void)
 ```
 
 Kotlin:
@@ -333,7 +337,7 @@ BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {
 Swift:
 
 ```swift
-
+bLinkup.logout(completion: @escaping (Error?) -> Void)
 ```
 
 Kotlin:
@@ -355,7 +359,7 @@ BlinkupWrapper.logout();
 Swift:
 
 ```swift
-bLinkup.isUserAtEvent(Place, completion: { print($0) })
+bLinkup.isUserAtEvent(_ place: Place, completion: @escaping @escaping (Result<Bool, Error>) -> Void)
 ```
 
 Kotlin:
@@ -386,7 +390,7 @@ BlinkupWrapper.isUserAtEvent(place: Place, new ResultListener<Boolean>() {
 Swift:
 
 ```swift
-bLinkup.setUserAtEvent(Bool, at: Place, completion: { print($0) })
+bLinkup.setUserAtEvent(_ presence: Bool, at place: Place, completion: @escaping (Result<Presence, Error>) -> Void)
 ```
 
 Kotlin:
@@ -417,7 +421,7 @@ BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListen
 Swift:
 
 ```swift
-bLinkup.getFriendList(completion: { print($0) })
+bLinkup.getFriendList(completion: @escaping (Result<[Connection], Error>) -> Void)
 ```
 
 Kotlin:
@@ -451,7 +455,7 @@ The core value of bLinkup is getting a list of a user's friends who are at a par
 Swift:
 
 ```swift
-bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
+bLinkup.getFriendsAtPlace(_ place: Place, completion: @escaping (Result<[Presence], Error>) -> Void)
 ```
 
 Kotlin:
@@ -484,7 +488,7 @@ Find other bLinkup users (scoped by API key) by searching. The passed string wil
 Swift:
 
 ```swift
-bLinkup.findUsers(query: String?, completion: { print($0) })
+bLinkup.findUsers(query: String?, completion: @escaping (Result<[User], Error>) -> Void)
 ```
 
 Kotlin:
@@ -518,7 +522,7 @@ Finding users who are also in your contacts uses the platform contacts API to ge
 Swift:
 
 ```swift
-bLinkup.findContacts(completion: { result in })
+bLinkup.findContacts(completion: @escaping (Result<[Contact], Error>) -> Void)
 ```
 
 Kotlin:
@@ -549,14 +553,14 @@ BlinkupWrapper.findContacts(new ResultListener<List<Contact>>() {
 Swift:
 
 ```swift
-bLinkup.sendConnectionRequest(user: User, completion: { print($0) })
+bLinkup.sendConnectionRequest(user: User, completion: @escaping (Result<ConnectionRequest, Error>) -> Void)
 ```
 
 Kotlin:
 
 ```kotlin
 Blinkup.sendFriendRequest(friend: User) 
-//returns a Connection
+//returns a ConnectionRequest
 ```
 
 Java:
@@ -580,7 +584,7 @@ BlinkupWrapper.sendFriendRequest(friend: User, new ResultListener<Connection>() 
 Swift:
 
 ```swift
-bLinkup.getFriendRequests(completion: { print($0) })
+bLinkup.getFriendRequests(completion: @escaping (Result<[ConnectionRequest], Error>) -> Void)
 ```
 
 Kotlin:
@@ -611,8 +615,8 @@ BlinkupWrapper.getFriendRequests(new ResultListener<List<ConnectionRequest>>() {
 Swift:
 
 ```swift
-bLinkup.acceptFriendRequest(ConnectionRequest, completion: { print($0) })
-bLinkup.denyFriendRequest(ConnectionRequest,completion: { print($0) })
+bLinkup.acceptFriendRequest(_ req: ConnectionRequest, completion: @escaping (Result<ConnectionRequest, Error>) -> Void)
+bLinkup.denyFriendRequest(_ req: ConnectionRequest, completion: @escaping (Result<ConnectionRequest, Error>) -> Void)
 ```
 
 Kotlin:
@@ -654,7 +658,9 @@ BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<
 Swift:
 
 ```swift
-
+bLinkup.updateConnection(_ connection: Connection, status: ConnectionStatus, 
+                         completion: @escaping (Result<Connection, Error>) -> Void)
+bLinkup.deleteConnection(_ connection: Connection, completion: @escaping (Result<Void, Error>) -> Void)
 ```
 
 Kotlin:
@@ -696,7 +702,8 @@ BlinkupWrapper.deleteConnection(connection: Connection, resultListener: new Resu
 
 Swift:
 ```Swift
-
+bLinkup.blockUser(_ user: User, completion: @escaping (Result<Block, Error>) -> Void)
+bLinkup.deleteBlock(_ block: Block, completion: @escaping (Result<Void, Error>) -> Void)
 ```
 
 Kotlin:
@@ -736,7 +743,7 @@ BlinkupWrapper.unblockUser(block: Block, resultListener: new ResultListener<Unit
 
 Swift:
 ```Swift
-
+bLinkup.getBlocks(completion: @escaping (Result<[Block], Error>) -> Void) 
 ```
 
 Kotlin:
@@ -769,11 +776,7 @@ bLinkpoints are points of interest at an event. These are set by you and are con
 Swift:
 
 ```swift
-bLinkup.getEvents(completion: {
-    if let firstEvent = (try? $0.get())?.first {
-        print(firstEvent.blinkpoints)
-    }
-})
+bLinkup.getEvents(completion: @escaping (Result<[Place], Error>) -> Void)
 ```
 
 Kotlin:
@@ -807,7 +810,6 @@ Displaying the map and putting the interactive points on the app is a UI element
 Swift:
 
 ```swift
-Feature still in development
 let controller = bLinkup.VenueMapViewController(Place)
 navigationController.push(controller, animated: true)
 ```
@@ -838,6 +840,9 @@ map.setPlace(event)
 
 ### Accessing the BlinkPoints:
 Swift:
+```swift
+place.blinkpoints
+```
 
 Kotlin:
 ```kotlin
