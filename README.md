@@ -1,5 +1,6 @@
 
 
+
 # docs
 
 Getting started and best practices of using the bLinkup SDK.
@@ -19,9 +20,34 @@ To achieve these functions the following steps need to be taken:
 - Get a list of friends and notify users about which friends are at an event
 - Send invites to venue specific points of interest
 
+Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
+
+- Swift
+    - https://github.com/blinkupsdk/bLinkupSwiftSample
+- Kotlin
+    - https://github.com/blinkupsdk/bLinkupKotlinSample
+
+## List of Data Classes
+
+[Kotlin Data Classes](KotlinDataClasses.md)
+
 ## Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
+
+## Implement SDK Dependency
+
+Swift:
+```swift
+```
+
+Gradle:
+
+Place the following line in the dependency block of your applications build.gradle file
+
+```kotlin
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.7'
+```
 
 ## Initialization
 
@@ -33,13 +59,13 @@ Swift:
 bLinkup.configure(clientId: "YOUR_API_KEY_HERE")
 ```
 
-Kotlin
+Kotlin:
 
 ```kotlin
-Blinkup.Init("YOUR_API_KEY_HERE", context: Context)
+Blinkup.init("YOUR_API_KEY_HERE", context: Context)
 ```
 
-Java
+Java:
 
 ```java
 BlinkupWrapper.Init("YOUR_API_KEY_HERE", context: Context)
@@ -55,27 +81,6 @@ To sign up a new user on bLinkup only three fields are required.
 
 To validate if a user name is available use the following API:
 
-### Check Username Availability
-
-Swift:
-
-```swift
-Feature still in development
-```
-
-Kotlin
-
-```kotlin
-Feature still in development
-
-```
-
-Java
-
-```java
-Feature still in development
-
-```
 
 ### Account Registration
 
@@ -109,23 +114,10 @@ bLinkup.confirmCode(phone: String, code: String, completion: {  [weak self] in
 Kotlin:
 
 ```kotlin
-//request SMS code for the phone number
-GlobalScope.launch(Dispatchers.IO) {
-    try {
-        Blinkup.requestCode(phoneNumber: String): String
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
-//confirm phone number with the SMS code
-GlobalScope.launch(Dispatchers.IO) {
-    try {
-        Blinkup.confirmCode(verificationCode: String): User
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.requestCode(phoneNumber: String)  
+//returns a String
+Blinkup.confirmCode(verificationCode: String) 
+//returns a User
 ```
 
 Java:
@@ -158,7 +150,7 @@ BlinkupWrapper.confirmCode("code", new ResultListener<User>() {
 });
 ```
 
-After this you need to check if you need to fill in the user profile and fill the details if need:
+After this you need to check whether the user has a name and email. If needed, prompt the user to add those details:
 
 Swift:
 
@@ -177,15 +169,10 @@ if bLinkup.isUserDetailsRequired {
 Kotlin:
 
 ```kotlin
-if(Blinkup.isUserDetailsRequired()) {
-	GlobalScope.launch(Dispatchers.IO){
-	    try {
-	        Blinkup.updateUser(name: String, email: String): User
-	    } catch (e: BlinkupException){
-	        return@launch
-	    }
-	}
-}
+Blinkup.isUserDetailsRequired() 
+//returns a Boolean
+Blinkup.updateUser(name: String, email: String) 
+//returns a User
 ```
 
 Java:
@@ -205,7 +192,6 @@ if(BlinkupWrapper.isUserDetailsRequired()) {
 	});
 }
 ```
-
 ### User Login
 
 To login there are two functions which need to be called.
@@ -223,23 +209,10 @@ bLinkup.confirmCode(phone: String, code: String, completion:{ print($0) })
 Kotlin:
 
 ```kotlin
-//request SMS code for the phone number
-GlobalScope.launch(Dispatchers.IO) {
-    try {
-        Blinkup.requestCode(phoneNumber: String): String
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
-//confirm phone number with the SMS code
-GlobalScope.launch(Dispatchers.IO) {
-    try {
-        Blinkup.confirmCode(verificationCode: String): User
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.requestCode(phoneNumber: String) 
+//returns a String
+Blinkup.confirmCode(verificationCode: String) 
+//returns a User
 
 ```
 
@@ -272,7 +245,24 @@ BlinkupWrapper.confirmCode("code", new ResultListener<User>() {
     }  
 });
 ```
+### Check for a logged in user
 
+Swift:
+```Swift
+
+```
+
+Kotlin:
+```Kotlin
+Blinkup.isLoginRequired()
+//returns a Boolean
+```
+
+Java:
+```Java
+BlinkupWrapper.isLoginRequired()
+//returns a Boolean
+```
 ### Update User Profile
 
 Swift:
@@ -284,13 +274,8 @@ bLinkup.updateUser(name: String, email: String, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.updateUser(name: String, email: String): User
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.updateUser(name: String, email: String) 
+//returns a User
 ```
 
 Java:
@@ -320,14 +305,8 @@ bLinkup.isLoginRequired
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.checkSessionAndLogin(): User
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
+Blinkup.checkSessionAndLogin() 
+//returns a User
 ```
 
 Java:
@@ -349,6 +328,26 @@ BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {
 
 ```
 
+### Logout
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+Blinkup.logout()
+```
+
+Java
+
+```java
+BlinkupWrapper.logout();
+```
+
 ## Core presence loop
 
 ### Is at event
@@ -362,11 +361,8 @@ bLinkup.isUserAtEvent(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-try {
-    val isAtEvent = Blinkup.isUserAtEvent(place: Place): Boolean
-} catch(e: BlinkupException) {
-    return@launch
-}
+Blinkup.isUserAtEvent(place: Place) 
+//returns a Boolean
 ```
 
 Java:
@@ -395,11 +391,7 @@ bLinkup.setUserAtEvent(Bool, at: Place, completion: { print($0) })
 
 Kotlin:
 ```kotlin
-try {
-    Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
-} catch(e: BlinkupException) {
-    return@launch
-}
+Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)
 ```
 
 Java:
@@ -431,14 +423,8 @@ bLinkup.getFriendList(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        val friendsList = Blinkup.getFriendList(): List<Connection>
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
+Blinkup.getFriendList() 
+//returns a List<Connection>
 ```
 
 Java:
@@ -455,6 +441,7 @@ BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {
          
     }  
 });
+
 ```
 
 ### Friends at event
@@ -470,15 +457,24 @@ bLinkup.getFriendsAtPlace(Place, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                    val friendsAtEvent = Blinkup.getUsersAtEvent(placeId): List<Connection> 
-                }
+Blinkup.getUsersAtEvent(place: Place) 
+//returns a List<Presence>
+```
 
-            } catch (e: BlinkupException) {
-                Log.e("EventList", "failed to run getFriendsAtEventList", e)
-                return@launch
-            }
+Java:
+
+```java
+BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {  
+    @Override  
+	public void onResult(List<User> result) {  
+         
+	}  
+  
+    @Override  
+    public void onError(@NonNull Exception exception) {  
+         
+    }  
+});
 ```
 
 ### User Search
@@ -494,14 +490,8 @@ bLinkup.findUsers(query: String?, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.findUsers(query: String): List<User>
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
-
+Blinkup.findUsers(query: String) 
+//returns a List<User>
 ```
 
 
@@ -534,13 +524,8 @@ bLinkup.findContacts(completion: { result in })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.findContacts(): List<Contact>
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.findContacts() 
+//returns a List<ContactResult>
 ```
 
 Java:
@@ -570,13 +555,8 @@ bLinkup.sendConnectionRequest(user: User, completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.sendFriendRequest(friend: User): Connection
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.sendFriendRequest(friend: User) 
+//returns a Connection
 ```
 
 Java:
@@ -606,13 +586,8 @@ bLinkup.getFriendRequests(completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        val requests = Blinkup.getFriendRequests(): List<ConnectionRequest>
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.getFriendRequests() 
+//returns a List<ConnectionRequest>
 ```
 
 Java:
@@ -643,14 +618,8 @@ bLinkup.denyFriendRequest(ConnectionRequest,completion: { print($0) })
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        Blinkup.acceptFriendRequest(request: ConnectionRequest)
-        Blinkup.denyFriendRequest(request: ConnectionRequest)
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.acceptFriendRequest(request: ConnectionRequest) 
+Blinkup.denyFriendRequest(request: ConnectionRequest) 
 ```
 
 Java:
@@ -680,7 +649,118 @@ BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<
 });
 ```
 
-## bLinkpoints
+### Update or delete Connection
+
+Swift:
+
+```swift
+
+```
+
+Kotlin:
+
+```kotlin
+Blinkup.updateConnection(connection: Connection, status: ConnectionStatus) 
+Blinkup.deleteConnection(connection: Connection) 
+```
+
+Java:
+
+```java
+BlinkupWrapper.updateConnection(connection: Connection,status: ConnectionStatus, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
+
+BlinkupWrapper.deleteConnection(connection: Connection, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
+```
+
+### Blocking and unblocking users
+
+Swift:
+```Swift
+
+```
+
+Kotlin:
+```Kotlin
+Blinkup.blockUser(user: User) 
+Blinkup.unblockUser(block: Block) 
+```
+
+Java:
+```Java
+BlinkupWrapper.blockUser(user: User, resultListener: new ResultListener<Block>() {
+        @override 
+        public void onResult(block: Block) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
+
+BlinkupWrapper.unblockUser(block: Block, resultListener: new ResultListener<Unit>() {
+        @override 
+        public void onResult(Unit result) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
+```
+
+### Getting list of blocked users
+
+Swift:
+```Swift
+
+```
+
+Kotlin:
+```Kotlin
+Blinkup.getBlocks() 
+//returns a List<Block>
+```
+
+Java:
+```Java
+BlinkupWrapper.getBlocks(resultListener: new ResultListener<List<Block>>() {
+        @override 
+        public void onResult(List<Block> blocks) {
+            
+        } 
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+        
+        }
+})
+```
+
+### bLinkpoints
 
 bLinkpoints are points of interest at an event. These are set by you and are consumed in to the app by a JSON file which describes the point, positions it on a map image, and includes a URL to an image which can be shared when a user taps to send the bLinkpoint to a friend.
 
@@ -699,13 +779,8 @@ bLinkup.getEvents(completion: {
 Kotlin:
 
 ```kotlin
-GlobalScope.launch(Dispatchers.IO){
-    try {
-        val events = Blinkup.getEvents(): List<Place>
-    } catch (e: BlinkupException){
-        return@launch
-    }
-}
+Blinkup.getEvents() 
+//returns a List<Place>
 ```
 
 Java:
