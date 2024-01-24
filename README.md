@@ -692,7 +692,8 @@ bLinkup.deleteConnection(_ connection: Connection, completion: @escaping (Result
 Kotlin:
 
 ```kotlin
-Blinkup.updateConnection(connection: Connection, status: ConnectionStatus) //DEPRECATED
+[DEPRECATED] Use acceptFriendRequest and denyFriendRequest to update or remove a connection request
+Blinkup.updateConnection(connection: Connection, status: ConnectionStatus)
 Blinkup.deleteConnection(connection: Connection) 
 ```
 
