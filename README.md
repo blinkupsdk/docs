@@ -692,7 +692,7 @@ bLinkup.deleteConnection(_ connection: Connection, completion: @escaping (Result
 Kotlin:
 
 ```kotlin
-Blinkup.updateConnection(connection: Connection, status: ConnectionStatus) 
+Blinkup.updateConnection(connection: Connection, status: ConnectionStatus) //DEPRECATED
 Blinkup.deleteConnection(connection: Connection) 
 ```
 
