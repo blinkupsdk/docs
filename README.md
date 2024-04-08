@@ -52,7 +52,7 @@ Gradle:
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.7'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.14'
 ```
 
 ## Initialization
@@ -68,13 +68,13 @@ bLinkup.configure("YOUR_API_KEY_HERE")
 Kotlin:
 
 ```kotlin
-Blinkup.init("YOUR_API_KEY_HERE", context: Context)
+Blinkup.init(context: Context)
 ```
 
 Java:
 
 ```java
-BlinkupWrapper.Init("YOUR_API_KEY_HERE", context: Context)
+BlinkupWrapper.Init(context: Context)
 ```
 
 ## User Account Creation
@@ -89,6 +89,8 @@ To sign up a new user on bLinkup only two fields are required.
 Instead of passwords, users will authenticate via a text sent to their phone numbers.
 
 When signing up, the first step will be to call the following, in order, to claim a phone number.
+
+You also need to pass clientId as the parameter i nthis method
 
 Swift:
 
@@ -116,7 +118,7 @@ bLinkup.confirmCode(phoneNumber: String, verificationCode: String, completion: {
 Kotlin:
 
 ```kotlin
-Blinkup.requestCode(phoneNumber: String)  
+Blinkup.requestCode(clientId: String, phoneNumber: String)  
 //returns a String
 Blinkup.confirmCode(verificationCode: String) 
 //returns a User
@@ -126,7 +128,7 @@ Java:
 
 ```java
 //request SMS code for the phone number
-BlinkupWrapper.requestCode(phone, new ResultListener<String>() {  
+BlinkupWrapper.requestCode(clientId, phone, new ResultListener<String>() {  
     @Override  
   public void onResult(String result) {  
           
