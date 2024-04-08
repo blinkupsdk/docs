@@ -62,7 +62,7 @@ When your app starts, initialize bLinkup with your other packages. This should o
 Swift:
 
 ```swift
-bLinkup.configure("YOUR_API_KEY_HERE")
+bLinkup.configure()
 ```
 
 Kotlin:
@@ -90,12 +90,12 @@ Instead of passwords, users will authenticate via a text sent to their phone num
 
 When signing up, the first step will be to call the following, in order, to claim a phone number.
 
-You also need to pass clientId as the parameter i nthis method
+You also need to pass clientId as the parameter in this method
 
 Swift:
 
 ```swift
-bLinkup.requestCode(phoneNumber: String, completion: { [weak self] result in 
+bLinkup.requestCode(customer: Customer(id: "<<YOUR_API_KEY_HERE>>"), phoneNumber: String, completion: { [weak self] result in 
     switch result {
     case .failure(let error):
         print(error)
