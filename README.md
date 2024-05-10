@@ -76,7 +76,6 @@ BlinkupUISDK.launch(
   "Your Brand name",
 )
 ```
-```
 
 This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
 
