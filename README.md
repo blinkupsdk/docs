@@ -1,11 +1,8 @@
-
-
-
-# docs
+# bLinkup SDK docs
 
 Getting started and best practices of using the bLinkup SDK.
 
-Use the bLinkupSDK to do these three main things
+The bLinkupSDK will enable users to achieve these three goals
 
 1. Connect with friends on the app
 2. Notify users when their friends are at the event (using smart tracking & proximity)
@@ -20,24 +17,65 @@ To achieve these functions the following steps need to be taken:
 - Get a list of friends and notify users about which friends are at an event
 - Send invites to venue specific points of interest
 
+## Out-of-the-box UI
+
+The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
+
+- SwiftUi
+
+```swift
+BlinkupRootView(customer: .init(id: "<token>", name: "optional name"),
+                branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
+                                secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
+                                fontName: "HelveticaNeue",
+                                logo: UIImage(named: "Logo2"),
+                                name: c.name),
+                onClose: { self.showBlinkup = false })
+```
+
+- UIKit
+
+```swift
+let vc = BlinkupRootViewController(customer: .init(id: "<token>", name: "optional name"),
+                                   branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
+                                                   secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
+                                                   fontName: "HelveticaNeue",
+                                                   logo: UIImage(named: "Logo2"),
+                                                   name: c.name),
+                                   onClose: { [weak self] in self?.hideBlinkup() })
+self.present(vc, animated: true)
+```
+
+- Kotlin
+
+```kotlin
+
+```
+
+This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
+
+If you want to integrate bLinkup SDK further into your app then continue reading.
+
+## Implement SDK Manually
+
 Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
 
 - Swift
-    - https://github.com/blinkupsdk/bLinkupSwiftSample
+  - [GitHub bLinkup Swift Sample](https://github.com/blinkupsdk/bLinkupSwiftSample)
 - Kotlin
-    - https://github.com/blinkupsdk/bLinkupKotlinSample
+  - [GitHub bLinkup Kotlin Sample](https://github.com/blinkupsdk/bLinkupKotlinSample)
 
-## List of Data Classes
+### List of Data Classes
 
 The following links provide a list of the different types of data classes and objects that are defined by the bLinkup SDK.
 
 [Kotlin Data Classes](KotlinDataClasses.md)
 
-## Getting an API Key
+### Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
-## Implement SDK Dependency
+### Implement SDK Dependency
 
 Swift:
 
@@ -55,7 +93,7 @@ Place the following line in the dependency block of your applications build.grad
 implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.14'
 ```
 
-## Initialization
+### Initialization
 
 When your app starts, initialize bLinkup with your other packages. This should only be done once at app launch.
 
@@ -77,14 +115,14 @@ Java:
 BlinkupWrapper.Init(context: Context)
 ```
 
-## User Account Creation
+### User Account Creation
 
 To sign up a new user on bLinkup only two fields are required.
 
 1. Name
 2. Phone Number
 
-### Account Registration
+#### Account Registration
 
 Instead of passwords, users will authenticate via a text sent to their phone numbers.
 
@@ -198,7 +236,7 @@ if(BlinkupWrapper.isUserDetailsRequired()) {
 }
 ```
 
-### User Login
+#### User Login
 
 To login there are two functions which need to be called.
 
@@ -252,7 +290,7 @@ BlinkupWrapper.confirmCode("code", new ResultListener<User>() {
 });
 ```
 
-### Check for a logged in user
+#### Check for a logged in user
 
 Logged in users should not be required to login a second time. The following call will determine whether the current user has an active session.
 
@@ -276,7 +314,7 @@ BlinkupWrapper.isLoginRequired()
 //returns a Boolean
 ```
 
-### Update User Profile
+#### Update User Profile
 
 The user has the ability to modify their profile name and email. Utilizing the following call, the user and submit a string to change one or more of these fields.
 
@@ -309,7 +347,7 @@ BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>(
 });
 ```
 
-### Check Current Session
+#### Check Current Session
 
 If the current user's information is required, utilize the following call to return their User object.
 
@@ -343,7 +381,7 @@ BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {
 });
 ```
 
-### Logout
+#### Logout
 
 In the event the user wishes to logout, the following call can be used remove the session tokens.
 
@@ -402,7 +440,7 @@ BlinkupWrapper.isUserAtEvent(place: Place, new ResultListener<Boolean>() {
 });
 ```
 
-### Set presence at event:
+#### Set presence at event
 
 This call will allow the user to set their presence at an event to true.
 
@@ -434,7 +472,7 @@ BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListen
 });
 ```
 
-### Friends at event
+#### Friends at event
 
 As a core value of bLinkup, the following call will return a list of Presence objects for friends at a given event.
 
@@ -467,9 +505,9 @@ BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {
 });
 ```
 
-## Connection Management
+### Connection Management
 
-### Get current list of friends
+#### Get current list of friends
 
 Being able to see a list of existing friends is paramount to bLinkup. Utilizing the following call will return a list of existing connections.
 
@@ -502,7 +540,7 @@ BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {
 });
 ```
 
-### User Search
+#### User Search
 
 Find other bLinkup users (scoped by API key) by searching. The passed string will look for any matches in username or name.
 
@@ -535,7 +573,7 @@ BlinkupWrapper.findUsers(query: String, new ResultListener<List<User>>() {
 });
 ```
 
-### Contact Search
+#### Contact Search
 
 Finding users who are also in your contacts uses the platform contacts API to get the users contacts and send a list of phone numbers to the backend looking for matches. This is the easiest way to find all possible users without needing to search for each user.
 
@@ -568,7 +606,7 @@ BlinkupWrapper.findContacts(new ResultListener<List<Contact>>() {
 });
 ```
 
-### Send Connection Request to User
+#### Send Connection Request to User
 
 Once you have found a user you wish to connect with, utilize the following call to send them a Connection Request.
 
@@ -601,7 +639,7 @@ BlinkupWrapper.sendFriendRequest(friend: User, new ResultListener<Connection>() 
 });
 ```
 
-### Get list of Connection Request
+#### Get list of Connection Request
 
 Friend requests exist as connection requests, not a connection. The following call will return a list of all outstanding Connection Requests.
 
@@ -679,7 +717,7 @@ BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<
 });
 ```
 
-### Update or delete Connection
+#### Update or delete Connection
 
 If the user wishes to unfriend someone, the call below will allow them to delete the connection.
 
@@ -727,7 +765,7 @@ BlinkupWrapper.deleteConnection(connection: Connection, resultListener: new Resu
 })
 ```
 
-### Blocking and unblocking users
+#### Blocking and unblocking users
 
 In the event a user wishes to block another user from seeing them in any capacity, the following blocking functions will allow them to do so. They also have the ability to unblock a blocked user.
 
@@ -773,7 +811,7 @@ BlinkupWrapper.unblockUser(block: Block, resultListener: new ResultListener<Unit
 })
 ```
 
-### Getting list of blocked users
+#### Getting list of blocked users
 
 Use the following call in order to see a list of users blocked by the currently logged in user.
 
@@ -806,11 +844,11 @@ BlinkupWrapper.getBlocks(resultListener: new ResultListener<List<Block>>() {
 })
 ```
 
-### bLinkpoints
+#### bLinkpoints
 
 bLinkpoints are points of interest at an event. These are set by you and are consumed in to the app by a JSON file which describes the point, positions it on a map image, and includes a URL to an image which can be shared when a user taps to send the bLinkpoint to a friend.
 
-### Get list of Events
+#### Get list of Events
 
 In order to see a list of available events (as scope by API key), utilize the following call.
 
@@ -843,7 +881,7 @@ BlinkupWrapper.getEvents(new ResultListener<List<Place>>() {
 });
 ```
 
-### Displaying the map
+#### Displaying the map
 
 Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal which the user can interact with to dismiss or send invites to their friends.
 
@@ -886,7 +924,7 @@ Place event = ...
 map.setPlace(event)
 ```
 
-### Accessing the BlinkPoints:
+#### Accessing the BlinkPoints
 
 Swift:
 
@@ -906,7 +944,7 @@ Java:
 place.getBlinkpoints()
 ```
 
-### Sending meet ups
+#### Sending meet ups
 
 Swift, Kotlin, Java:
 
