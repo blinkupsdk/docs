@@ -48,8 +48,34 @@ self.present(vc, animated: true)
 
 - Kotlin
 
-```kotlin
+Optionally, define a theme:
+```xml
+    <style name="YourTheme" parent="DefaultTheme">
+        <item name="primaryColor">@color/yourPrimaryColor</item>
+        <item name="secondaryColor">@color/yourSecondaryColor</item>
+    </style>
+```
 
+Start the SDK UI with the call:
+    
+
+```kotlin
+BlinkupUISDK.launch(
+  context,
+  "your client ID",
+  "Your Brand name",
+  R.style.YourTheme,
+  R.drawable.yourLogo
+)
+```
+Where 2 last parameters are optional. You may proceed with the default theme and without the logo:
+```kotlin
+BlinkupUISDK.launch(
+  context,
+  "your client ID",
+  "Your Brand name",
+)
+```
 ```
 
 This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
