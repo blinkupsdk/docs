@@ -17,86 +17,7 @@ To achieve these functions the following steps need to be taken:
 - Get a list of friends and notify users about which friends are at an event
 - Send invites to venue specific points of interest
 
-## Out-of-the-box UI
-
-The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
-
-- SwiftUi
-
-```swift
-BlinkupRootView(customer: .init(id: "<token>", name: "optional name"),
-                branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
-                                secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
-                                fontName: "HelveticaNeue",
-                                logo: UIImage(named: "Logo2"),
-                                name: c.name),
-                onClose: { self.showBlinkup = false })
-```
-
-- UIKit
-
-```swift
-let vc = BlinkupRootViewController(customer: .init(id: "<token>", name: "optional name"),
-                                   branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
-                                                   secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
-                                                   fontName: "HelveticaNeue",
-                                                   logo: UIImage(named: "Logo2"),
-                                                   name: c.name),
-                                   onClose: { [weak self] in self?.hideBlinkup() })
-self.present(vc, animated: true)
-```
-
-- Kotlin
-
-Optionally, define a theme:
-```xml
-    <style name="YourTheme" parent="DefaultTheme">
-        <item name="primaryColor">@color/yourPrimaryColor</item>
-        <item name="secondaryColor">@color/yourSecondaryColor</item>
-    </style>
-```
-
-Start the SDK UI with the call:
-    
-
-```kotlin
-BlinkupUISDK.launch(
-  context,
-  "your client ID",
-  "Your Brand name",
-  R.style.YourTheme,
-  R.drawable.yourLogo
-)
-```
-Where 2 last parameters are optional. You may proceed with the default theme and without the logo:
-```kotlin
-BlinkupUISDK.launch(
-  context,
-  "your client ID",
-  "Your Brand name",
-)
-```
-
-This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
-
-If you want to integrate bLinkup SDK further into your app then continue reading.
-
-## Implement SDK Manually
-
-Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
-
-- Swift
-  - [GitHub bLinkup Swift Sample](https://github.com/blinkupsdk/bLinkupSwiftSample)
-- Kotlin
-  - [GitHub bLinkup Kotlin Sample](https://github.com/blinkupsdk/bLinkupKotlinSample)
-
-### List of Data Classes
-
-The following links provide a list of the different types of data classes and objects that are defined by the bLinkup SDK.
-
-[Kotlin Data Classes](KotlinDataClasses.md)
-
-### Getting an API Key
+## Getting an API Key
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
@@ -139,6 +60,87 @@ Java:
 ```java
 BlinkupWrapper.Init(context: Context)
 ```
+
+## Out-of-the-box UI
+
+The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
+
+- SwiftUi
+
+```swift
+BlinkupRootView(customer: .init(id: "<token>", name: "optional name"),
+                branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
+                                secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
+                                fontName: "HelveticaNeue",
+                                logo: UIImage(named: "Logo2"),
+                                name: c.name),
+                onClose: { self.showBlinkup = false })
+```
+
+- UIKit
+
+```swift
+let vc = BlinkupRootViewController(customer: .init(id: "<token>", name: "optional name"),
+                                   branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
+                                                   secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
+                                                   fontName: "HelveticaNeue",
+                                                   logo: UIImage(named: "Logo2"),
+                                                   name: c.name),
+                                   onClose: { [weak self] in self?.hideBlinkup() })
+self.present(vc, animated: true)
+```
+
+- Kotlin
+
+Optionally, define a theme:
+
+```xml
+    <style name="YourTheme" parent="DefaultTheme">
+        <item name="primaryColor">@color/yourPrimaryColor</item>
+        <item name="secondaryColor">@color/yourSecondaryColor</item>
+    </style>
+```
+
+Start the SDK UI with the call:
+
+```kotlin
+BlinkupUISDK.launch(
+  context,
+  "your client ID",
+  "Your Brand name",
+  R.style.YourTheme,
+  R.drawable.yourLogo
+)
+```
+
+Where 2 last parameters are optional. You may proceed with the default theme and without the logo:
+
+```kotlin
+BlinkupUISDK.launch(
+  context,
+  "your client ID",
+  "Your Brand name",
+)
+```
+
+This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
+
+If you want to integrate bLinkup SDK further into your app then continue reading.
+
+## Implement SDK Manually
+
+Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
+
+- Swift
+  - [GitHub bLinkup Swift Sample](https://github.com/blinkupsdk/bLinkupSwiftSample)
+- Kotlin
+  - [GitHub bLinkup Kotlin Sample](https://github.com/blinkupsdk/bLinkupKotlinSample)
+
+### List of Data Classes
+
+The following links provide a list of the different types of data classes and objects that are defined by the bLinkup SDK.
+
+[Kotlin Data Classes](KotlinDataClasses.md)
 
 ### User Account Creation
 
@@ -247,17 +249,17 @@ Java:
 
 ```java
 if(BlinkupWrapper.isUserDetailsRequired()) {
-	BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>() {  
-	    @Override  
-		public void onResult(User result) {  
-	         
-		}  
-	  
-	    @Override  
-	    public void onError(@NonNull Exception exception) {  
-	         
-	    }  
-	});
+    BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>() {  
+        @Override  
+        public void onResult(User result) {  
+          
+        }  
+        
+        @Override  
+        public void onError(@NonNull Exception exception) {  
+          
+        }  
+    });
 }
 ```
 
@@ -361,9 +363,9 @@ Java:
 ```java
 BlinkupWrapper.updateUser(name: String, email: String, new ResultListener<User>() {  
     @Override  
-	public void onResult(User result) {  
+     public void onResult(User result) {  
          
-	}  
+    }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -395,9 +397,9 @@ Java:
 
 BlinkupWrapper.checkSessionAndLogin(new ResultListener<User>() {  
     @Override  
-	public void onResult(User result) {  
+    public void onResult(User result) {  
          
-	}  
+    }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
