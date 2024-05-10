@@ -115,7 +115,7 @@ Gradle:
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.0.14'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.1.0'
 ```
 
 ### Initialization
