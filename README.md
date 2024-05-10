@@ -39,28 +39,6 @@ Place the following line in the dependency block of your applications build.grad
 implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.1.0'
 ```
 
-### Initialization
-
-When your app starts, initialize bLinkup with your other packages. This should only be done once at app launch.
-
-Swift:
-
-```swift
-bLinkup.configure()
-```
-
-Kotlin:
-
-```kotlin
-Blinkup.init(context: Context)
-```
-
-Java:
-
-```java
-BlinkupWrapper.Init(context: Context)
-```
-
 ## Out-of-the-box UI
 
 The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
@@ -141,6 +119,28 @@ Please reference the sample applications for examples of how to implement the bL
 The following links provide a list of the different types of data classes and objects that are defined by the bLinkup SDK.
 
 [Kotlin Data Classes](KotlinDataClasses.md)
+
+### Initialization
+
+When your app starts, initialize bLinkup with your other packages. This should only be done once at app launch.
+
+Swift:
+
+```swift
+bLinkup.configure()
+```
+
+Kotlin:
+
+```kotlin
+Blinkup.init(context: Context)
+```
+
+Java:
+
+```java
+BlinkupWrapper.Init(context: Context)
+```
 
 ### User Account Creation
 
