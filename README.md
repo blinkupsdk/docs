@@ -25,7 +25,7 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 
 Swift:
 
-add the dependency using Swift Package Manager 'https://github.com/blinkupsdk/bLinkupSwiftSDK'
+add the dependency using Swift Package Manager '[https://github.com/blinkupsdk/bLinkupSwiftSDK](https://github.com/blinkupsdk/bLinkupSwiftSDK)'
 
 ```swift
 import bLinkup
@@ -456,9 +456,9 @@ Java:
 ```java
 BlinkupWrapper.isUserAtEvent(place: Place, new ResultListener<Boolean>() {  
     @Override  
-	public void onResult(Boolean result) {  
+ public void onResult(Boolean result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -488,9 +488,9 @@ Java:
 ```java
 BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListener<Unit>() {  
     @Override  
-	public void onResult(Unit result) {  
+ public void onResult(Unit result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -521,9 +521,9 @@ Java:
 ```java
 BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {  
     @Override  
-	public void onResult(List<User> result) {  
+ public void onResult(List<User> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -556,9 +556,9 @@ Java:
 ```java
 BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {  
     @Override  
-	public void onResult(List<Connection> result) {  
+ public void onResult(List<Connection> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -589,9 +589,9 @@ Java:
 ```java
 BlinkupWrapper.findUsers(query: String, new ResultListener<List<User>>() {  
     @Override  
-	public void onResult(List<User> result) {  
+ public void onResult(List<User> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -622,9 +622,9 @@ Java:
 ```java
 BlinkupWrapper.findContacts(new ResultListener<List<Contact>>() {  
     @Override  
-	public void onResult(List<Contact> result) {  
+ public void onResult(List<Contact> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -655,9 +655,9 @@ Java:
 ```java
 BlinkupWrapper.sendFriendRequest(friend: User, new ResultListener<Connection>() {  
     @Override  
-	public void onResult(Connection result) {  
+ public void onResult(Connection result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -688,9 +688,9 @@ Java:
 ```java
 BlinkupWrapper.getFriendRequests(new ResultListener<List<ConnectionRequest>>() {  
     @Override  
-	public void onResult(List<ConnectionRequest> result) {  
+ public void onResult(List<ConnectionRequest> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -722,9 +722,9 @@ Java:
 ```java
 BlinkupWrapper.acceptFriendRequest(request: ConnectionRequest, new ResultListener<Unit>() {  
     @Override  
-	public void onResult(Unit result) {  
+ public void onResult(Unit result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -733,9 +733,9 @@ BlinkupWrapper.acceptFriendRequest(request: ConnectionRequest, new ResultListene
 });
 BlinkupWrapper.denyFriendRequest(request: ConnectionRequest, new ResultListener<Unit>() {  
     @Override  
-	public void onResult(Unit result) {  
+ public void onResult(Unit result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -897,9 +897,9 @@ Java:
 ```java
 BlinkupWrapper.getEvents(new ResultListener<List<Place>>() {  
     @Override  
-	public void onResult(List<Place> result) {  
+ public void onResult(List<Place> result) {  
          
-	}  
+ }  
   
     @Override  
     public void onError(@NonNull Exception exception) {  
@@ -922,13 +922,13 @@ navigationController.push(controller, animated: true)
 Kotlin:
 
 Place `VenueMapView` in your layout (or create it with code).
-Get it's instance, for example 
+Get it's instance, for example
 
 ```kotlin
 val map = findViewById<VenueMapView>(R.id."your_map_id")
 ```
 
-and set the event you want to show the mapo for into `VenueMapView`
+and set the event you want to show the map for into `VenueMapView`
 
 ```kotlin
 val event:Place = ...
@@ -938,13 +938,13 @@ map.place = event
 Java:
 
 Place `VenueMapView` in your layout (or create it with code).
-Get it's instance, for example 
+Get it's instance, for example
 
 ```kotlin
 VenueMapView map = findViewById<VenueMapView>(R.id."your_map_id")
 ```
 
-and set the event you want to show the mapo for into `VenueMapView`
+and set the event you want to show the map for into `VenueMapView`
 
 ```java
 Place event = ...
