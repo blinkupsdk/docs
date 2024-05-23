@@ -86,12 +86,13 @@ BlinkupUISDK.launch(
   context,
   "your client ID",
   "Your Brand name",
+  "Custom Actionbar Title"
   R.style.YourTheme,
   R.drawable.yourLogo
 )
 ```
 
-Where 2 last parameters are optional. You may proceed with the default theme and without the logo:
+Where 3 last parameters are optional. You may proceed with the default theme, actionbar title("Connect") and without the logo:
 
 ```kotlin
 BlinkupUISDK.launch(
