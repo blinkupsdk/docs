@@ -107,6 +107,93 @@ This UI will handle all of the bLinkup capabilities, no further work is required
 
 If you want to integrate bLinkup SDK further into your app then continue reading.
 
+## Notifications 
+
+The Blinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
+If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests. 
+Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API. 
+Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event. 
+There are two categories of webhook notifrications you may receive: Connections and Presence Alerts
+
+### Connections 
+
+*Connection Requests*
+
+This notification happens when one user sends a connection request to another. 
+Your server will receive a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who is receiving the request:
+
+```json
+{
+  "type": "connection_request",
+  "request": {
+    "id": "UUIDv4",
+    "status": "pending",
+    "source_user": {
+      "id": "UUIDv4",
+      "name": "Sender's Name"
+    },
+    "target_user": {
+      "id": "UUIDv4",
+      "name": "Receiver's Name"
+    }
+  }
+}
+```
+
+*Connection*
+
+This notification happens when a user who received a connection request replies to that request, either by accepting or declining the request.
+Your server will receive a webhook with the following JSON body:
+
+```json
+{
+  "type": "connection",
+  "connection": {
+    "id": "UUIDv4",
+    "status": "connected",
+    "source_user": {
+      "id": "UUIDv4",
+      "name": "Sender's Name"
+    },
+    "target_user": {
+      "id": "UUIDv4",
+      "name": "Receiver's Name"
+    }
+}
+```
+The `status` field may have the values: `connected`, `rejected`, or `blocked`
+
+### Presence
+
+Your server will receive presence webhook payloads when a user either enters or leaves a location. 
+The API sends one webhook per user connection, so if a user arrives at a location that already has 4 connections present, the API will generate 4 distinct webhook payloads (one per connection at that event).
+The presence payload is as follows, with the `is_present` field denoting if the user is arriving or leaving the location: 
+
+```json
+{
+  "type": "presence",
+  "is_present": true,
+  "inserted_at": "2025-01-01T00:00:00.0000Z",
+  "about_user": {
+    "id": "UUIDv4",
+    "name": "Person's Name",
+    "email": "person@email.com",
+    "phone": "+1555555555"
+  },
+  "send_to_user": {
+    "id": "UUIDv4",
+    "name": "Receiver's Name",
+    "email": "receiver@email.com",
+    "phone": "+1555555555"
+  },
+  "place": {
+    "id": "UUIDv4",
+    "name": "Name of the place"
+  }
+}
+```
+     
+
 ## Implement SDK Manually
 
 Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
