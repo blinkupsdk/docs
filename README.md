@@ -46,13 +46,14 @@ The bLinkup SDK provides a complete user interface which can perform all of the 
 - SwiftUi
 
 ```swift
-BlinkupRootView(customer: .init(id: "<token>", name: "optional name"),
-                branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
-                                secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
-                                fontName: "HelveticaNeue",
-                                logo: UIImage(named: "Logo2"),
-                                name: c.name),
-                onClose: { self.showBlinkup = false })
+BlinkupRootScreen(customer: .init(id: "<token>", name: "optional name"),
+                  branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
+                                  secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
+                                  fontName: "HelveticaNeue",
+                                  logo: UIImage(named: "Logo2"),
+                                  name: c.name),
+                  autoClose: true,
+                  onClose: { self.showBlinkup = false })
 ```
 
 - UIKit
@@ -104,6 +105,9 @@ BlinkupUISDK.launch(
 ```
 
 To set the push ID (to receive it as one of the parameters the webhook would be sending to defined endpoint):
+```swift
+bLinkup.setPushID(pushId, completion: { _ in })
+```
 ```kotlin
 BlinkupUISDK.setPushId(pushId)
 ```
@@ -111,7 +115,16 @@ Using this value, you would need to identify to which exactly instance of your a
 For example, it could be your internal user ID. Then once you get the request from the webhook, using this user ID you would identify push token (or other data) that you require to send the push message to appropriate user.
 
 The easiest way of implementing this would be to pass the push token itself as push id. That way you won't need to identify which user needs the push message, and can just use this push token to send push message directly.
-Here is an example of setting push ID the very moment the Firebase provides you with the push token
+Here is an example of setting the push ID the moment the application provides you with the push token.
+
+```swift
+func application(_ application: UIApplication,
+                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+) {
+    let token = deviceToken.map({ String(format: "%02.2hhx", $0) }).joined()
+    bLinkup.setPushID(token, completion: { _ in })
+}
+```
 
 ```kotlin
 FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
