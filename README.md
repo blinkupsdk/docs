@@ -111,10 +111,10 @@ bLinkup.setPushID(pushId, completion: { _ in })
 ```kotlin
 BlinkupUISDK.setPushId(pushId)
 ```
-Using this value, you would need to identify to which exactly instance of your application the push notification needs to be sent. 
+Using this value, you need to identify which exact instance of your application the push notification needs to be sent. 
 For example, it could be your internal user ID. Then once you get the request from the webhook, using this user ID you would identify push token (or other data) that you require to send the push message to appropriate user.
 
-The easiest way of implementing this would be to pass the push token itself as push id. That way you won't need to identify which user needs the push message, and can just use this push token to send push message directly.
+The easiest way of implementing this would be to pass the push token itself as push ID. That way you won't need to identify which user needs the push message, and can just use this push token to send push messages directly.
 Here is an example of setting the push ID the moment the application provides you with the push token.
 
 ```swift
@@ -144,7 +144,7 @@ If you want to integrate bLinkup SDK further into your app then continue reading
 
 ## Notifications 
 
-The Blinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
+The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
 If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests. 
 Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API. 
 Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event. 
