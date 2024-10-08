@@ -104,6 +104,7 @@ BlinkupUISDK.launch(
 )
 ```
 
+### Set Push ID
 To set the push ID (to receive it as one of the parameters the webhook would be sending to defined endpoint):
 ```swift
 bLinkup.setPushID(pushId, completion: { _ in })
