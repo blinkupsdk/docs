@@ -152,11 +152,31 @@ Your server will receive a webhook with the following JSON body, where `source_u
     "status": "pending",
     "source_user": {
       "id": "UUIDv4",
-      "name": "Sender's Name"
+      "name": "Sender's Name",
+      "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
     },
     "target_user": {
       "id": "UUIDv4",
-      "name": "Receiver's Name"
+      "name": "Receiver's Name",
+      "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
     }
   }
 }
@@ -175,11 +195,31 @@ Your server will receive a webhook with the following JSON body:
     "status": "connected",
     "source_user": {
       "id": "UUIDv4",
-      "name": "Sender's Name"
+      "name": "Sender's Name",
+      "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
     },
     "target_user": {
       "id": "UUIDv4",
-      "name": "Receiver's Name"
+      "name": "Receiver's Name",
+      "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
     }
 }
 ```
@@ -200,13 +240,33 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "id": "UUIDv4",
     "name": "Person's Name",
     "email": "person@email.com",
-    "phone": "+1555555555"
+    "phone": "+1555555555",
+    "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
   },
   "send_to_user": {
     "id": "UUIDv4",
     "name": "Receiver's Name",
     "email": "receiver@email.com",
-    "phone": "+1555555555"
+    "phone": "+1555555555",
+    "metadata": [
+        {
+          "key": "push_id",
+          "value:" "..."
+        },
+        {
+          "key": "custom_key",
+          "value:" "..."
+        },
+      ]
   },
   "place": {
     "id": "UUIDv4",
