@@ -254,7 +254,7 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "id": "UUIDv4",
     "name": "Person's Name",
     "email": "person@email.com",
-    "phone": "+1555555555",
+    "phone_number": "+1555555555",
     "metadata": [
         {
           "key": "push_id",
@@ -270,7 +270,7 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "id": "UUIDv4",
     "name": "Receiver's Name",
     "email": "receiver@email.com",
-    "phone": "+1555555555",
+    "phone_number": "+1555555555",
     "metadata": [
         {
           "key": "push_id",
