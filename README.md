@@ -156,11 +156,11 @@ Your server will receive a webhook with the following JSON body, where `source_u
       "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
     },
@@ -170,11 +170,11 @@ Your server will receive a webhook with the following JSON body, where `source_u
       "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
     }
@@ -199,11 +199,11 @@ Your server will receive a webhook with the following JSON body:
       "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
     },
@@ -213,11 +213,11 @@ Your server will receive a webhook with the following JSON body:
       "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
     }
@@ -244,11 +244,11 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
   },
@@ -260,11 +260,11 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "metadata": [
         {
           "key": "push_id",
-          "value:" "..."
+          "value": "..."
         },
         {
           "key": "custom_key",
-          "value:" "..."
+          "value": "..."
         },
       ]
   },
