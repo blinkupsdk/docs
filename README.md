@@ -143,13 +143,15 @@ This UI will handle all of the bLinkup capabilities, no further work is required
 
 If you want to integrate bLinkup SDK further into your app then continue reading.
 
-### Set metadata
+### Metadata
 Metadata can be set for the BlinkUp user by the parent app. It then will be sent via webhook along with the  notification data for the client service to determine which user and which devices they want to send the push message to.
 
+Swift:
 ```swift
 
 ```
 
+Kotlin:
 ```kotlin
 //to set metadata
 BlinkupUISDK.setMetadata("key", "value")
