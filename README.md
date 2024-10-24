@@ -36,7 +36,7 @@ Gradle:
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.2.0'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.2.7'
 ```
 
 ## Out-of-the-box UI
@@ -142,6 +142,23 @@ FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
 This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
 
 If you want to integrate bLinkup SDK further into your app then continue reading.
+
+### Set metadata
+Metadata can be set for the BlinkUp user by the parent app. It then will be sent via webhook along with the  notification data for the client service to determine which user and which devices they want to send the push message to.
+
+```swift
+
+```
+
+```kotlin
+//to set metadata
+BlinkupUISDK.setMetadata("key", "value")
+//to delete metadata
+BlinkupUISDK.deleteMetadata("key")
+//to clear all metadata
+BlinkupUISDK.deleteMetadata()
+```
+
 
 ## Notifications 
 
