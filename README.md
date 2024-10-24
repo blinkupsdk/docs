@@ -158,7 +158,7 @@ BlinkupUISDK.setMetadata("key", "value")
 //to delete metadata
 BlinkupUISDK.deleteMetadata("key")
 //to clear all metadata
-BlinkupUISDK.deleteMetadata()
+BlinkupUISDK.deleteAllMetadata()
 ```
 
 
