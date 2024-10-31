@@ -148,7 +148,10 @@ Metadata can be set for the BlinkUp user by the parent app. It then will be sent
 
 Swift:
 ```swift
-
+//to set metadata
+bLinkup.setMetadata("value", forKey: "key")
+//to delete metadata
+bLinkup.removeMetadata("key")
 ```
 
 Kotlin:
