@@ -36,7 +36,7 @@ Gradle:
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.2.7'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.3.0'
 ```
 
 ## Out-of-the-box UI
