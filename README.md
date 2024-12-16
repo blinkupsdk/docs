@@ -39,6 +39,25 @@ Place the following line in the dependency block of your applications build.grad
 implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.3.2'
 ```
 
+If you are using Proguard or R8 (buildType flag minifyEnabled true), then you need to keep model classes used for serialization/deserialization
+
+```groovy
+# Keep model classes used for serialization/deserialization
+-keep class com.blinkupapp.sdk.data.model.** { *; }
+```
+Additionally, if you are using R8 full mode, you would need to add the following
+```groovy
+#If you are using R8 full mode, then you need the following rules to keep the signatures of the classes that are being used by Retrofit.
+# Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
+ -keep,allowobfuscation,allowshrinking interface retrofit2.Call
+ -keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+# With R8 full mode generic signatures are stripped for classes that are not
+# kept. Suspend functions are wrapped in continuations where the type argument
+# is used.
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+```
+
 ## Out-of-the-box UI
 
 The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
