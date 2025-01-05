@@ -45,7 +45,9 @@ If you are using Proguard or R8 (buildType flag minifyEnabled true), then you ne
 # Keep model classes used for serialization/deserialization
 -keep class com.blinkupapp.sdk.data.model.** { *; }
 ```
+
 Additionally, if you are using R8 full mode, you would need to add the following
+
 ```groovy
 #If you are using R8 full mode, then you need the following rules to keep the signatures of the classes that are being used by Retrofit.
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
@@ -124,14 +126,18 @@ BlinkupUISDK.launch(
 ```
 
 ### Set Push ID
+
 To set the push ID (to receive it as one of the parameters the webhook would be sending to defined endpoint):
+
 ```swift
 bLinkup.setPushID(pushId, completion: { _ in })
 ```
+
 ```kotlin
 BlinkupUISDK.setPushId(pushId)
 ```
-Using this value, you need to identify which exact instance of your application the push notification needs to be sent. 
+
+Using this value, you need to identify which exact instance of your application the push notification needs to be sent.
 For example, it could be your internal user ID. Then once you get the request from the webhook, using this user ID you would identify push token (or other data) that you require to send the push message to appropriate user.
 
 The easiest way of implementing this would be to pass the push token itself as push ID. That way you won't need to identify which user needs the push message, and can just use this push token to send push messages directly.
@@ -163,9 +169,11 @@ This UI will handle all of the bLinkup capabilities, no further work is required
 If you want to integrate bLinkup SDK further into your app then continue reading.
 
 ### Metadata
-Metadata can be set for the BlinkUp user by the parent app. It then will be sent via webhook along with the  notification data for the client service to determine which user and which devices they want to send the push message to.
+
+Metadata can be set for the BlinkUp user by the parent app. It then will be sent via webhook along with the notification data for the client service to determine which user and which devices they want to send the push message to.
 
 Swift:
+
 ```swift
 //to set metadata
 bLinkup.setMetadata("value", forKey: "key")
@@ -174,6 +182,7 @@ bLinkup.removeMetadata("key")
 ```
 
 Kotlin:
+
 ```kotlin
 //to set metadata
 BlinkupUISDK.setMetadata("key", "value")
@@ -183,20 +192,19 @@ BlinkupUISDK.deleteMetadata("key")
 BlinkupUISDK.deleteAllMetadata()
 ```
 
-
-## Notifications 
+## Notifications
 
 The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
-If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests. 
-Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API. 
-Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event. 
-There are two categories of webhook notifrications you may receive: Connections and Presence Alerts
+If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests.
+Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API.
+Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event.
+There are two categories of webhook notifications you may receive: Connections and Presence Alerts
 
-### Connections 
+### Connections
 
-*Connection Requests*
+#### Connection Requests
 
-This notification happens when one user sends a connection request to another. 
+This notification happens when one user sends a connection request to another.
 Your server will receive a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who is receiving the request:
 
 ```json
@@ -216,7 +224,7 @@ Your server will receive a webhook with the following JSON body, where `source_u
         {
           "key": "custom_key",
           "value": "..."
-        },
+        }
       ]
     },
     "target_user": {
@@ -230,14 +238,14 @@ Your server will receive a webhook with the following JSON body, where `source_u
         {
           "key": "custom_key",
           "value": "..."
-        },
+        }
       ]
     }
   }
 }
 ```
 
-*Connection*
+#### Connection
 
 This notification happens when a user who received a connection request replies to that request, either by accepting or declining the request.
 Your server will receive a webhook with the following JSON body:
@@ -278,13 +286,14 @@ Your server will receive a webhook with the following JSON body:
     }
 }
 ```
+
 The `status` field may have the values: `connected`, `rejected`, or `blocked`
 
 ### Presence
 
-Your server will receive presence webhook payloads when a user either enters or leaves a location. 
+Your server will receive presence webhook payloads when a user either enters or leaves a location.
 The API sends one webhook per user connection, so if a user arrives at a location that already has 4 connections present, the API will generate 4 distinct webhook payloads (one per connection at that event).
-The presence payload is as follows, with the `is_present` field denoting if the user is arriving or leaving the location: 
+The presence payload is as follows, with the `is_present` field denoting if the user is arriving or leaving the location:
 
 ```json
 {
@@ -297,15 +306,15 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "email": "person@email.com",
     "phone_number": "+1555555555",
     "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        },
-      ]
+      {
+        "key": "push_id",
+        "value": "..."
+      },
+      {
+        "key": "custom_key",
+        "value": "..."
+      }
+    ]
   },
   "send_to_user": {
     "id": "UUIDv4",
@@ -313,15 +322,15 @@ The presence payload is as follows, with the `is_present` field denoting if the 
     "email": "receiver@email.com",
     "phone_number": "+1555555555",
     "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        },
-      ]
+      {
+        "key": "push_id",
+        "value": "..."
+      },
+      {
+        "key": "custom_key",
+        "value": "..."
+      }
+    ]
   },
   "place": {
     "id": "UUIDv4",
