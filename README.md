@@ -198,7 +198,17 @@ The bLinkup SDK relies on your existing push notification ecosystem for sending 
 If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests.
 Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API.
 Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event.
-There are two categories of webhook notifications you may receive: Connections and Presence Alerts
+There are two categories of webhook notifications you may receive each with two types.
+
+1. Connections
+
+   - `connection_request` when a user gets sent a connection request
+   - `connection` when the connection request is accepted or rejected
+
+2. Presence
+
+   - `presence` when a user is at a place and a new friend arrives
+   - `connections_presence` when a user enters a place and one more multiple friends are there
 
 ### Connections
 
@@ -267,7 +277,7 @@ Your server will receive a webhook with the following JSON body:
         {
           "key": "custom_key",
           "value": "..."
-        },
+        }
       ]
     },
     "target_user": {
@@ -281,60 +291,87 @@ Your server will receive a webhook with the following JSON body:
         {
           "key": "custom_key",
           "value": "..."
-        },
+        }
       ]
     }
+  }
 }
 ```
 
 The `status` field may have the values: `connected`, `rejected`, or `blocked`
 
-### Presence
+### Presence types
 
-Your server will receive presence webhook payloads when a user either enters or leaves a location.
-The API sends one webhook per user connection, so if a user arrives at a location that already has 4 connections present, the API will generate 4 distinct webhook payloads (one per connection at that event).
-The presence payload is as follows, with the `is_present` field denoting if the user is arriving or leaving the location:
+Your server will receive presence webhook payloads when a user enters a Place where one more more of their friends are currently Present.
+The API sends one webhook per user connection, so if a user arrives at a location that already has 4 connections present, the API will generate 4 distinct webhook payloads (one per connection at that event). There are two types of presence webhook payloads. `presence` and `connections_presence`. The `presence` is sent when a user is present and a friend arrives. While `connections_presence` is sent when a user arrives to a Place.
+The difference between these is because when a user arrives to a place they will receive a list of friends present and not a unique notification for each friend present. While the friends who are present each receive a notification their friend as arrived.
+
+#### presence
 
 ```json
 {
-  "type": "presence",
-  "is_present": true,
-  "inserted_at": "2025-01-01T00:00:00.0000Z",
   "about_user": {
+    "email": "username",
     "id": "UUIDv4",
-    "name": "Person's Name",
-    "email": "person@email.com",
-    "phone_number": "+1555555555",
     "metadata": [
       {
-        "key": "push_id",
+        "key": "push_token",
         "value": "..."
       },
       {
         "key": "custom_key",
         "value": "..."
       }
-    ]
+    ],
+    "name": "username",
+    "phone_number": "+1555555555"
   },
-  "send_to_user": {
-    "id": "UUIDv4",
-    "name": "Receiver's Name",
-    "email": "receiver@email.com",
-    "phone_number": "+1555555555",
-    "metadata": [
-      {
-        "key": "push_id",
-        "value": "..."
-      },
-      {
-        "key": "custom_key",
-        "value": "..."
-      }
-    ]
-  },
+  "inserted_at": "2025-01-01T00:00:00.0000Z",
+  "is_present": true,
   "place": {
     "id": "UUIDv4",
-    "name": "Name of the place"
-  }
+    "name": "Milwaukee"
+  },
+  "send_to_user": {
+    "email": "jfin",
+    "id": "UUIDv4",
+    "metadata": [
+      {
+        "key": "custom_key",
+        "value": "..."
+      }
+    ],
+    "name": "user's name",
+    "phone_number": "+1555555555"
+  },
+  "type": "presence"
+}
+```
+
+#### connections_presence
+
+```json
+{
+  "friends_names": ["friend name 1", "friend name 2"],
+  "inserted_at": "2025-01-01T00:00:00.0000Z",
+  "is_present": true,
+  "place": {
+    "id": "UUIDv4",
+    "name": "Place name"
+  },
+  "send_to_user": {
+    "email": "username",
+    "id": "UUIDv4",
+    "metadata": [
+      {
+        "key": "push_token",
+        "value": "..."
+      },
+      { "key": "the_metadata_key", "value": "the_metadata_value" }
+    ],
+    "name": "username",
+    "phone_number": "+1555555555"
+  },
+  "type": "connections_presence"
 }
 ```
