@@ -1,3 +1,13 @@
 {
-  "cSpell.words": ["Linkpoint", "Linkpoints", "Neue"]
+  "cSpell.words": [
+    "actionbar",
+    "allowobfuscation",
+    "allowshrinking",
+    "blinkupapp",
+    "Linkpoint",
+    "Linkpoints",
+    "Neue",
+    "Proguard",
+    "webhoook"
+  ]
 }
