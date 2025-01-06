@@ -195,27 +195,26 @@ BlinkupUISDK.deleteAllMetadata()
 ## Notifications
 
 The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
-If you don't set up push notifications, then your users will have to manually open the Blinkup SDK UI to check who is at an event with them, or to check for friend requests.
-Push notifications are enabled by providing us with a webhoook URL where your servers can receive information about the various notification events emitted by the API.
-Webhooks are delivered as POST requests made to URLs of your choosing with JSON data describing the event.
-There are two categories of webhook notifications you may receive each with two types.
+If you don't set up push notifications, then your users will have to manually open the bLinkup SDK UI to check who is at an event with them, or to check for friend requests.
+Push notifications are enabled by providing us with a webhoook URL where your servers will receive information about the various notification events emitted by the API.
+Webhooks are delivered as POST requests with JSON data describing the event. There are two categories of webhook notifications each with two types.
 
-1. Connections
+1. Connections, relating to friend requests
 
    - `connection_request` when a user gets sent a connection request
    - `connection` when the connection request is accepted or rejected
 
-2. Presence
+2. Presence, relating to being at the same Place as a friend
 
    - `presence` when a user is at a place and a new friend arrives
-   - `connections_presence` when a user enters a place and one more multiple friends are there
+   - `connections_presence` when a user enters a place and one or more friends are there
 
 ### Connections
 
 #### Connection Requests
 
-This notification happens when one user sends a connection request to another.
-Your server will receive a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who is receiving the request:
+This webhook is sent when one user sends a connection request to another.
+Your server receives a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who receives the request:
 
 ```json
 {
@@ -257,8 +256,8 @@ Your server will receive a webhook with the following JSON body, where `source_u
 
 #### Connection
 
-This notification happens when a user who received a connection request replies to that request, either by accepting or declining the request.
-Your server will receive a webhook with the following JSON body:
+This notification happens when a user replies to a friend request, either by accepting or declining the request.
+Your server receives a webhook with the following JSON body:
 
 ```json
 {
@@ -302,9 +301,9 @@ The `status` field may have the values: `connected`, `rejected`, or `blocked`
 
 ### Presence types
 
-Your server will receive presence webhook payloads when a user enters a Place where one more more of their friends are currently Present.
-The API sends one webhook per user connection, so if a user arrives at a location that already has 4 connections present, the API will generate 4 distinct webhook payloads (one per connection at that event). There are two types of presence webhook payloads. `presence` and `connections_presence`. The `presence` is sent when a user is present and a friend arrives. While `connections_presence` is sent when a user arrives to a Place.
-The difference between these is because when a user arrives to a place they will receive a list of friends present and not a unique notification for each friend present. While the friends who are present each receive a notification their friend as arrived.
+Your server receives presence webhook payloads when a user enters a Place where one more more of their friends are currently Present.
+The API sends one webhook per user connection, so if a user arrives at a location that already has 4 friends present, the API will generate 4 distinct webhook payloads (one per connection at that event). There are two types of presence webhook payloads. `presence` and `connections_presence`. The `presence` is sent when a user is present and a friend arrives. While `connections_presence` is sent when a user arrives to a Place.
+The difference between these is because when a user arrives to a place they will receive a list of friends present and not a unique notification for each friend present. While the friends who are present each receive a notification their friend has arrived.
 
 #### presence
 
@@ -330,10 +329,10 @@ The difference between these is because when a user arrives to a place they will
   "is_present": true,
   "place": {
     "id": "UUIDv4",
-    "name": "Milwaukee"
+    "name": "Place name"
   },
   "send_to_user": {
-    "email": "jfin",
+    "email": "username",
     "id": "UUIDv4",
     "metadata": [
       {
