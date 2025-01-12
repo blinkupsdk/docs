@@ -39,6 +39,21 @@ Place the following line in the dependency block of your applications build.grad
 implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.3.2'
 ```
 
+For the geodence to trigger and check the users in for the events, add the following broadcast receiver into your app's manifest file:
+```xml
+    <receiver
+        android:name="com.blinkupapp.sdk.data.geofence.GeofenceBroadcastReceiver"
+        android:exported="true"
+        android:enabled="true"/>
+```
+
+And the following permissions:
+
+```xml
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+```
+
 If you are using Proguard or R8 (buildType flag minifyEnabled true), then you need to keep model classes used for serialization/deserialization
 
 ```groovy
