@@ -25,8 +25,8 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 
 Swift:
 
-add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftSDK)'
-implement SDK initialization on every app start(application(_:didFinishLaunchingWithOptions:), YourApp's init, ..):
+Add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftSDK)'.
+Implement SDK initialization on every app start(application(_:didFinishLaunchingWithOptions:), YourApp's init, ..).
 ```swift
 import bLinkup
 ```
