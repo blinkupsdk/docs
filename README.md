@@ -25,12 +25,14 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 
 Swift:
 
-add the dependency using Swift Package Manager '[https://github.com/blinkupsdk/bLinkupSwiftSDK](https://github.com/blinkupsdk/bLinkupSwiftSDK)'
-
+add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftSDK)'
+implement SDK initialization on every app start(application(_:didFinishLaunchingWithOptions:), YourApp's init, ..):
 ```swift
 import bLinkup
 ```
-
+```swift
+bLinkup.configure()
+```
 Gradle:
 
 Place the following line in the dependency block of your applications build.gradle file
