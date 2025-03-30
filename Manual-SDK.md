@@ -894,8 +894,8 @@ Swift, Kotlin, Java:
 This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
 
 #### Metadata
-Metadata is used to determine the specific user in your system, which needs to receive specific push notification, for example, about new friend request or a new friend arriving to the event
-Everything you would set as metadata for specific Blinkup user will be sent in the webhook so you can map it to proper user in your system
+Metadata is used to determine the specific user in your system, which needs to receive specific push notification, for example, about new friend request or a new friend arriving to the event.
+Everything you would set as metadata for specific Blinkup user will be sent in the webhook so you can map it to proper user in your system.
 
 #### Getting current metadata
 
