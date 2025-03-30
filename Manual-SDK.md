@@ -333,6 +333,7 @@ The core value of bLinkup is getting a list of a user's friends who are at the s
 Blinkup.setPresenceChangedListener { place, isPresent ->
     //react to updated user state. place: Place, isPresent: Boolean
 }
+```
 
 Remove the listener:
 
