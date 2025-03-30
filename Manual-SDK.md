@@ -135,7 +135,7 @@ Kotlin:
 Blinkup.isUserDetailsRequired() 
 //returns a Boolean
 Blinkup.updateUser(name: String, email: String) 
-//returns a User
+//returns updated User
 ```
 
 Java:
@@ -174,9 +174,9 @@ Kotlin:
 
 ```kotlin
 Blinkup.requestCode(phoneNumber: String) 
-//returns a String
+//returns a String message, which you may use for debugging purpose or just ignore
 Blinkup.confirmCode(verificationCode: String) 
-//returns a User
+//returns a logged in User
 
 ```
 
@@ -248,7 +248,7 @@ Kotlin:
 
 ```kotlin
 Blinkup.updateUser(name: String, email: String) 
-//returns a User
+//returns updated User
 ```
 
 Java:
@@ -325,7 +325,20 @@ BlinkupWrapper.logout();
 
 ## Core presence loop
 
-The core value of bLinkup is getting a list of a user's friends who are at the same event as the user.
+The core value of bLinkup is getting a list of a user's friends who are at the same event as the user. Implyng Background Location is allowed, the SDK will use Geofences to automatically check users in/out of the events. 
+
+#### Getting notified about automatic check in/out
+
+```kotlin
+Blinkup.setPresenceChangedListener { place, isPresent ->
+    //react to updated user state. place: Place, isPresent: Boolean
+}
+
+Remove the listener:
+
+```kotlin
+Blinkup.removePresenceChangedListener()
+```
 
 ### Is at event
 
@@ -391,6 +404,8 @@ BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListen
     }  
 });
 ```
+
+Another version of this method includes  `PresenceConfidence` as 3rd parameter. It is used to determone how confident are we in the presence change event. Example: If the background location is enabled and if the device is not in power save mode - the confidence is `STRONG`, othervise `WEEK`. This is determined automatically in `Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)` method. 3rd possible value of `PresenceConfidence` is `MANUAL` and should be used when user manually sets their presence
 
 #### Friends at event
 
@@ -459,6 +474,13 @@ BlinkupWrapper.getFriendList(new ResultListener<List<Connection>>() {
     }  
 });
 ```
+#### Get friends present at same event as you
+
+```kotlin
+Blinkup.getFriendsAtMyEvents() 
+//returns a List<Connection>
+```
+
 
 #### User Search
 
@@ -869,3 +891,30 @@ place.getBlinkpoints()
 Swift, Kotlin, Java:
 
 This is handled by the map display function. When clicking on meetup spot on the map, it would offer to send a text message with invite to meet at that point.
+
+#### Metadata
+Metadata is used to determine the specific user in your system, which needs to receive specific push notification, for example, about new friend request or a new friend arriving to the event
+Everything you would set as metadata for specific Blinkup user will be sent in the webhook so you can map it to proper user in your system
+
+#### Getting current metadata
+
+```kotlin
+Blinkup.getMetadata
+//returns List<Metadata>
+```
+
+#### Setting metadata
+
+```kotlin
+Blinkup.setMetadata(key, value)
+```
+#### Deleting metadata
+Delete metadata with specific key:
+```kotlin
+Blinkup.deleteMetadata(key)
+```
+
+Delete all metadata:
+```kotlin
+Blinkup.deleteMetadata()
+```
