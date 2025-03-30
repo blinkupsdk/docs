@@ -406,7 +406,7 @@ BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListen
 });
 ```
 
-Another version of this method includes  `PresenceConfidence` as 3rd parameter. It is used to determone how confident are we in the presence change event. Example: If the background location is enabled and if the device is not in power save mode - the confidence is `STRONG`, othervise `WEEK`. This is determined automatically in `Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)` method. 3rd possible value of `PresenceConfidence` is `MANUAL` and should be used when user manually sets their presence
+Another version of this method includes  `PresenceConfidence` as 3rd parameter. It is used to determine how confident are we in the presence change event. Example: If the background location is enabled and if the device is not in power save mode - the confidence is `STRONG`, othervise `WEEK`. This is determined automatically in `Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)` method. 3rd possible value of `PresenceConfidence` is `MANUAL` and should be used when user manually sets their presence
 
 #### Friends at event
 
