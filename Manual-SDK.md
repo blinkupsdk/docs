@@ -1,4 +1,4 @@
-## Implement SDK Manually
+  ## Implement SDK Manually
 
 Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
 
@@ -329,6 +329,10 @@ The core value of bLinkup is getting a list of a user's friends who are at the s
 
 #### Getting notified about automatic check in/out
 
+```swift
+track = bLinkup.addGeofencingObserver(@escaping ([Presence]) -> Void)
+```
+
 ```kotlin
 Blinkup.setPresenceChangedListener { place, isPresent ->
     //react to updated user state. place: Place, isPresent: Boolean
@@ -336,6 +340,10 @@ Blinkup.setPresenceChangedListener { place, isPresent ->
 ```
 
 Remove the listener:
+
+```swift
+bLinkup.removeTrackingObserver(id: track)
+```
 
 ```kotlin
 Blinkup.removePresenceChangedListener()
