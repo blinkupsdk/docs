@@ -329,9 +329,13 @@ The core value of bLinkup is getting a list of a user's friends who are at the s
 
 #### Getting notified about automatic check in/out
 
+Swift:
+
 ```swift
 track = bLinkup.addGeofencingObserver(@escaping ([Presence]) -> Void)
 ```
+
+Kotlin:
 
 ```kotlin
 Blinkup.setPresenceChangedListener { place, isPresent ->
@@ -341,9 +345,12 @@ Blinkup.setPresenceChangedListener { place, isPresent ->
 
 Remove the listener:
 
+Swift:
+
 ```swift
 bLinkup.removeTrackingObserver(id: track)
 ```
+Kotlin:
 
 ```kotlin
 Blinkup.removePresenceChangedListener()
