@@ -35,7 +35,7 @@ bLinkup.configure()
 ```
 Gradle:
 
-add Jitpack repository to the list of your repositories:
+Add Jitpack repository to the list of your repositories:
 
 ```kotlin
 repositories {
