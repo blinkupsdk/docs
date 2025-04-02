@@ -13,6 +13,35 @@ The following links provide a list of the different types of data classes and ob
 
 [Kotlin Data Classes](KotlinDataClasses.md)
 
+### Implement SDK Dependency
+
+Swift:
+
+Add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftSDK)'.
+Implement SDK initialization on every app start(application(_:didFinishLaunchingWithOptions:), YourApp's init, ..).
+```swift
+import bLinkup
+```
+```swift
+bLinkup.configure()
+```
+Gradle:
+
+Add Jitpack repository to the list of your repositories:
+
+```kotlin
+repositories {
+    ...
+    maven { url "https://jitpack.io" }
+}
+```
+
+Place the following line in the dependency block of your applications build.gradle file
+
+```kotlin
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.4.1'
+```
+
 ### Initialization
 
 When your app starts, initialize bLinkup with your other packages. This should only be done once at app launch.
