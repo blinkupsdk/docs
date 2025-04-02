@@ -35,6 +35,15 @@ bLinkup.configure()
 ```
 Gradle:
 
+add Jitpack repository to the list of your repositories:
+
+```kotlin
+repositories {
+    ...
+    maven { url "https://jitpack.io" }
+}
+```
+
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
