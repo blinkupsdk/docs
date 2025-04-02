@@ -22,9 +22,6 @@ Implement SDK initialization on every app start(application(_:didFinishLaunching
 ```swift
 import bLinkup
 ```
-```swift
-bLinkup.configure()
-```
 Gradle:
 
 Add Jitpack repository to the list of your repositories:
