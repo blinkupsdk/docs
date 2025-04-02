@@ -850,8 +850,8 @@ bLinkup.getEvents(completion: @escaping (Result<[Place], Error>) -> Void)
 Kotlin:
 
 ```kotlin
-Blinkup.getEvents() 
-//returns a List<Place>
+Blinkup.getEventsWithPresence() 
+//returns a List<Presence>
 ```
 
 Java:
