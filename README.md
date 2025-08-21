@@ -223,7 +223,7 @@ BlinkupUISDK.deleteAllMetadata()
 The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
 If you don't set up push notifications, then your users will have to manually open the bLinkup SDK UI to check who is at an event with them, or to check for friend requests.
 Push notifications are enabled by providing us with a webhoook URL where your servers will receive information about the various notification events emitted by the API.
-Webhooks are delivered as POST requests with JSON data describing the event. There are two categories of webhook notifications each with two types.
+Webhooks are delivered as POST requests with JSON data describing the event. There are three categories of webhook notifications each with two types.
 
 1. Connections, relating to friend requests
 
@@ -235,9 +235,14 @@ Webhooks are delivered as POST requests with JSON data describing the event. The
    - `presence` when a user is at a place and a new friend arrives
    - `connections_presence` when a user enters a place and one or more friends are there
 
-### Connections
+3. Events, relating to bar network events and deals
 
-#### Connection Requests
+   - `invite` when a user gets sent an invite
+   - `webhook_redeemable` when a user's welcome redeemable becomes available (i.e. event starts)
+
+### Connection types
+
+#### connection_request
 
 This webhook is sent when one user sends a connection request to another.
 Your server receives a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who receives the request:
@@ -280,7 +285,7 @@ Your server receives a webhook with the following JSON body, where `source_user`
 }
 ```
 
-#### Connection
+#### connection
 
 This notification happens when a user replies to a friend request, either by accepting or declining the request.
 Your server receives a webhook with the following JSON body:
@@ -336,7 +341,7 @@ The difference between these is because when a user arrives to a place they will
 ```json
 {
   "about_user": {
-    "email": "username",
+    "email_address": "username",
     "id": "UUIDv4",
     "metadata": [
       {
@@ -358,7 +363,7 @@ The difference between these is because when a user arrives to a place they will
     "name": "Place name"
   },
   "send_to_user": {
-    "email": "username",
+    "email_address": "username",
     "id": "UUIDv4",
     "metadata": [
       {
@@ -377,7 +382,10 @@ The difference between these is because when a user arrives to a place they will
 
 ```json
 {
-  "friends_names": ["friend name 1", "friend name 2"],
+  "friends_names": [
+    "friend name 1",
+    "friend name 2"
+  ],
   "inserted_at": "2025-01-01T00:00:00.0000Z",
   "is_present": true,
   "place": {
@@ -385,18 +393,120 @@ The difference between these is because when a user arrives to a place they will
     "name": "Place name"
   },
   "send_to_user": {
-    "email": "username",
+    "email_address": "username",
     "id": "UUIDv4",
     "metadata": [
       {
         "key": "push_token",
         "value": "..."
       },
-      { "key": "the_metadata_key", "value": "the_metadata_value" }
+      {
+        "key": "the_metadata_key",
+        "value": "the_metadata_value"
+      }
     ],
     "name": "username",
     "phone_number": "+1555555555"
   },
   "type": "connections_presence"
+}
+```
+
+### Event types
+
+#### invite
+
+This webhook is sent when one user sends an invite to another.
+Your server receives a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who receives the request:
+
+```json
+{
+  "type": "invite",
+  "invite": {
+    "id": "443a15b1-4af0-488a-941b-ca5ea437b6d9",
+    "source_user": {
+      "email_address": "username",
+      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
+      "metadata": [
+        {
+          "key": "push_token",
+          "value": "..."
+        },
+        {
+          "key": "custom_key",
+          "value": "..."
+        }
+      ],
+      "name": "Jacky Runte III",
+      "phone_number": "+16085673555"
+    },
+    "spot": {
+      "address": "199 Keeling Courts Apt. 764, New York",
+      "id": "40bfe13d-1f93-4ad9-958c-c1a73919d3bf",
+      "latitude": 64.84873162337371,
+      "longitude": -158.59206468706833,
+      "name": "Bogan, Kozey and Bernier",
+      "promotion": "20% off beer",
+      "type": "bar"
+    },
+    "target_user": {
+      "email_address": "username",
+      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
+      "metadata": [
+        {
+          "key": "push_token",
+          "value": "..."
+        },
+        {
+          "key": "custom_key",
+          "value": "..."
+        }
+      ],
+      "name": "Jacky Runte III",
+      "phone_number": "+16085673555"
+    }
+  }
+}
+```
+
+#### welcome_redeemable
+
+This webhook is sent when user's welcome redeemable becomes available on event start.
+Your server receives a webhook with the following JSON body:
+
+```json
+{
+  "type": "welcome_redeemable",
+  "redeemable": {
+    "id": "9ac09263-069e-4d12-84bf-ac4d8ab7bb4e",
+    "spot": {
+      "address": "199 Keeling Courts Apt. 764, New York",
+      "id": "40bfe13d-1f93-4ad9-958c-c1a73919d3bf",
+      "latitude": 64.84873162337371,
+      "longitude": -158.59206468706833,
+      "name": "Bogan, Kozey and Bernier",
+      "promotion": "20% off beer",
+      "type": "bar"
+    },
+    "spot_id": "20ad31c3-4165-4a75-86b8-f8462fb3794a",
+    "status": "available",
+    "type": "incoming_invite",
+    "user": {
+      "email_address": "username",
+      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
+      "metadata": [
+        {
+          "key": "push_token",
+          "value": "..."
+        },
+        {
+          "key": "custom_key",
+          "value": "..."
+        }
+      ],
+      "name": "Jacky Runte III",
+      "phone_number": "+16085673555"
+    }
+  }
 }
 ```
