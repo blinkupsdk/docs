@@ -47,7 +47,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.4.1'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.0.0'
 ```
 
 For the geodence to trigger and check the users in for the events, add the following broadcast receiver into your app's manifest file:
@@ -119,80 +119,24 @@ self.present(vc, animated: true)
 
 - Kotlin
 
-Optionally, define a theme:
-
-```xml
-    <style name="YourTheme" parent="DefaultTheme">
-        <item name="primaryColor">@color/yourPrimaryColor</item>
-        <item name="secondaryColor">@color/yourSecondaryColor</item>
-    </style>
-```
-
 Start the SDK UI with the call:
 
 ```kotlin
 BlinkupUISDK.launch(
-  context,
-  "your client ID",
-  "Your Brand name",
-  "Custom Actionbar Title"
-  R.style.YourTheme,
-  R.drawable.yourLogo
+    context,
+    "your client ID"
 )
 ```
-
-Where 3 last parameters are optional. You may proceed with the default theme, actionbar title("Connect") and without the logo:
-
-```kotlin
-BlinkupUISDK.launch(
-  context,
-  "your client ID",
-  "Your Brand name",
-)
-```
-
-### Set Push ID
-
-To set the push ID (to receive it as one of the parameters the webhook would be sending to defined endpoint):
-
-```swift
-bLinkup.setPushID(pushId, completion: { _ in })
-```
+You can also launch BlinkupUISDK as a Fragment and place it inside your UI yourself:
 
 ```kotlin
-BlinkupUISDK.setPushId(pushId)
-```
-
-Using this value, you need to identify which exact instance of your application the push notification needs to be sent.
-For example, it could be your internal user ID. Then once you get the request from the webhook, using this user ID you would identify push token (or other data) that you require to send the push message to appropriate user.
-
-The easiest way of implementing this would be to pass the push token itself as push ID. That way you won't need to identify which user needs the push message, and can just use this push token to send push messages directly.
-Here is an example of setting the push ID the moment the application provides you with the push token.
-
-```swift
-func application(_ application: UIApplication,
-                    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
-) {
-    let token = deviceToken.map({ String(format: "%02.2hhx", $0) }).joined()
-    bLinkup.setPushID(token, completion: { _ in })
+BlinkupUISDK.createLaunchFragment("your client ID") {
+    //OnExit function  onExit: () -> Unit
 }
+
 ```
-
-```kotlin
-FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-    if (!task.isSuccessful) {
-        return@addOnCompleteListener
-    }
-
-    // Get new FCM registration token
-    val token = task.result
-    BlinkupUISDK.setPushId(token)
-}
-```
-
-This UI will handle all of the bLinkup capabilities, no further work is required and you are all done! 🥳
-
-If you want to integrate bLinkup SDK further into your app then continue reading.
+where ```onExit: () -> Unit``` - function that will be called when user presses "Exit" button in the BlinkupUISDK. 
+Since with the Fragment we can't bring your app state to the one you had before launching the BlinkupUISDK with a fragment (like we do when launching it with Activity by just finishing the activity), you would need to remove the BlinkupUISDK fragment from your UI yourself.
 
 ### Metadata
 
