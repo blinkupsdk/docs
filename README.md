@@ -4,18 +4,20 @@ Getting started and best practices of using the bLinkup SDK.
 
 The bLinkupSDK will enable users to achieve these three goals
 
-1. Connect with friends on the app
-2. Notify users when their friends are at the event (using smart tracking & proximity)
-3. Easily send invites to locations on a venue map
+1. **Connect with friends on the app**
+2. **Notify users when their friends are at the same event or venue** (using smart tracking & proximity)
+3. **Easily send invites to specific points of interest on a venue map**
+4. **Extend meetups beyond the venue with the Bar Network** – invite friends to partner bars, access bar-specific locations, and unlock deals or rewards
 
-To achieve these functions the following steps need to be taken:
-
-- Sign-up, using their name, username, and phone number
-- Login, via a texted authentication code
-- Find friends, by searching name or matching contacts
-- Send and accept friend requests
-- Get a list of friends and notify users about which friends are at an event
-- Send invites to venue specific points of interest
+To achieve these functions, the following steps are taken:
+- **Sign-up:** Users enter their name, username, and phone number
+- **Login:** Via a texted authentication code
+- **Find friends:** Search by name or match from contacts
+- **Send and accept friend requests**
+- **Get a list of friends** and see which friends are at an event
+- **Send invites:**
+    - To **venue-specific points of interest** (on the map inside the event)
+    - To **bar network locations**, where users can meet outside the venue, get notified when friends arrive, and redeem offers or promotions
 
 ## Getting an API Key
 
