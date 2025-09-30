@@ -49,7 +49,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.0.0'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.0.1.hocr'
 ```
 
 For the geodence to trigger and check the users in for the events, add the following broadcast receiver into your app's manifest file:
