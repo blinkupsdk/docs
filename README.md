@@ -96,28 +96,14 @@ The bLinkup SDK provides a complete user interface which can perform all of the 
 - SwiftUi
 
 ```swift
-BlinkupRootScreen(customer: .init(id: "<token>", name: "optional name"),
-                  branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
-                                  secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
-                                  fontName: "HelveticaNeue",
-                                  logo: UIImage(named: "Logo2"),
-                                  name: c.name),
-                  autoClose: true,
-                  onClose: { self.showBlinkup = false })
+BlinkupRootScreen(customer: .init(id: "<token>"))
 ```
 
 - UIKit
 
 ```swift
-let vc = BlinkupRootViewController(customer: .init(id: "<token>", name: "optional name"),
-                                   branding: .init(primary: UIColor(red: 0, green: 0.25, blue: 0.125, alpha: 1),
-                                                   secondary: UIColor(red: 0.8, green: 0.05, blue: 0.2, alpha: 1),
-                                                   fontName: "HelveticaNeue",
-                                                   logo: "Optional Customer Logo Image Name",
-                                                   name: "Optional Customer Name",
-                                                   title: "Optional Title"),
-                                   onClose: { [weak self] in self?.hideBlinkup() })
-self.present(vc, animated: true)
+let vc = BlinkupRootViewController(customer: .init(id: "<token>"))
+present(vc, animated: true)
 ```
 
 - Kotlin
