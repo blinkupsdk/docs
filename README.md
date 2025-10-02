@@ -27,12 +27,13 @@ Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to 
 
 Swift:
 
-Add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftSDK)'.
+Add the dependency using Swift Package Manager '[Package](https://github.com/blinkupsdk/bLinkupSwiftPackage)'.
 Implement SDK initialization on every app start(application(_:didFinishLaunchingWithOptions:), YourApp's init, ..).
 ```swift
-import bLinkup
+import bLinkupSDK
 ```
 ```swift
+UserDefaults.standard.setValue("hocr", forKey: "com.blinktech.sdk.group")
 bLinkup.configure()
 ```
 Gradle:
