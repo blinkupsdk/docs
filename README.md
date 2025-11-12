@@ -140,6 +140,15 @@ BlinkupUISDK.createLaunchFragment("your client ID") {
 where ```onExit: () -> Unit``` - function that will be called when user presses "Exit" button in the BlinkupUISDK. 
 Since with the Fragment we can't bring your app state to the one you had before launching the BlinkupUISDK with a fragment (like we do when launching it with Activity by just finishing the activity), you would need to remove the BlinkupUISDK fragment from your UI yourself.
 
+## Using Google Map
+On Android, for the Bar Network to show the map it is required to have the Google Maps API key.
+You need to add it to your manifest like this:
+
+```xml
+    <meta-data android:name="com.google.android.geo.API_KEY"
+                android:value="${MAPS_API_KEY}" />
+```
+
 ### Metadata
 
 Metadata can be set for the BlinkUp user by the parent app. It then will be sent via webhook along with the notification data for the client service to determine which user and which devices they want to send the push message to.
