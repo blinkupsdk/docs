@@ -41,7 +41,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:2.4.1'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.0.3'
 ```
 
 ### Initialization
