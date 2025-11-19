@@ -104,7 +104,7 @@ The bLinkup SDK provides a complete user interface which can perform all of the 
 - UIKit
 
 ```swift
-let rootView = BlinkupRootViewController(customer: .init(id: "<token>",),
+let rootView = BlinkupRootViewController(customer: .init(id: "<token>"),
                                          branding: .init(primary: nil))
 present(UIHostingController(rootView: rootView), animated: true)
 ```
