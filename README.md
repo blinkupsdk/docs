@@ -163,6 +163,11 @@ BlinkupUISDK.deleteMetadata("key")
 BlinkupUISDK.deleteAllMetadata()
 ```
 
+### PushId
+
+In the versions 2.x there wes a separate method BlinkupUISDK.setPushId("your_push_id"), which under the hood was just calling BlinkupUISDK.setMetadata("push_id", "your_push_id").
+In version 3.0.4 it has been re-intruduced for backwards-compatibility
+
 ## Notifications
 
 The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
