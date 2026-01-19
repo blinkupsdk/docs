@@ -96,16 +96,20 @@ The bLinkup SDK provides a complete user interface which can perform all of the 
 
 ```swift
 .sheet(isPresented: $showBlinkup) {
-  BlinkupRootScreen(customer: .init(id: "<token>"),
-                    branding: .init(primary: nil))
+  BlinkupRootScreen(token: "<token>")
+}
+```
+or
+```swift
+.fullScreenCover(isPresented: $showBlinkup) {
+  BlinkupRootScreen(token: "<token>", autoClose: true)
 }
 ```
 
 - UIKit
 
 ```swift
-let rootView = BlinkupRootViewController(customer: .init(id: "<token>"),
-                                         branding: .init(primary: nil))
+let rootView = BlinkupRootScreen(token: "<token>")
 present(UIHostingController(rootView: rootView), animated: true)
 ```
 
