@@ -9,9 +9,5 @@
     "Neue",
     "Proguard",
     "webhoook"
-  ],
-  "remote.SSH.keepAlive": 60,
-  "remote.SSH.connectTimeout": 60,
-  "extensions.autoCheckUpdates": false,
-  "window.restoreWindows": "all"
+  ]
 }
