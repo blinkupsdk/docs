@@ -4,20 +4,15 @@ Getting started and best practices of using the BlinkUp SDK.
 
 The BlinkUp SDK will enable users to achieve these goals
 
-1. **Connect with friends on the app**
-2. **Notify users when their friends are at the same event or venue** (using smart tracking & proximity)
-3. **Easily send invites to specific points of interest on a venue map**
-4. **Extend meetups beyond the venue with the Bar Network** – invite friends to partner bars, access bar-specific locations, and unlock deals or rewards
+1. **Earn Attendance Rewards**
+2. **Redeem Deals**
+3. **Enter Prize Draws**
 
 To achieve these functions, the following steps are taken:
 - **Sign-up:** Users enter their name, username, and phone number
 - **Login:** Via a texted authentication code
-- **Find friends:** Search by name or match from contacts
-- **Send and accept friend requests**
-- **Get a list of friends** and see which friends are at an event
-- **Send invites:**
-    - To **venue-specific points of interest** (on the map inside the event)
-    - To **bar network locations**, where users can meet outside the venue, get notified when friends arrive, and redeem offers or promotions
+- **Check-in:** At the stadium or at a partner bar
+- Checked-in users are then **automatically entered** to participate in the drawings
 
 ## Getting an API Key
 
@@ -179,133 +174,35 @@ In version 3.0.4 it has been re-intruduced for backwards-compatibility
 ## Notifications
 
 The BlinkUp SDK relies on your existing push notification ecosystem for sending notifications to your users.
-If you don't set up push notifications, then your users will have to manually open the BlinkUp SDK UI to check who is at an event with them, or to check for friend requests.
-Push notifications are enabled by providing us with a webhoook URL where your servers will receive information about the various notification events emitted by the API.
-Webhooks are delivered as POST requests with JSON data describing the event. The most common types are:
+If you don't set up push notifications, your users will have to open the BlinkUp SDK UI themselves to find out about prizes they have won.
+Push notifications are enabled by providing us with a webhook URL where your servers will receive information about the various notification events emitted by the API.
+Webhooks are delivered as POST requests with JSON data describing the event. The main types are:
 
-1. Connections, relating to friend requests
+- `draw_winner` — a fan wins an activation (e.g. Fan of the Game)
+- `season_rewards_winner` — a fan wins the Season Rewards
+- `announcement` — a message from the venue to fans, e.g. to everyone checked in at the Bar of the Game
 
-   - `connection_request` when a user gets sent a connection request
-   - `connection` when the connection request is accepted or rejected
-
-2. Presence, relating to being at the same Place as a friend
-
-   - `presence` when a user is at a place and a new friend arrives
-   - `connections_presence` when a user enters a place and one or more friends are there
-
-3. Events, relating to bar network events and deals
-
-   - `invite` when a user gets sent an invite
-   - `welcome_redeemable` when a user's welcome redeemable becomes available (i.e. event starts)
-
-More webhook types exist (announcements, prize-draw winners, and others).
 The complete, always up-to-date list — with the exact payload schema of every
 webhook enabled for *your* integration — is available as an OpenAPI/Swagger
 document; ask your BlinkUp contact for your integration's documentation link.
 
-### Connection types
+Every payload carries the target `user`, including the user's `metadata` (see the Metadata section above) — use it to route the push to the right device.
 
-#### connection_request
+### draw_winner
 
-This webhook is sent when one user sends a connection request to another.
-Your server receives a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who receives the request:
+Sent when a prize draw is triggered and the fan is selected as a winner, so you can notify them right away (e.g. "You won!"). `prize_name` is `null` when the draw has no prize attached, and `winner_rank` is `null` for unranked selection methods.
 
 ```json
 {
-  "type": "connection_request",
-  "request": {
+  "type": "draw_winner",
+  "activation_name": "Fan of the Game",
+  "prize_name": "Bar Tab",
+  "winner_rank": 1,
+  "user": {
     "id": "UUIDv4",
-    "status": "pending",
-    "source_user": {
-      "id": "UUIDv4",
-      "name": "Sender's Name",
-      "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ]
-    },
-    "target_user": {
-      "id": "UUIDv4",
-      "name": "Receiver's Name",
-      "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ]
-    }
-  }
-}
-```
-
-#### connection
-
-This notification happens when a user replies to a friend request, either by accepting or declining the request.
-Your server receives a webhook with the following JSON body:
-
-```json
-{
-  "type": "connection",
-  "connection": {
-    "id": "UUIDv4",
-    "status": "connected",
-    "source_user": {
-      "id": "UUIDv4",
-      "name": "Sender's Name",
-      "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ]
-    },
-    "target_user": {
-      "id": "UUIDv4",
-      "name": "Receiver's Name",
-      "metadata": [
-        {
-          "key": "push_id",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ]
-    }
-  }
-}
-```
-
-The `status` field may have the values: `connected`, `rejected`, or `blocked`
-
-### Presence types
-
-Your server receives presence webhook payloads when a user enters a Place where one more more of their friends are currently Present.
-The API sends one webhook per user connection, so if a user arrives at a location that already has 4 friends present, the API will generate 4 distinct webhook payloads (one per connection at that event). There are two types of presence webhook payloads. `presence` and `connections_presence`. The `presence` is sent when a user is present and a friend arrives. While `connections_presence` is sent when a user arrives to a Place.
-The difference between these is because when a user arrives to a place they will receive a list of friends present and not a unique notification for each friend present. While the friends who are present each receive a notification their friend has arrived.
-
-#### presence
-
-```json
-{
-  "about_user": {
+    "name": "Winner's Name",
+    "phone_number": "+1555555555",
     "email_address": "username",
-    "id": "UUIDv4",
     "metadata": [
       {
         "key": "push_token",
@@ -315,161 +212,55 @@ The difference between these is because when a user arrives to a place they will
         "key": "custom_key",
         "value": "..."
       }
-    ],
-    "name": "username",
-    "phone_number": "+1555555555"
-  },
-  "inserted_at": "2025-01-01T00:00:00.0000Z",
-  "is_present": true,
-  "place": {
-    "id": "UUIDv4",
-    "name": "Place name"
-  },
-  "send_to_user": {
-    "email_address": "username",
-    "id": "UUIDv4",
-    "metadata": [
-      {
-        "key": "custom_key",
-        "value": "..."
-      }
-    ],
-    "name": "user's name",
-    "phone_number": "+1555555555"
-  },
-  "type": "presence"
-}
-```
-
-#### connections_presence
-
-```json
-{
-  "friends_names": [
-    "friend name 1",
-    "friend name 2"
-  ],
-  "inserted_at": "2025-01-01T00:00:00.0000Z",
-  "is_present": true,
-  "place": {
-    "id": "UUIDv4",
-    "name": "Place name"
-  },
-  "send_to_user": {
-    "email_address": "username",
-    "id": "UUIDv4",
-    "metadata": [
-      {
-        "key": "push_token",
-        "value": "..."
-      },
-      {
-        "key": "the_metadata_key",
-        "value": "the_metadata_value"
-      }
-    ],
-    "name": "username",
-    "phone_number": "+1555555555"
-  },
-  "type": "connections_presence"
-}
-```
-
-### Event types
-
-#### invite
-
-This webhook is sent when one user sends an invite to another.
-Your server receives a webhook with the following JSON body, where `source_user` is the user who sent the request, and `target_user` is the user who receives the request:
-
-```json
-{
-  "type": "invite",
-  "invite": {
-    "id": "443a15b1-4af0-488a-941b-ca5ea437b6d9",
-    "source_user": {
-      "email_address": "username",
-      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
-      "metadata": [
-        {
-          "key": "push_token",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ],
-      "name": "Jacky Runte III",
-      "phone_number": "+16085673555"
-    },
-    "spot": {
-      "address": "199 Keeling Courts Apt. 764, New York",
-      "id": "40bfe13d-1f93-4ad9-958c-c1a73919d3bf",
-      "latitude": 64.84873162337371,
-      "longitude": -158.59206468706833,
-      "name": "Bogan, Kozey and Bernier",
-      "promotion": "20% off beer",
-      "type": "bar"
-    },
-    "target_user": {
-      "email_address": "username",
-      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
-      "metadata": [
-        {
-          "key": "push_token",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ],
-      "name": "Jacky Runte III",
-      "phone_number": "+16085673555"
-    }
+    ]
   }
 }
 ```
 
-#### welcome_redeemable
+### season_rewards_winner
 
-This webhook is sent when user's welcome redeemable becomes available on event start.
-Your server receives a webhook with the following JSON body:
+Sent when the Season Rewards winners are drawn and the fan is among them. Same shape as `draw_winner`; `winner_rank` is the fan's leaderboard rank.
 
 ```json
 {
-  "type": "welcome_redeemable",
-  "redeemable": {
-    "id": "9ac09263-069e-4d12-84bf-ac4d8ab7bb4e",
-    "spot": {
-      "address": "199 Keeling Courts Apt. 764, New York",
-      "id": "40bfe13d-1f93-4ad9-958c-c1a73919d3bf",
-      "latitude": 64.84873162337371,
-      "longitude": -158.59206468706833,
-      "name": "Bogan, Kozey and Bernier",
-      "promotion": "20% off beer",
-      "type": "bar"
-    },
-    "spot_id": "20ad31c3-4165-4a75-86b8-f8462fb3794a",
-    "status": "available",
-    "type": "incoming_invite",
-    "user": {
-      "email_address": "username",
-      "id": "76600912-6beb-4687-9eb9-d6af3fbf995a",
-      "metadata": [
-        {
-          "key": "push_token",
-          "value": "..."
-        },
-        {
-          "key": "custom_key",
-          "value": "..."
-        }
-      ],
-      "name": "Jacky Runte III",
-      "phone_number": "+16085673555"
-    }
+  "type": "season_rewards_winner",
+  "activation_name": "Season Rewards",
+  "prize_name": "Season Tickets",
+  "winner_rank": 3,
+  "user": {
+    "id": "UUIDv4",
+    "name": "Winner's Name",
+    "phone_number": "+1555555555",
+    "email_address": "username",
+    "metadata": [
+      {
+        "key": "push_token",
+        "value": "..."
+      }
+    ]
+  }
+}
+```
+
+### announcement
+
+Sent when the venue broadcasts a message — to all fans, or only to the fans checked in at a specific bar or place (e.g. announcing the Bar of the Game). One webhook is delivered per recipient.
+
+```json
+{
+  "type": "announcement",
+  "message": "Tonight's Bar of the Game is Scotty's Sports Bar — you're in the right place!",
+  "user": {
+    "id": "UUIDv4",
+    "name": "Fan's Name",
+    "phone_number": "+1555555555",
+    "email_address": "username",
+    "metadata": [
+      {
+        "key": "push_token",
+        "value": "..."
+      }
+    ]
   }
 }
 ```
