@@ -1,15 +1,15 @@
   ## Implement SDK Manually
 
-Please reference the sample applications for examples of how to implement the bLinkup calls in your app.
+Please reference the sample applications for examples of how to implement the BlinkUp calls in your app.
 
 - Swift
-  - [GitHub bLinkup Swift Sample](https://github.com/blinkupsdk/bLinkupSwiftSample)
+  - [GitHub BlinkUp Swift Sample](https://github.com/blinkupsdk/bLinkupSwiftSample)
 - Kotlin
-  - [GitHub bLinkup Kotlin Sample](https://github.com/blinkupsdk/bLinkupKotlinSample)
+  - [GitHub BlinkUp Kotlin Sample](https://github.com/blinkupsdk/bLinkupKotlinSample)
 
 ### List of Data Classes
 
-The following links provide a list of the different types of data classes and objects that are defined by the bLinkup SDK.
+The following links provide a list of the different types of data classes and objects that are defined by the BlinkUp SDK.
 
 [Kotlin Data Classes](KotlinDataClasses.md)
 
@@ -46,7 +46,7 @@ implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.0.3'
 
 ### Initialization
 
-When your app starts, initialize bLinkup with your other packages. This should only be done once at app launch.
+When your app starts, initialize BlinkUp with your other packages. This should only be done once at app launch.
 
 Swift:
 
@@ -68,7 +68,7 @@ BlinkupWrapper.Init(context: Context)
 
 ### User Account Creation
 
-To sign up a new user on bLinkup only two fields are required.
+To sign up a new user on BlinkUp only two fields are required.
 
 1. Name
 2. Phone Number
@@ -356,7 +356,7 @@ BlinkupWrapper.logout();
 
 ## Core presence loop
 
-The core value of bLinkup is getting a list of a user's friends who are at the same event as the user. Users check themselves in and out explicitly — either through the bLinkup UI, or with the `setUserAtEvent` call below. On Android the check-in is verified against the device's (foreground) location; no background location or geofencing is used.
+The core value of BlinkUp is getting a list of a user's friends who are at the same event as the user. Users check themselves in and out explicitly — either through the BlinkUp UI, or with the `setUserAtEvent` call below. On Android the check-in is verified against the device's (foreground) location; no background location or geofencing is used.
 
 #### Getting notified about automatic check in/out (iOS only)
 
@@ -446,7 +446,7 @@ Another version of this method includes `PresenceConfidence` as 3rd parameter. I
 
 #### Friends at event
 
-As a core value of bLinkup, the following call will return a list of Presence objects for friends at a given event.
+As a core value of BlinkUp, the following call will return a list of Presence objects for friends at a given event.
 
 Swift:
 
@@ -481,7 +481,7 @@ BlinkupWrapper.getUsersAtEvent(place: Place, new ResultListener<List<User>>() {
 
 #### Get current list of friends
 
-Being able to see a list of existing friends is paramount to bLinkup. Utilizing the following call will return a list of existing connections.
+Being able to see a list of existing friends is paramount to BlinkUp. Utilizing the following call will return a list of existing connections.
 
 Swift:
 
@@ -521,7 +521,7 @@ Blinkup.getFriendsAtMyEvents()
 
 #### User Search
 
-Find other bLinkup users (scoped by API key) by searching. The passed string will look for any matches in username or name.
+Find other BlinkUp users (scoped by API key) by searching. The passed string will look for any matches in username or name.
 
 Swift:
 
@@ -862,7 +862,7 @@ BlinkupWrapper.getEvents(new ResultListener<List<Place>>() {
 
 #### Displaying the map
 
-Displaying the map and putting the interactive points on the app is a UI element provided by bLinkup. Call the following API to display a modal which the user can interact with to dismiss or send invites to their friends.
+Displaying the map and putting the interactive points on the app is a UI element provided by BlinkUp. Call the following API to display a modal which the user can interact with to dismiss or send invites to their friends.
 
 Swift:
 
@@ -931,7 +931,7 @@ This is handled by the map display function. When clicking on meetup spot on the
 
 #### Metadata
 Metadata is used to determine the specific user in your system, which needs to receive specific push notification, for example, about new friend request or a new friend arriving to the event.
-Everything you would set as metadata for specific Blinkup user will be sent in the webhook so you can map it to proper user in your system.
+Everything you would set as metadata for specific BlinkUp user will be sent in the webhook so you can map it to proper user in your system.
 
 #### Getting current metadata
 

@@ -1,8 +1,8 @@
 # docs
 
-Getting started and best practices of using the bLinkup SDK.
+Getting started and best practices of using the BlinkUp SDK.
 
-Use the bLinkup SDK to do these three main things
+Use the BlinkUp SDK to do these three main things
 
 1. Connect with friends on the app
 2. Notify friends when they're at the event (using smart tracking & proximity)
@@ -21,7 +21,7 @@ To achieve these functions the following steps need to be taken:
 
 Email Will Bott at [willbott@blinkupapp.com](mailto:willbott@blinkupapp.com) to start the process of getting an API key for your app.
 
-## Import Blinkup module
+## Import BlinkUp module
 
 ```javascript
 const {BlinkupModule} = NativeModules;
@@ -29,14 +29,14 @@ const {BlinkupModule} = NativeModules;
 
 ## Initialization
 
-When your app starts initialize bLinkup with your other packages. This should only be done once at app launch.
+When your app starts initialize BlinkUp with your other packages. This should only be done once at app launch.
 
 ```javascript
 BlinkupModule.init('Your Client ID');
 ```
 
 ## Login/Registration
-Login and registration are packed into a single procedure in bLinkup SDK. You would just need to check if the user details (name and email) are already filled-in
+Login and registration are packed into a single procedure in BlinkUp SDK. You would just need to check if the user details (name and email) are already filled-in
 
 ### Request confirmation code
 
@@ -58,10 +58,10 @@ try {
 	console.error(e);
 }
 ```
-After this you should perform one more operation before using other features of bLinkup SDK
+After this you should perform one more operation before using other features of BlinkUp SDK
 
 ### Updating user details
-In case if it is the first time the user is logged into bLinkup, you should provide the user details (name and email)
+In case if it is the first time the user is logged into BlinkUp, you should provide the user details (name and email)
 To check that, simply call `detailsRequired = BlinkupModule.isUserDetailsRequired();`
 If the details are required, provide them with the following code
 ```javascript
@@ -74,7 +74,7 @@ try {
 
 ## Using stored session
 
-You don't have to log user in every time your app is started. bLinkup SDK stores the user session token and can reuse it. 
+You don't have to log user in every time your app is started. BlinkUp SDK stores the user session token and can reuse it. 
 To know if you need to perform login, or can use the stored session, use the following code
 ```javascript
 isLoginRequired = BlinkupModule.isLoginRequired();

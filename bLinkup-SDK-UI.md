@@ -1,4 +1,4 @@
-# User Experience for the bLinkup SDK
+# User Experience for the BlinkUp SDK
 
 The UI provides users a way to find each other in the app and meet up in real life at your events. The UI is passed a few arguments which ensures the look and feel matches your app. You will provide:
 

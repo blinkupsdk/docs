@@ -1,8 +1,8 @@
-# bLinkup SDK docs
+# BlinkUp SDK docs
 
-Getting started and best practices of using the bLinkup SDK.
+Getting started and best practices of using the BlinkUp SDK.
 
-The bLinkupSDK will enable users to achieve these three goals
+The BlinkUp SDK will enable users to achieve these goals
 
 1. **Connect with friends on the app**
 2. **Notify users when their friends are at the same event or venue** (using smart tracking & proximity)
@@ -67,7 +67,7 @@ required.
 > Upgrading from 3.x: remove the
 > `com.blinkupapp.sdk.data.geofence.GeofenceBroadcastReceiver` receiver from
 > your manifest (the class no longer exists) and drop
-> `ACCESS_BACKGROUND_LOCATION` if you only requested it for bLinkup.
+> `ACCESS_BACKGROUND_LOCATION` if you only requested it for BlinkUp.
 > Users are no longer checked in/out automatically — they check in explicitly
 > in the SDK UI (or via `Blinkup.setUserAtEvent`).
 
@@ -94,7 +94,7 @@ Additionally, if you are using R8 full mode, you would need to add the following
 
 ## Out-of-the-box UI
 
-The bLinkup SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
+The BlinkUp SDK provides a complete user interface which can perform all of the functions listed above and requires only a couple lines of code.
 
 - SwiftUi
 
@@ -178,8 +178,8 @@ In version 3.0.4 it has been re-intruduced for backwards-compatibility
 
 ## Notifications
 
-The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
-If you don't set up push notifications, then your users will have to manually open the bLinkup SDK UI to check who is at an event with them, or to check for friend requests.
+The BlinkUp SDK relies on your existing push notification ecosystem for sending notifications to your users.
+If you don't set up push notifications, then your users will have to manually open the BlinkUp SDK UI to check who is at an event with them, or to check for friend requests.
 Push notifications are enabled by providing us with a webhoook URL where your servers will receive information about the various notification events emitted by the API.
 Webhooks are delivered as POST requests with JSON data describing the event. The most common types are:
 
@@ -201,7 +201,7 @@ Webhooks are delivered as POST requests with JSON data describing the event. The
 More webhook types exist (announcements, prize-draw winners, and others).
 The complete, always up-to-date list — with the exact payload schema of every
 webhook enabled for *your* integration — is available as an OpenAPI/Swagger
-document; ask your bLinkup contact for your integration's documentation link.
+document; ask your BlinkUp contact for your integration's documentation link.
 
 ### Connection types
 
