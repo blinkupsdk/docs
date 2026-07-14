@@ -49,23 +49,27 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:3.1.0'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.0.0'
 ```
 
-For the geodence to trigger and check the users in for the events, add the following broadcast receiver into your app's manifest file:
-```xml
-    <receiver
-        android:name="com.blinkupapp.sdk.data.geofence.GeofenceBroadcastReceiver"
-        android:exported="true"
-        android:enabled="true"/>
-```
-
-And the following permissions:
+Add the following permissions to your app's manifest file:
 
 ```xml
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 ```
+
+Location is used in the foreground only — to detect the venue the user is at
+and to verify check-ins. The SDK does **not** use background location or
+geofencing, so no background location permission and no broadcast receiver are
+required.
+
+> Upgrading from 3.x: remove the
+> `com.blinkupapp.sdk.data.geofence.GeofenceBroadcastReceiver` receiver from
+> your manifest (the class no longer exists) and drop
+> `ACCESS_BACKGROUND_LOCATION` if you only requested it for bLinkup.
+> Users are no longer checked in/out automatically — they check in explicitly
+> in the SDK UI (or via `Blinkup.setUserAtEvent`).
 
 If you are using Proguard or R8 (buildType flag minifyEnabled true), then you need to keep model classes used for serialization/deserialization
 
@@ -177,7 +181,7 @@ In version 3.0.4 it has been re-intruduced for backwards-compatibility
 The bLinkup SDK relies on your existing push notification ecosystem for sending notifications to your users.
 If you don't set up push notifications, then your users will have to manually open the bLinkup SDK UI to check who is at an event with them, or to check for friend requests.
 Push notifications are enabled by providing us with a webhoook URL where your servers will receive information about the various notification events emitted by the API.
-Webhooks are delivered as POST requests with JSON data describing the event. There are three categories of webhook notifications each with two types.
+Webhooks are delivered as POST requests with JSON data describing the event. The most common types are:
 
 1. Connections, relating to friend requests
 
@@ -192,7 +196,12 @@ Webhooks are delivered as POST requests with JSON data describing the event. The
 3. Events, relating to bar network events and deals
 
    - `invite` when a user gets sent an invite
-   - `webhook_redeemable` when a user's welcome redeemable becomes available (i.e. event starts)
+   - `welcome_redeemable` when a user's welcome redeemable becomes available (i.e. event starts)
+
+More webhook types exist (announcements, prize-draw winners, and others).
+The complete, always up-to-date list — with the exact payload schema of every
+webhook enabled for *your* integration — is available as an OpenAPI/Swagger
+document; ask your bLinkup contact for your integration's documentation link.
 
 ### Connection types
 

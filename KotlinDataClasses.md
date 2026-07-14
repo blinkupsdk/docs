@@ -55,7 +55,6 @@ The following document contains a list of all Kotlin Data Classes and their asso
     longitude: Double
     radius: Int
     blinkpoints: ArrayList<Blinkpoint>
-    geofence: String
     mapUrl: String
 
 ## Blinkpoint

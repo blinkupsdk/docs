@@ -356,22 +356,14 @@ BlinkupWrapper.logout();
 
 ## Core presence loop
 
-The core value of bLinkup is getting a list of a user's friends who are at the same event as the user. Implyng Background Location is allowed, the SDK will use Geofences to automatically check users in/out of the events. 
+The core value of bLinkup is getting a list of a user's friends who are at the same event as the user. Users check themselves in and out explicitly — either through the bLinkup UI, or with the `setUserAtEvent` call below. On Android the check-in is verified against the device's (foreground) location; no background location or geofencing is used.
 
-#### Getting notified about automatic check in/out
+#### Getting notified about automatic check in/out (iOS only)
 
 Swift:
 
 ```swift
 track = bLinkup.addGeofencingObserver(@escaping ([Presence]) -> Void)
-```
-
-Kotlin:
-
-```kotlin
-Blinkup.setPresenceChangedListener { place, isPresent ->
-    //react to updated user state. place: Place, isPresent: Boolean
-}
 ```
 
 Remove the listener:
@@ -381,11 +373,9 @@ Swift:
 ```swift
 bLinkup.removeTrackingObserver(id: track)
 ```
-Kotlin:
 
-```kotlin
-Blinkup.removePresenceChangedListener()
-```
+> On Android, automatic (geofence-based) check in/out and the
+> `setPresenceChangedListener` API were removed in SDK 4.0.0.
 
 ### Is at event
 
@@ -452,7 +442,7 @@ BlinkupWrapper.setUserAtEvent(isPresent: Boolean, place: Place, new ResultListen
 });
 ```
 
-Another version of this method includes  `PresenceConfidence` as 3rd parameter. It is used to determine how confident are we in the presence change event. Example: If the background location is enabled and if the device is not in power save mode - the confidence is `STRONG`, othervise `WEEK`. This is determined automatically in `Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)` method. 3rd possible value of `PresenceConfidence` is `MANUAL` and should be used when user manually sets their presence
+Another version of this method includes `PresenceConfidence` as 3rd parameter. It describes how the presence change originated: `Blinkup.setUserAtEvent(isPresent: Boolean, place: Place)` uses `STRONG` (the SDK verified the user's location in the foreground), and `MANUAL` should be passed when the user sets their presence themselves. (`WEAK` remains only for backwards compatibility — the background-location logic that produced it was removed in SDK 4.0.0.)
 
 #### Friends at event
 
