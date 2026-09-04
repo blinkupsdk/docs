@@ -198,6 +198,15 @@ Since 4.1.0 your app can give BlinkUp its own identifier for the user, so
 that every webhook can be matched to the right account in your system without
 searching the metadata list. Any string works.
 
+Swift:
+
+```swift
+//to set your own user id
+bLinkup.setExternalId("your_user_id")
+//to forget it, e.g. when your app's user changes
+bLinkup.clearExternalId()
+```
+
 Kotlin:
 
 ```kotlin
