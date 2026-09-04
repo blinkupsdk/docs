@@ -11,7 +11,7 @@ The BlinkUp SDK will enable users to achieve these goals
 To achieve these functions, the following steps are taken:
 - **Sign-up:** Users enter their name, username, and phone number
 - **Login:** Via a texted authentication code
-- **Check-in:** At the stadium or at a partner bar
+- **Check-in:** At the stadium, at a partner bar, or from home by hosting or joining a **Home Watch Party**
 - Checked-in users are then **automatically entered** to participate in the drawings
 
 ## Getting an API Key
@@ -44,7 +44,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.0.0'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.0'
 ```
 
 Add the following permissions to your app's manifest file:
@@ -65,6 +65,20 @@ required.
 > `ACCESS_BACKGROUND_LOCATION` if you only requested it for BlinkUp.
 > Users are no longer checked in/out automatically — they check in explicitly
 > in the SDK UI (or via `Blinkup.setUserAtEvent`).
+
+#### Home Watch Party (Bluetooth)
+
+Since 4.1.0 fans can watch from home together: one fan hosts a Home Watch
+Party and nearby fans find and join it over Bluetooth, which checks everyone
+in the party in — the same as being at a bar. The feature is enabled per
+integration by your BlinkUp contact.
+
+The Bluetooth permissions (`BLUETOOTH_SCAN` with `neverForLocation`,
+`BLUETOOTH_ADVERTISE`, `BLUETOOTH_CONNECT`) are declared in the SDK's own
+manifest and merge into your app — nothing to add. No location permission is
+involved: the SDK asks the user for the "Nearby devices" permission when the
+section is first shown. The feature is available on Android 12 and newer;
+older devices simply don't see the section.
 
 If you are using Proguard or R8 (buildType flag minifyEnabled true), then you need to keep model classes used for serialization/deserialization
 
@@ -171,6 +185,30 @@ BlinkupUISDK.deleteAllMetadata()
 In the versions 2.x there wes a separate method BlinkupUISDK.setPushId("your_push_id"), which under the hood was just calling BlinkupUISDK.setMetadata("push_id", "your_push_id").
 In version 3.0.4 it has been re-intruduced for backwards-compatibility
 
+### External ID
+
+Since 4.1.0 your app can give BlinkUp its own identifier for the user, so
+that every webhook can be matched to the right account in your system without
+searching the metadata list. Any string works.
+
+Kotlin:
+
+```kotlin
+//to set your own user id
+BlinkupUISDK.setExternalId("your_user_id")
+//to forget it, e.g. when your app's user changes
+BlinkupUISDK.clearExternalId()
+```
+
+Like `setPushId`, it may be called before the user has signed in to BlinkUp;
+the value is sent once they are. Setting it again replaces the previous value,
+and it survives a BlinkUp logout, since it belongs to your user rather than to
+the BlinkUp session.
+
+Under the hood it is stored as metadata under the key `external_id`, and every
+webhook payload exposes it as a top-level `user.external_id` field (`null` when
+never set) — see the Notifications section.
+
 ## Notifications
 
 The BlinkUp SDK relies on your existing push notification ecosystem for sending notifications to your users.
@@ -178,15 +216,70 @@ If you don't set up push notifications, your users will have to open the BlinkUp
 Push notifications are enabled by providing us with a webhook URL where your servers will receive information about the various notification events emitted by the API.
 Webhooks are delivered as POST requests with JSON data describing the event. The main types are:
 
+- `checkin` — a fan checks in for the first time in an event (stadium, bar or Home Watch Party)
 - `draw_winner` — a fan wins an activation (e.g. Fan of the Game)
 - `season_rewards_winner` — a fan wins the Season Rewards
+- `watchparty_group_winner` — the fan's Home Watch Party wins a draw
 - `announcement` — a message from the venue to fans, e.g. to everyone checked in at the Bar of the Game
 
-The complete, always up-to-date list — with the exact payload schema of every
-webhook enabled for *your* integration — is available as an OpenAPI/Swagger
-document; ask your BlinkUp contact for your integration's documentation link.
+Each type is switched on per integration; ask your BlinkUp contact to enable
+the ones you handle. The complete, always up-to-date list — with the exact
+payload schema of every webhook enabled for *your* integration — is available
+as an OpenAPI/Swagger document; ask your BlinkUp contact for your integration's
+documentation link.
 
-Every payload carries the target `user`, including the user's `metadata` (see the Metadata section above) — use it to route the push to the right device.
+Every payload carries the target `user`, including the user's `metadata` (see the Metadata section above) and, since 4.1.0, `external_id` — the identifier your app set with `setExternalId`, or `null` — use either to route the push to the right device.
+
+### checkin
+
+Sent once per fan per event, on their first check-in of any kind. Later
+check-ins during the same event — moving to another bar, or checking out and
+back in — are not repeated, and nothing is sent when no event is on.
+`checkin_type` is `place` (the stadium), `spot` (a partner bar) or
+`home_watchparty`; `method` is `manual` when the fan tapped to check in and
+`location` when the SDK placed them there. Exactly one of `place`, `spot` or
+`watchparty_group` is present, matching the type.
+
+```json
+{
+  "type": "checkin",
+  "checkin_type": "spot",
+  "method": "manual",
+  "inserted_at": "2026-09-13T20:31:04Z",
+  "event": {
+    "id": "UUIDv4",
+    "name": "Week 1 at Eagles"
+  },
+  "spot": {
+    "id": "UUIDv4",
+    "name": "Scotty's Sports Bar"
+  },
+  "user": {
+    "id": "UUIDv4",
+    "name": "Fan's Name",
+    "phone_number": "+1555555555",
+    "email_address": "username",
+    "external_id": "your_user_id",
+    "metadata": [
+      {
+        "key": "push_token",
+        "value": "..."
+      }
+    ]
+  }
+}
+```
+
+For a Home Watch Party check-in, `watchparty_group` replaces `spot`:
+
+```json
+  "checkin_type": "home_watchparty",
+  "watchparty_group": {
+    "id": "UUIDv4",
+    "name": "Mike's living room",
+    "is_host": true
+  }
+```
 
 ### draw_winner
 
@@ -203,6 +296,7 @@ Sent when a prize draw is triggered and the fan is selected as a winner, so you 
     "name": "Winner's Name",
     "phone_number": "+1555555555",
     "email_address": "username",
+    "external_id": "your_user_id",
     "metadata": [
       {
         "key": "push_token",
@@ -213,6 +307,34 @@ Sent when a prize draw is triggered and the fan is selected as a winner, so you 
         "value": "..."
       }
     ]
+  }
+}
+```
+
+### watchparty_group_winner
+
+Sent to **every member** of a Home Watch Party that wins a draw, host and
+guests alike. The prize itself is held by the host, so tell members their
+party won rather than that they hold the prize. Same fields as `draw_winner`
+plus the party that won.
+
+```json
+{
+  "type": "watchparty_group_winner",
+  "activation_name": "Home Watch Party Draw",
+  "prize_name": "Signed Jersey",
+  "winner_rank": 1,
+  "watchparty_group": {
+    "id": "UUIDv4",
+    "name": "Mike's living room"
+  },
+  "user": {
+    "id": "UUIDv4",
+    "name": "Member's Name",
+    "phone_number": "+1555555555",
+    "email_address": "username",
+    "external_id": "your_user_id",
+    "metadata": []
   }
 }
 ```

@@ -955,3 +955,11 @@ Delete all metadata:
 ```kotlin
 Blinkup.deleteMetadata()
 ```
+
+#### External ID
+Since 4.1.0. Your own identifier for the user, sent back in every webhook as `user.external_id` so you can match the event to an account in your system. Stored as metadata under the key `external_id`; may be called before sign-in and is sent once the user is in. Not cleared by `logout()`.
+
+```kotlin
+Blinkup.setExternalId("your_user_id")
+Blinkup.clearExternalId()
+```
