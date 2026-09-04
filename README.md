@@ -80,6 +80,13 @@ involved: the SDK asks the user for the "Nearby devices" permission when the
 section is first shown. The feature is available on Android 12 and newer;
 older devices simply don't see the section.
 
+> If your app already declares `BLUETOOTH_SCAN` itself, declare it the same
+> way — with `android:usesPermissionFlags="neverForLocation"` — or the
+> manifest merger will report an attribute conflict at build time. The flag is
+> an app-wide statement that no Bluetooth scan in the app is used to infer
+> location; if your app does use BLE scanning for location, talk to your
+> BlinkUp contact before integrating Home Watch Party.
+
 If you are using Proguard or R8 (buildType flag minifyEnabled true), then you need to keep model classes used for serialization/deserialization
 
 ```groovy
