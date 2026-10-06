@@ -65,6 +65,27 @@ Template, with your app's name in place of `YourApp`:
   overrides the key in `Info.plist`. Set the text in one place only.
 - **Other languages.** Translate the texts in `InfoPlist.strings`.
 
+#### Home Watch Party (iOS)
+
+Since 4.1.0 fans can watch from home together: one fan hosts a Home Watch
+Party and nearby fans find and join it over Bluetooth, which checks everyone
+in the party in — the same as being at a bar. iPhones and Android phones join
+each other's parties. The feature is enabled per integration by your BlinkUp
+contact.
+
+- **Info.plist.** Add `NSBluetoothAlwaysUsageDescription` (see the template
+  above). Without it, iOS closes the app the moment the section starts
+  Bluetooth.
+- **When fans are asked.** The SDK asks for Bluetooth only when the Home
+  Watch Party section first shows, and only for integrations that have it
+  on, so other integrations' fans never see the prompt. No location
+  permission is involved.
+- **Foreground only.** Hosting and finding parties stop when the screen
+  goes away, so no Background Modes (`bluetooth-central`,
+  `bluetooth-peripheral`) are needed.
+- **Testing.** The Simulator has no Bluetooth: use two real devices. An
+  iPhone and an Android phone work too.
+
 Gradle:
 
 Add Jitpack repository to the list of your repositories:
@@ -79,7 +100,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.0'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.1'
 ```
 
 Add the following permissions to your app's manifest file:
@@ -101,7 +122,7 @@ required.
 > Users are no longer checked in/out automatically — they check in explicitly
 > in the SDK UI (or via `Blinkup.setUserAtEvent`).
 
-#### Home Watch Party (Bluetooth)
+#### Home Watch Party (Android)
 
 Since 4.1.0 fans can watch from home together: one fan hosts a Home Watch
 Party and nearby fans find and join it over Bluetooth, which checks everyone
