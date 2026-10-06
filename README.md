@@ -30,6 +30,41 @@ import bLinkupSDK
 ```swift
 bLinkup.configure()
 ```
+
+#### Permission texts (iOS)
+
+When the SDK asks the fan for a permission, iOS shows **your app's** text,
+taken from your app's `Info.plist`. Add these keys:
+
+| Key | Needed | Why |
+|---|---|---|
+| `NSLocationWhenInUseUsageDescription` | Always | Check-in confirms the fan is at the stadium or a partner bar |
+| `NSBluetoothAlwaysUsageDescription` | When Home Watch Party is enabled for your integration | Nearby fans find and join a party over Bluetooth |
+
+Without them, the location prompt never appears, so the fan can't check
+in, and iOS closes the app the moment the SDK starts Bluetooth. In debug
+builds the SDK logs a warning naming any missing key at start-up.
+
+Template, with your app's name in place of `YourApp`:
+
+```xml
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>YourApp uses your location to confirm you're at the stadium or a partner bar, so you can check in, unlock gameday deals and enter prize draws.</string>
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>YourApp uses Bluetooth to find friends nearby so you can start or join a Home Watch Party.</string>
+```
+
+- **Say what the fan gets.** App Review rejects vague texts such as "This
+  app needs your location". If your app already asks for location for its
+  own features, write one text that covers both.
+- **While-in-use only.** The SDK never asks for location in the background,
+  so no `NSLocationAlwaysAndWhenInUseUsageDescription` and no background
+  modes are needed for BlinkUp.
+- **Generated Info.plist.** If your target has *Generate Info.plist File*
+  on, an `INFOPLIST_KEY_NSLocationWhenInUseUsageDescription` build setting
+  overrides the key in `Info.plist`. Set the text in one place only.
+- **Other languages.** Translate the texts in `InfoPlist.strings`.
+
 Gradle:
 
 Add Jitpack repository to the list of your repositories:
