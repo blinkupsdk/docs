@@ -100,8 +100,11 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.1'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.2'
 ```
+
+Your app needs Kotlin 2.1 or newer, `compileSdk` 36 or newer and Android
+Gradle Plugin 8.9.1 or newer.
 
 Add the following permissions to your app's manifest file:
 
