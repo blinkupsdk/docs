@@ -7,6 +7,7 @@ The BlinkUp SDK will enable users to achieve these goals
 1. **Earn Attendance Rewards**
 2. **Redeem Deals**
 3. **Enter Prize Draws**
+4. **Spend Season Points on Rewards**
 
 To achieve these functions, the following steps are taken:
 - **Sign-up:** Users enter their name, username, and phone number
@@ -100,7 +101,7 @@ repositories {
 Place the following line in the dependency block of your applications build.gradle file
 
 ```kotlin
-implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.1.2'
+implementation 'com.github.blinkupsdk:bLinkupAndroidSDK:4.2.0'
 ```
 
 Your app needs Kotlin 2.1 or newer, `compileSdk` 36 or newer and Android
@@ -212,6 +213,29 @@ BlinkupUISDK.createLaunchFragment("your client ID") {
 ```
 where ```onExit: () -> Unit``` - function that will be called when user presses "Exit" button in the BlinkupUISDK. 
 Since with the Fragment we can't bring your app state to the one you had before launching the BlinkupUISDK with a fragment (like we do when launching it with Activity by just finishing the activity), you would need to remove the BlinkupUISDK fragment from your UI yourself.
+
+## Season Store
+
+Since 4.2.0 (iOS and Android) fans can spend the season points they earn on
+rewards — merchandise, tickets, experiences — in the **Rewards** tab of the
+Season Rewards screen. It is part of the out-of-the-box UI, so there is nothing
+to integrate: the rewards, their stock and how many each fan may redeem are
+managed through the customer backend portal.
+
+- **Points.** Spending doesn't lower the fan's season score, leaderboard rank
+  or Grand Prize entry; the store shows what is left to spend.
+- **Getting the reward.** After redeeming, the fan either fills in a form so
+  the team can send it (e.g. a shipping address) or gets a link to it. Both
+  open in the browser and stay on the fan's profile, under *Redeemed with
+  points*.
+- **Grand Prize and leaderboard are optional.** A season can also run without
+  its Grand Prize draw or without its leaderboard — as a points store alone,
+  for example.
+- **Older SDK versions.** Apps on 4.1.x and earlier keep working, but show no
+  store, and don't show a season that runs without its Grand Prize or its
+  leaderboard. Update to 4.2.0 to show them.
+- **No webhook.** Redeeming doesn't send a webhook; redemptions and the details
+  fans send are in the customer backend portal.
 
 ## Using Google Map
 On Android, for the Bar Network to show the map it is required to have the Google Maps API key.
@@ -416,7 +440,7 @@ plus the party that won.
 
 ### season_rewards_winner
 
-Sent when the Season Rewards winners are drawn and the fan is among them. Same shape as `draw_winner`; `winner_rank` is the fan's leaderboard rank.
+Sent when the Season Rewards winners are drawn and the fan is among them. Same shape as `draw_winner`; `winner_rank` is the fan's leaderboard rank. A season that runs without its Grand Prize draws no winners, so it never sends this.
 
 ```json
 {
